@@ -84,7 +84,7 @@ object SettingsUtils {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
         sp.edit().putInt(PREF_WINNING_NUM1, num!!).apply()
 
-//        if (num != 0) AnalyticsHelper.setAnalyticsWinNum("win_num1", num)
+        if (num != 0) AnalyticsHelper.setAnalyticsWinNum("win_num1", num)
     }
 
     // プレイヤー1の勝利数を取得
@@ -98,7 +98,7 @@ object SettingsUtils {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
         sp.edit().putInt(PREF_WINNING_NUM2, num!!).apply()
 
-//        if (num != 0) AnalyticsHelper.setAnalyticsWinNum("win_num2", num)
+        if (num != 0) AnalyticsHelper.setAnalyticsWinNum("win_num2", num)
     }
 
     // プレイヤー2の勝利数を取得
@@ -112,7 +112,7 @@ object SettingsUtils {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
         sp.edit().putInt(PREF_WINNING_NUM3, num!!).apply()
 
-//        if (num != 0) AnalyticsHelper.setAnalyticsWinNum("win_num3", num)
+        if (num != 0) AnalyticsHelper.setAnalyticsWinNum("win_num3", num)
     }
 
     // プレイヤー3の勝利数を取得
@@ -126,7 +126,7 @@ object SettingsUtils {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
         sp.edit().putInt(PREF_WINNING_NUM4, num!!).apply()
 
-//        if (num != 0) AnalyticsHelper.setAnalyticsWinNum("win_num4", num)
+        if (num != 0) AnalyticsHelper.setAnalyticsWinNum("win_num4", num)
     }
 
     // プレイヤー4の勝利数を取得
@@ -149,7 +149,7 @@ object SettingsUtils {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
         sp.edit().putInt(PREF_PLAY_NUM, num!!).apply()
 
-//        AnalyticsHelper.setAnalyticsPlayNum("play_num", num)
+        AnalyticsHelper.setAnalyticsPlayNum("play_num", num)
     }
 
     // プレイヤー4の勝利数を取得

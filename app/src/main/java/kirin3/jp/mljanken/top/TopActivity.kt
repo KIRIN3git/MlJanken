@@ -1,4 +1,4 @@
-package kirin3.jp.mljanken.main
+package kirin3.jp.mljanken.top
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -10,18 +10,18 @@ import kirin3.jp.mljanken.R
 import kirin3.jp.mljanken.game.GameActivity
 import kirin3.jp.mljanken.webview.WebViewActivity
 
-class MainActivity : AppCompatActivity() {
+class TopActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_top)
 
         val btn_buttle = findViewById(R.id.buttle) as Button
         val text_policy = findViewById(R.id.policy) as TextView
 
         btn_buttle.setOnClickListener(object: View.OnClickListener {
             override fun onClick(v: View?) {
-                val intent = Intent(this@MainActivity, GameActivity::class.java)
+                val intent = Intent(this@TopActivity, GameActivity::class.java)
                 startActivity(intent)
             }
         })
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         text_policy.setOnClickListener(object: View.OnClickListener {
             override fun onClick(p0: View?) {
                 // インテントのインスタンス生成
-                val intent = Intent(this@MainActivity, WebViewActivity::class.java)
+                val intent = Intent(this@TopActivity, WebViewActivity::class.java)
 
                 intent.putExtra(
                     WebViewActivity.INTENT_INPUT_URL,

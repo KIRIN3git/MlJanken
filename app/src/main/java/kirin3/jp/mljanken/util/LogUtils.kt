@@ -2,7 +2,6 @@ package kirin3.jp.mljanken.util
 
 import android.util.Log
 import kirin3.jp.mljanken.Config
-import kirin3.jp.mljanken.main.MainActivity
 
 object LogUtils {
     private val LOG_PREFIX = "util_"
