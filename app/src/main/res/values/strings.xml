@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MlJanken</string>
+
+    <string name="privacy_poricy"><u>プライバシーポリシー</u></string>
+    <string name="privacy_poricy_url">https://sites.google.com/view/kirin3-privacy-policy/</string>
+
 </resources>
