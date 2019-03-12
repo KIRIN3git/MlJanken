@@ -7,6 +7,7 @@ import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import kirin3.jp.mljanken.R
 import kirin3.jp.mljanken.top.TopActivity
+import kirin3.jp.mljanken.util.AdmobHelper
 import kirin3.jp.mljanken.util.AnalyticsHelper
 import kirin3.jp.mljanken.util.CrashlyticsHelper
 import kirin3.jp.mljanken.util.SettingsUtils
@@ -21,7 +22,7 @@ class SplashActivity : AppCompatActivity() {
 
 
         CrashlyticsHelper.initializeCrashlytics(mContext)
-//☆        AdmobHelper.initializeAdmob(mContext)
+        AdmobHelper.initializeAdmob(mContext)
         AnalyticsHelper.initializeAnalytic(mContext)
 
         // 勝利数カウントの初期化

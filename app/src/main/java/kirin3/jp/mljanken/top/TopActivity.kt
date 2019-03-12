@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import com.google.android.gms.ads.AdView
 import kirin3.jp.mljanken.R
 import kirin3.jp.mljanken.game.GameActivity
+import kirin3.jp.mljanken.util.AdmobHelper
 import kirin3.jp.mljanken.webview.WebViewActivity
 
 class TopActivity : AppCompatActivity() {
@@ -15,6 +17,10 @@ class TopActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_top)
+
+
+        // AdMob設定
+        AdmobHelper.loadBanner(findViewById(R.id.adView) as AdView)
 
         val btn_buttle = findViewById(R.id.buttle) as Button
         val text_policy = findViewById(R.id.policy) as TextView
