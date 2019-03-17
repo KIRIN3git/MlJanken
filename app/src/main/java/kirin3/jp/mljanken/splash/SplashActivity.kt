@@ -42,6 +42,7 @@ class SplashActivity : AppCompatActivity() {
 
     companion object {
 
-        private val SPLASH_DISPLAY_LENGHT = 2 * 1000
+//        private val SPLASH_DISPLAY_LENGHT = 2 * 1000
+        private val SPLASH_DISPLAY_LENGHT = 0.5 * 1000
     }
 }
