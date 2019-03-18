@@ -8,7 +8,7 @@
         android:orientation="vertical"
         tools:context=".top.TopActivity">
 
-
+<!--
     <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
@@ -24,6 +24,15 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
+-->
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/imageView"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/title"
+            android:layout_weight="1"/>
 
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -38,8 +47,6 @@
                 android:background="@drawable/robot1_blue">
         </LinearLayout>
 
-
-
         <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/buttle"
                 android:layout_width="160dp"
@@ -47,7 +54,7 @@
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/heart"
-                app:layout_constraintVertical_bias="0.6"
+                app:layout_constraintVertical_bias="0.61"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -61,7 +68,7 @@
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/trophy"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/statistics"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -73,7 +80,7 @@
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/star2"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/manual"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -86,7 +93,7 @@
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/typing"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 <!--
