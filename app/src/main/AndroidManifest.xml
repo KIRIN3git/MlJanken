@@ -14,6 +14,11 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
 
+        <meta-data
+                android:name="com.google.android.gms.ads.APPLICATION_ID"
+                android:value="ca-app-pub-1057765466901496~6547353363"/>
+
+
         <activity android:name=".splash.SplashActivity"
                   android:theme="@style/AppFullScreenTheme"
                   android:noHistory="true">
