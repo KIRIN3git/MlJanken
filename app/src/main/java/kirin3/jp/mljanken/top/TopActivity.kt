@@ -19,60 +19,34 @@ import android.util.TypedValue
 import android.view.ViewGroup
 import android.support.v4.content.ContextCompat
 import android.graphics.Color
+import kirin3.jp.mljanken.util.CloudFirestoreHelper
+import kirin3.jp.mljanken.util.LogUtils
+import kirin3.jp.mljanken.util.LogUtils.LOGD
 import kirin3.jp.mljanken.util.SettingsUtils
 
 
 class TopActivity : AppCompatActivity() {
 
+    val TAG = LogUtils.makeLogTag(CloudFirestoreHelper::class.java)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_top)
 
-
         // AdMob設定
         AdmobHelper.loadBanner(findViewById(R.id.adView) as AdView)
 
-//        val btn_buttle = findViewById(R.id.buttle) as Button
-        val view_buttle = findViewById(R.id.buttle) as LottieAnimationView
 
-        val text_policy = findViewById(R.id.policy) as TextView
-
-        /*
-        btn_buttle.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(v: View?) {
-                val intent = Intent(this@TopActivity, GameActivity::class.java)
-                startActivity(intent)
-            }
-        })
-        */
-
-        view_buttle.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(p0: View?) {
-                val intent = Intent(this@TopActivity, GameActivity::class.java)
-                startActivity(intent)
-            }
-        })
-
-        text_policy.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(p0: View?) {
-                // インテントのインスタンス生成
-                val intent = Intent(this@TopActivity, WebViewActivity::class.java)
-
-                intent.putExtra(
-                    WebViewActivity.INTENT_INPUT_URL,
-                    applicationContext.getString(R.string.privacy_poricy_url)
-                )
-
-                // プライバシーポリシーの起動
-                startActivity(intent)
-            }
-        })
-
-        settingSeibetuDialog()
+        if( SettingsUtils.getSettingRadioIdSex(this) == 0
+            || SettingsUtils.getSettingRadioIdAge(this) == 0
+            || SettingsUtils.getSettingRadioIdPrefecture(this) == 0 ) settingSexDialog()
 
     }
 
-    fun settingSeibetuDialog(){
+    fun settingSexDialog(){
+
+        LOGD(TAG, "setSett3232ingRadioIdSex:" )
+
         val items = arrayOf("男性（だんせい）", "女性（じょせい）")
         // タイトル部分のTextView
         val paddingLeftRight =
@@ -95,14 +69,13 @@ class TopActivity : AppCompatActivity() {
             .setCustomTitle(textView)
             .setCancelable(false)
             .setItems(items) { dialog, which ->
-                Log.w( "DEBUG_DATA", "which " + which);
-                SettingsUtils.setSettingRadioIdSeibetu(this,which + 1)
-                settingNendaiDialog()
+                SettingsUtils.setSettingRadioIdSex(this,which + 1)
+                settingAgeDialog()
             }
             .show()
     }
 
-    fun settingNendaiDialog(){
+    fun settingAgeDialog(){
         val items = arrayOf("０～９歳（さい）", "１０～１９歳（さい）", "２０～２９歳（さい）", "３０～３９歳（さい）",
             "４０～４９歳（さい）", "５０～５９歳（さい）", "６０～６９歳（さい）", "７０～７９歳（さい）", "８０歳（さい）～")
         // タイトル部分のTextView
@@ -126,14 +99,13 @@ class TopActivity : AppCompatActivity() {
             .setCustomTitle(textView)
             .setCancelable(false)
             .setItems(items) { dialog, which ->
-                Log.w( "DEBUG_DATA", "which " + which);
-                SettingsUtils.setSettingRadioIdNendai(this,which + 1)
-                settingShushinDialog()
+                SettingsUtils.setSettingRadioIdAge(this,which + 1)
+                settingPrefectureDialog()
             }
             .show()
     }
 
-    fun settingShushinDialog(){
+    fun settingPrefectureDialog(){
         val items = arrayOf("北海道（ほっかいどう）","青森（あおもり）","岩手（いわて）","宮城（みやぎ）","秋田（あきた）","山形（やまがた）",
             "福島（ふくしま）","茨城（いばらき）","栃木（とちぎ）","群馬（ぐんま）","埼玉（さいたま）","千葉（ちば）","東京（とうきょう）",
             "神奈川（かながわ）","新潟（にいがた）","富山（とやま）","石川（いしかわ）","福井（ふくい）","山梨（やまなし）","長野（ながの）",
@@ -163,8 +135,7 @@ class TopActivity : AppCompatActivity() {
             .setCustomTitle(textView)
             .setCancelable(false)
             .setItems(items) { dialog, which ->
-                Log.w( "DEBUG_DATA", "which " + which);
-                SettingsUtils.setSettingRadioIdShushin(this,which + 1)
+                SettingsUtils.setSettingRadioIdPrefecture(this,which + 1)
             }
             .show()
     }

@@ -14,8 +14,9 @@ object TimeUtils {
     /**
      * 現在時刻ミリ秒を取得
      */
-    val currentTime: Long
-        get() = System.currentTimeMillis()
+    fun getCurrentTime(context: Context): Long {
+        return System.currentTimeMillis()
+    }
 
     /**
      * String型("yyyy-MM-dd kk:mm:ss") → Date型に変換

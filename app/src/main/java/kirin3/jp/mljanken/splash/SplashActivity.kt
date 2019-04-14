@@ -21,9 +21,7 @@ class SplashActivity : AppCompatActivity() {
         var mContext = applicationContext
 
 
-//        CrashlyticsHelper.initializeCrashlytics(mContext)
-        AdmobHelper.initializeAdmob(mContext)
-//        AnalyticsHelper.initializeAnalytic(mContext)
+
 
         setContentView(R.layout.activity_splash)
 

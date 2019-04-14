@@ -2,48 +2,90 @@ package kirin3.jp.mljanken.util
 
 import android.content.Context
 import android.preference.PreferenceManager
+import kirin3.jp.mljanken.util.LogUtils.LOGD
 
 object SettingsUtils {
 
-    val PREF_SETTING_SEIBETU = "pref_setting_seibetu"
-    val PREF_SETTING_NENDAI = "pref_setting_nendai"
-    val PREF_SETTING_SHUSHIN = "pref_setting_shushin"
+    val TAG = LogUtils.makeLogTag(CloudFirestoreHelper::class.java)
 
-    val PREF_PLAY_NUM = "pref_play_num"
+    enum class Sex {
+        NOTHING,
+        MEN,
+        WOMEN
+    }
+
+    enum class Age {
+        NOTHING,
+        ZERO,
+        TEN,
+        TWENTY,
+        THERTY,
+        FORTY,
+        FIFTY,
+        SIXTY,
+        SEVENTY,
+        EIGHTY
+    }
+
+    enum class Prefecture {
+        HOKKAIDO,AOMORI,IWATE,MIYAGI,AKITA,YAMAGATA,FUKUSHIMA,IBARAKI,TOCHIGI,
+        GUNMA,SAITAMA,CHIBA,TOKYO,KANAGAWA,NIIGATA,YAMANASHI,NAGANO,TOYAMA,
+        ISHIKAWA,FUKUI,GIFU,SHIZUOKA,AICHI,MIE,SHIGA,KYOTO,OSAKA,HYOGO,NARA,
+        WAKAYAMA,TOTTORI,SHIMANE,OAKAYAMA,HIROSHIMA,YAMAGUCHI,TOKUSHIMA,KAGAWA,
+        EHIME,KOCHI,FUKUOKA,SAGA,NAGASAKI,KUMAMOTO,OITA,MIYAZAKI,KAGOSHIMA,OKINAWA
+    }
+
+
+    val PREF_SETTING_SEX = "pref_setting_sex"
+    val PREF_SETTING_AGE = "pref_setting_age"
+    val PREF_SETTING_PREFECTURE = "pref_setting_prefecture"
+    val PREF_SETTING_BATTEL_NUM = "pref_setting_battle_num"
+    val PREF_SETTING_WIN_NUM = "pref_setting_win_num"
+    val PREF_SETTING_LOSE_NUM = "pref_setting_lose_num"
+    val PREF_SETTING_MOST_CHOICE = "pref_setting_most_choice"
+    val PREF_SETTING_RECORD = "pref_setting_record"
+
+
 
     // 性別のIDを保存
-    fun setSettingRadioIdSeibetu(context: Context, seibetu_id: Int) {
+    fun setSettingRadioIdSex(context: Context, sex_id: Int) {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
-        sp.edit().putInt(PREF_SETTING_SEIBETU, seibetu_id).apply()
+        LOGD(TAG, "setSettingRadioIdSex:" + sex_id)
+        sp.edit().putInt(PREF_SETTING_SEX, sex_id).apply()
     }
 
     // 年代のIDを保存
-    fun setSettingRadioIdNendai(context: Context, nendai_id: Int) {
+    fun setSettingRadioIdAge(context: Context, age_id: Int) {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
-        sp.edit().putInt(PREF_SETTING_NENDAI, nendai_id).apply()
+        LOGD(TAG, "setSettingRadioIdAge:" + age_id)
+        sp.edit().putInt(PREF_SETTING_AGE, age_id).apply()
     }
     // 出身県のIDを保存
-    fun setSettingRadioIdShushin(context: Context, shushin_id: Int) {
+    fun setSettingRadioIdPrefecture(context: Context, prefecture_id: Int) {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
-        sp.edit().putInt(PREF_SETTING_SHUSHIN, shushin_id).apply()
+        LOGD(TAG, "setSettingRadioIdPrefecture:" + prefecture_id)
+        sp.edit().putInt(PREF_SETTING_PREFECTURE, prefecture_id).apply()
     }
 
     // 性別のIDを取得
-    fun getSettingRadioIdSeibetu(context: Context): Int {
+    fun getSettingRadioIdSex(context: Context): Int {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
-        return sp.getInt(PREF_SETTING_SEIBETU, 0)
+        LOGD(TAG, "getSettingRadioIdSex:" + sp.getInt(PREF_SETTING_SEX, 0))
+        return sp.getInt(PREF_SETTING_SEX, 0)
     }
 
     // 年代のIDを取得
-    fun getSettingRadioIdNendai(context: Context): Int {
+    fun getSettingRadioIdAge(context: Context): Int {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
-        return sp.getInt(PREF_SETTING_NENDAI, 0)
+        LOGD(TAG, "getSettingRadioIdAge:" + sp.getInt(PREF_SETTING_AGE, 0))
+        return sp.getInt(PREF_SETTING_AGE, 0)
     }
 
     // 出身県のIDを取得
-    fun getSettingRadioIdShushin(context: Context): Int {
+    fun getSettingRadioIdPrefecture(context: Context): Int {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
-        return sp.getInt(PREF_SETTING_SHUSHIN, 0)
+        LOGD(TAG, "getSettingRadioIdPrefecture:" + sp.getInt(PREF_SETTING_PREFECTURE, 0))
+        return sp.getInt(PREF_SETTING_PREFECTURE, 0)
     }
 }
 
