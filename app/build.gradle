@@ -24,7 +24,15 @@ android {
     }
 }
 
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
 dependencies {
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    
     implementation "com.airbnb.android:lottie:2.7.0"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

@@ -23,6 +23,7 @@ import kirin3.jp.mljanken.util.CloudFirestoreHelper
 import kirin3.jp.mljanken.util.LogUtils
 import kirin3.jp.mljanken.util.LogUtils.LOGD
 import kirin3.jp.mljanken.util.SettingsUtils
+import java.util.*
 
 
 class TopActivity : AppCompatActivity() {
@@ -36,6 +37,14 @@ class TopActivity : AppCompatActivity() {
         // AdMob設定
         AdmobHelper.loadBanner(findViewById(R.id.adView) as AdView)
 
+        // UUIDをプリファランスに登録
+        /*
+        if( SettingsUtils.getSettingUuid(this).isEmpty() ){
+            SettingsUtils.setSettingUuid(this, UUID.randomUUID().toString())
+        }
+        */
+
+        SettingsUtils.setSettingUuid(this, UUID.randomUUID().toString())
 
         if( SettingsUtils.getSettingRadioIdSex(this) == 0
             || SettingsUtils.getSettingRadioIdAge(this) == 0
@@ -45,7 +54,7 @@ class TopActivity : AppCompatActivity() {
 
     fun settingSexDialog(){
 
-        LOGD(TAG, "setSett3232ingRadioIdSex:" )
+        LOGD(TAG, "setSettingRadioIdSex:" )
 
         val items = arrayOf("男性（だんせい）", "女性（じょせい）")
         // タイトル部分のTextView

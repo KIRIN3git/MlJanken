@@ -5,6 +5,7 @@ import android.provider.ContactsContract
 import com.google.firebase.firestore.FirebaseFirestore
 import android.util.Log
 import com.google.firebase.firestore.Query
+import kirin3.jp.mljanken.award.AwardFragment
 import kirin3.jp.mljanken.util.LogUtils.LOGD
 import java.util.*
 
@@ -13,10 +14,569 @@ object CloudFirestoreHelper {
 
     private val TAG = LogUtils.makeLogTag(CloudFirestoreHelper::class.java)
 
+    var win_num_all_rank_user = 0
+    var win_num_prefecture_rank_user = 0
+    var win_num_sex_rank_user = 0
+    var win_num_age_rank_user = 0
+    var probability_all_rank_user = 0
+    var probability_prefecture_rank_user = 0
+    var probability_sex_rank_user = 0
+    var probability_age_rank_user = 0
+    var max_chain_win_num_all_rank_user = 0
+    var max_chain_win_num_prefecture_rank_user = 0
+    var max_chain_win_num_sex_rank_user = 0
+    var max_chain_win_num_age_rank_user = 0
+
+    var win_num_all_rank_everyone = 0
+    var win_num_prefecture_rank_everyone = 0
+    var win_num_sex_rank_everyone = 0
+    var win_num_age_rank_everyone = 0
+    var probability_all_rank_everyone = 0
+    var probability_prefecture_rank_everyone = 0
+    var probability_sex_rank_everyone = 0
+    var probability_age_rank_everyone = 0
+    var max_chain_win_num_all_rank_everyone = 0
+    var max_chain_win_num_prefecture_rank_everyone = 0
+    var max_chain_win_num_sex_rank_everyone = 0
+    var max_chain_win_num_age_rank_everyone = 0
+
+    var data_rady_flg = false
+
+
     fun getInitDb(context:Context):FirebaseFirestore {
         var db = FirebaseFirestore.getInstance()
         return db
     }
+
+    data class UserItem(
+        val a1_sex: Int = 0,
+        val a2_age: Int = 0,
+        val a3_prefecture: Int = 0,
+        val b1_battel_num: Int = 0,
+        val b2_win_num: Int = 0,
+        val b3_drow_num: Int = 0,
+        val b4_lose_num: Int = 0,
+        val b5_probability:Double = 0.0,
+        val b6_max_chain_win_num: Int = 0,
+        val b7_max_chain_lose_num: Int = 0,
+        val c1_most_choice: Int = 0,
+        val c2_first_choice: Int = 0,
+        val c3_most_chain_choice: Int = 0,
+        val c4_excellence_mode: Int = 0,
+        val d1_mode1_rate: Double = 0.0,
+        val d2_mode2_rate: Double = 0.0,
+        val d3_mode3_rate: Double = 0.0,
+        val d4_mode4_rate: Double = 0.0,
+        val d5_mode5_rate: Double = 0.0,
+        val d6_mode6_rate: Double = 0.0,
+        val d7_mode7_rate: Double = 0.0,
+        val z1_upd_time: Date = Date()
+    )
+
+
+    /*
+     * コレクション、ドキュメント、フィールドを登録
+     * ・コレクション、ドキュメントが同名だと上書き保存
+     * ・ .documnentを外せば、ランダムでユニークなIDが自動で付与される
+     */
+    fun addUserData(db:FirebaseFirestore,user:UserItem,collection:String,document:String){
+        db.collection(collection)
+            .document(document)
+            .set(user)
+            .addOnSuccessListener { documentReference ->
+                LOGD(TAG, "addData")
+            }
+            .addOnFailureListener { e -> LOGD(TAG, "Error adding document" + e)}
+    }
+
+    fun getAwardData(db:FirebaseFirestore, collection:String, context:Context):Int{
+        win_num_all_rank_everyone = 0
+        win_num_prefecture_rank_everyone = 0
+        win_num_sex_rank_everyone = 0
+        win_num_age_rank_everyone = 0
+
+        probability_all_rank_everyone = 0
+        probability_prefecture_rank_everyone = 0
+        probability_sex_rank_everyone = 0
+        probability_age_rank_everyone = 0
+
+        max_chain_win_num_all_rank_everyone = 0
+        max_chain_win_num_prefecture_rank_everyone = 0
+        max_chain_win_num_sex_rank_everyone = 0
+        max_chain_win_num_age_rank_everyone = 0
+
+
+        win_num_all_rank_user = 0
+        win_num_prefecture_rank_user = 0
+        win_num_sex_rank_user = 0
+        win_num_age_rank_user = 0
+
+        probability_all_rank_user = 0
+        probability_prefecture_rank_user = 0
+        probability_sex_rank_user = 0
+        probability_age_rank_user = 0
+
+        max_chain_win_num_all_rank_user = 0
+        max_chain_win_num_prefecture_rank_user = 0
+        max_chain_win_num_sex_rank_user = 0
+        max_chain_win_num_age_rank_user = 0
+
+        db.collection(collection)
+            .orderBy(UserItem::b2_win_num.name)
+            .get()
+            .addOnCompleteListener{ task ->
+                if (task.isSuccessful) {
+                    val document = task.result
+                    if (document != null && document.toObjects(UserItem::class.java) != null) {
+                        val userList = document.toObjects(UserItem::class.java)
+                        LOGD(TAG, "getDataOrderByLimit")
+                        LOGD(TAG, "userList.size " + userList.size)
+                        for(i in 0 until  userList.size){
+
+                            LOGD(TAG, "userList.get(" + i + ").win_num " + userList.get(i).b2_win_num)
+
+                            if(userList.get(i).a3_prefecture.equals(SettingsUtils.getSettingRadioIdPrefecture(context))){
+                                win_num_prefecture_rank_everyone++
+                            }
+
+                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
+                                win_num_sex_rank_everyone++
+                            }
+
+                            if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
+                                win_num_age_rank_everyone++
+                            }
+
+                            win_num_all_rank_everyone++
+
+
+                            LOGD(TAG, "userList.get(" + i + ").b5_probability " + userList.get(i).b5_probability)
+
+                            if(userList.get(i).a3_prefecture.equals(SettingsUtils.getSettingRadioIdPrefecture(context))){
+                                probability_prefecture_rank_everyone++
+                            }
+
+                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
+                                probability_sex_rank_everyone++
+                            }
+
+                            if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
+                                probability_age_rank_everyone++
+                            }
+
+                            probability_all_rank_everyone++
+
+
+                            LOGD(TAG, "userList.get(" + i + ").max_chain_win_num " + userList.get(i).b6_max_chain_win_num)
+
+                            if(userList.get(i).a3_prefecture.equals(SettingsUtils.getSettingRadioIdPrefecture(context))){
+                                max_chain_win_num_prefecture_rank_everyone++
+                            }
+
+                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
+                                max_chain_win_num_sex_rank_everyone++
+                            }
+
+                            if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
+                                max_chain_win_num_age_rank_everyone++
+                            }
+
+                            max_chain_win_num_all_rank_everyone++
+                        }
+
+                        win_num_prefecture_rank_user = win_num_prefecture_rank_everyone + 1
+                        win_num_sex_rank_user = win_num_sex_rank_everyone + 1
+                        win_num_age_rank_user = win_num_age_rank_everyone + 1
+                        win_num_all_rank_user = win_num_all_rank_everyone + 1
+
+                        probability_prefecture_rank_user = probability_prefecture_rank_everyone + 1
+                        probability_sex_rank_user = probability_sex_rank_everyone + 1
+                        probability_age_rank_user = probability_age_rank_everyone + 1
+                        probability_all_rank_user = probability_all_rank_everyone + 1
+
+
+                        max_chain_win_num_prefecture_rank_user = max_chain_win_num_prefecture_rank_everyone + 1
+                        max_chain_win_num_sex_rank_user = max_chain_win_num_sex_rank_everyone + 1
+                        max_chain_win_num_age_rank_user = max_chain_win_num_age_rank_everyone + 1
+                        max_chain_win_num_all_rank_user = max_chain_win_num_all_rank_everyone + 1
+
+                        for(i in 0 until  userList.size){
+
+                            LOGD(TAG, "userList.get(" + i + ").b2_win_num " + userList.get(i).b2_win_num)
+
+                            if(userList.get(i).a3_prefecture.equals(SettingsUtils.getSettingRadioIdPrefecture(context))){
+                                if(userList.get(i).b2_win_num <= SettingsUtils.getSettingWinNum(context)) win_num_prefecture_rank_user--
+                            }
+
+                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
+                                if(userList.get(i).b2_win_num <= SettingsUtils.getSettingWinNum(context)) win_num_sex_rank_user--
+                            }
+
+                            if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
+                                if(userList.get(i).b2_win_num <= SettingsUtils.getSettingWinNum(context)) win_num_age_rank_user--
+                            }
+
+                            if(userList.get(i).b2_win_num <= SettingsUtils.getSettingWinNum(context)) win_num_all_rank_user--
+
+
+                            LOGD(TAG, "userList.get(" + i + ").probability " + userList.get(i).b5_probability)
+
+                            if(userList.get(i).a3_prefecture.equals(SettingsUtils.getSettingRadioIdPrefecture(context))){
+                                if(userList.get(i).b5_probability <= SettingsUtils.getSettingProbability(context)) probability_prefecture_rank_user--
+                            }
+
+                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
+                                if(userList.get(i).b5_probability <= SettingsUtils.getSettingProbability(context)) probability_sex_rank_user--
+                            }
+
+                            if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
+                                if(userList.get(i).b5_probability <= SettingsUtils.getSettingProbability(context)) probability_age_rank_user--
+                            }
+
+                            if(userList.get(i).b5_probability <= SettingsUtils.getSettingProbability(context)) probability_all_rank_user--
+
+                            LOGD(TAG, "userList.get(" + i + ").b6_max_chain_win_num " + userList.get(i).b6_max_chain_win_num)
+
+                            if(userList.get(i).a3_prefecture.equals(SettingsUtils.getSettingRadioIdPrefecture(context))){
+                                if(userList.get(i).b6_max_chain_win_num <= SettingsUtils.getSettingMaxChainWinNum(context)) max_chain_win_num_prefecture_rank_user--
+
+
+                            }
+
+                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
+
+                                if(userList.get(i).b6_max_chain_win_num <= SettingsUtils.getSettingMaxChainWinNum(context)) max_chain_win_num_sex_rank_user--
+
+                                LOGD(TAG, "DEBUG_DATAggg SettingsUtils.getSettingWinNum(context):" + SettingsUtils.getSettingWinNum(context) );
+                                LOGD(TAG, "DEBUG_DATAggg userList.get(i).b6_max_chain_win_num:" + userList.get(i).b6_max_chain_win_num );
+                                LOGD(TAG, "DEBUG_DATAggg max_chain_win_num_sex_rank_user:" + max_chain_win_num_sex_rank_user )
+                            }
+
+                            if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
+                                if(userList.get(i).b6_max_chain_win_num <= SettingsUtils.getSettingMaxChainWinNum(context)) max_chain_win_num_age_rank_user--
+                            }
+
+                            if(userList.get(i).b6_max_chain_win_num <= SettingsUtils.getSettingMaxChainWinNum(context)) max_chain_win_num_all_rank_user--
+                        }
+
+                        LOGD(TAG, "DEBUG_DATA SettingsUtils.getSettingUuid(context):" + SettingsUtils.getSettingUuid(context) )
+                        LOGD(TAG, "DEBUG_DATA win_num_prefecture_rank_user:" + win_num_prefecture_rank_user )
+                        LOGD(TAG, "DEBUG_DATA win_num_prefecture_rank_everyone:" + win_num_prefecture_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA win_num_sex_rank_user:" + win_num_sex_rank_user )
+                        LOGD(TAG, "DEBUG_DATA win_num_sex_rank_everyone:" + win_num_sex_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA win_num_age_rank_user:" + win_num_age_rank_user )
+                        LOGD(TAG, "DEBUG_DATA win_num_age_rank_everyone:" + win_num_age_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA win_num_all_rank_user:" + win_num_all_rank_user )
+                        LOGD(TAG, "DEBUG_DATA win_num_all_rank_everyone:" + win_num_all_rank_everyone )
+
+
+                        LOGD(TAG, "DEBUG_DATA SettingsUtils.getSettingUuid(context):" + SettingsUtils.getSettingUuid(context) )
+                        LOGD(TAG, "DEBUG_DATA probability_prefecture_rank_user:" + probability_prefecture_rank_user )
+                        LOGD(TAG, "DEBUG_DATA probability_prefecture_rank_everyone:" + probability_prefecture_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA probability_sex_rank_user:" + probability_sex_rank_user )
+                        LOGD(TAG, "DEBUG_DATA probability_sex_rank_everyone:" + probability_sex_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA probability_age_rank_user:" + probability_age_rank_user )
+                        LOGD(TAG, "DEBUG_DATA probability_age_rank_everyone:" + probability_age_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA probability_all_rank_user:" + probability_all_rank_user )
+                        LOGD(TAG, "DEBUG_DATA probability_all_rank_everyone:" + win_num_all_rank_everyone )
+
+
+                        LOGD(TAG, "DEBUG_DATA SettingsUtils.getSettingUuid(context):" + SettingsUtils.getSettingUuid(context) )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_prefecture_rank_user:" + max_chain_win_num_prefecture_rank_user )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_prefecture_rank_everyone:" + max_chain_win_num_prefecture_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_sex_rank_user:" + max_chain_win_num_sex_rank_user )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_sex_rank_everyone:" + max_chain_win_num_sex_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_age_rank_user:" + max_chain_win_num_age_rank_user )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_age_rank_everyone:" + max_chain_win_num_age_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_all_rank_user:" + max_chain_win_num_all_rank_user )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_all_rank_everyone:" + max_chain_win_num_all_rank_everyone )
+
+
+                        AwardFragment.setAwardData()
+                    }
+                } else {
+                    LOGD(TAG, "No such document")
+                }
+            }
+
+        return 0
+    }
+
+
+    fun getWinNum(db:FirebaseFirestore,collection:String,context:Context):Int{
+        win_num_all_rank_everyone = 0
+        win_num_prefecture_rank_everyone = 0
+        win_num_sex_rank_everyone = 0
+        win_num_age_rank_everyone = 0
+
+        win_num_all_rank_user = 0
+        win_num_prefecture_rank_user = 0
+        win_num_sex_rank_user = 0
+        win_num_age_rank_user = 0
+
+        db.collection(collection)
+            .orderBy(UserItem::b2_win_num.name)
+            .get()
+            .addOnCompleteListener{ task ->
+                if (task.isSuccessful) {
+                    val document = task.result
+                    if (document != null && document.toObjects(UserItem::class.java) != null) {
+                        val userList = document.toObjects(UserItem::class.java)
+                        LOGD(TAG, "getDataOrderByLimit")
+                        LOGD(TAG, "userList.size " + userList.size)
+                        for(i in 0 until  userList.size){
+
+                            LOGD(TAG, "userList.get(" + i + ").win_num " + userList.get(i).b2_win_num)
+
+                            if(userList.get(i).a3_prefecture.equals(SettingsUtils.getSettingRadioIdPrefecture(context))){
+                                win_num_prefecture_rank_everyone++
+                            }
+
+                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
+                                win_num_sex_rank_everyone++
+                            }
+
+                            if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
+                                win_num_age_rank_everyone++
+                            }
+
+                            win_num_all_rank_everyone++
+                        }
+
+                        win_num_prefecture_rank_user = win_num_prefecture_rank_everyone + 1
+                        win_num_sex_rank_user = win_num_sex_rank_everyone + 1
+                        win_num_age_rank_user = win_num_age_rank_everyone + 1
+                        win_num_all_rank_user = win_num_all_rank_everyone + 1
+
+                        for(i in 0 until  userList.size){
+
+                            LOGD(TAG, "userList.get(" + i + ").b2_win_num " + userList.get(i).b2_win_num)
+
+                            if(userList.get(i).a3_prefecture.equals(SettingsUtils.getSettingRadioIdPrefecture(context))){
+                                if(userList.get(i).b2_win_num <= SettingsUtils.getSettingWinNum(context)) win_num_prefecture_rank_user--
+                            }
+
+                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
+                                if(userList.get(i).b2_win_num <= SettingsUtils.getSettingWinNum(context)) win_num_sex_rank_user--
+                            }
+
+                            if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
+                                if(userList.get(i).b2_win_num <= SettingsUtils.getSettingWinNum(context)) win_num_age_rank_user--
+                            }
+
+                            if(userList.get(i).b2_win_num <= SettingsUtils.getSettingWinNum(context)) win_num_all_rank_user--
+                        }
+
+                        LOGD(TAG, "DEBUG_DATA SettingsUtils.getSettingUuid(context):" + SettingsUtils.getSettingUuid(context) )
+
+                        LOGD(TAG, "DEBUG_DATA win_num_prefecture_rank_user:" + win_num_prefecture_rank_user )
+                        LOGD(TAG, "DEBUG_DATA win_num_prefecture_rank_everyone:" + win_num_prefecture_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA win_num_sex_rank_user:" + win_num_sex_rank_user )
+                        LOGD(TAG, "DEBUG_DATA win_num_sex_rank_everyone:" + win_num_sex_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA win_num_age_rank_user:" + win_num_age_rank_user )
+                        LOGD(TAG, "DEBUG_DATA win_num_age_rank_everyone:" + win_num_age_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA win_num_all_rank_user:" + win_num_all_rank_user )
+                        LOGD(TAG, "DEBUG_DATA win_num_all_rank_everyone:" + win_num_all_rank_everyone )
+
+                    }
+                } else {
+                    LOGD(TAG, "No such document")
+                }
+            }
+
+        return 0
+    }
+
+
+    fun getProbability(db:FirebaseFirestore,collection:String,context:Context):Int{
+        probability_all_rank_everyone = 0
+        probability_prefecture_rank_everyone = 0
+        probability_sex_rank_everyone = 0
+        probability_age_rank_everyone = 0
+
+        probability_all_rank_user = 0
+        probability_prefecture_rank_user = 0
+        probability_sex_rank_user = 0
+        probability_age_rank_user = 0
+
+        db.collection(collection)
+            .orderBy(UserItem::b5_probability.name)
+            .get()
+            .addOnCompleteListener{ task ->
+                if (task.isSuccessful) {
+                    val document = task.result
+                    if (document != null && document.toObjects(UserItem::class.java) != null) {
+                        val userList = document.toObjects(UserItem::class.java)
+                        LOGD(TAG, "getDataOrderByLimit")
+                        LOGD(TAG, "userList.size " + userList.size)
+                        for(i in 0 until  userList.size){
+
+                            LOGD(TAG, "userList.get(" + i + ").b5_probability " + userList.get(i).b5_probability)
+
+                            if(userList.get(i).a3_prefecture.equals(SettingsUtils.getSettingRadioIdPrefecture(context))){
+                                probability_prefecture_rank_everyone++
+                            }
+
+                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
+                                probability_sex_rank_everyone++
+                            }
+
+                            if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
+                                probability_age_rank_everyone++
+                            }
+
+                            probability_all_rank_everyone++
+                        }
+
+                        probability_prefecture_rank_user = probability_prefecture_rank_everyone + 1
+                        probability_sex_rank_user = probability_sex_rank_everyone + 1
+                        probability_age_rank_user = probability_age_rank_everyone + 1
+                        probability_all_rank_user = probability_all_rank_everyone + 1
+
+                        for(i in 0 until  userList.size){
+
+                            LOGD(TAG, "userList.get(" + i + ").probability " + userList.get(i).b5_probability)
+
+                            if(userList.get(i).a3_prefecture.equals(SettingsUtils.getSettingRadioIdPrefecture(context))){
+                                if(userList.get(i).b5_probability <= SettingsUtils.getSettingWinNum(context)) probability_prefecture_rank_user--
+                            }
+
+                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
+                                if(userList.get(i).b5_probability <= SettingsUtils.getSettingWinNum(context)) probability_sex_rank_user--
+                            }
+
+                            if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
+                                if(userList.get(i).b5_probability <= SettingsUtils.getSettingWinNum(context)) probability_age_rank_user--
+                            }
+
+                            if(userList.get(i).b5_probability <= SettingsUtils.getSettingWinNum(context)) probability_all_rank_user--
+                        }
+
+                        LOGD(TAG, "DEBUG_DATA SettingsUtils.getSettingUuid(context):" + SettingsUtils.getSettingUuid(context) )
+                        LOGD(TAG, "DEBUG_DATA probability_prefecture_rank_user:" + probability_prefecture_rank_user )
+                        LOGD(TAG, "DEBUG_DATA probability_prefecture_rank_everyone:" + probability_prefecture_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA probability_sex_rank_user:" + probability_sex_rank_user )
+                        LOGD(TAG, "DEBUG_DATA probability_sex_rank_everyone:" + probability_sex_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA probability_age_rank_user:" + probability_age_rank_user )
+                        LOGD(TAG, "DEBUG_DATA probability_age_rank_everyone:" + probability_age_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA probability_all_rank_user:" + probability_all_rank_user )
+                        LOGD(TAG, "DEBUG_DATA probability_all_rank_everyone:" + win_num_all_rank_everyone )
+                    }
+                } else {
+                    LOGD(TAG, "No such document")
+                }
+            }
+
+        return 0
+    }
+    
+    
+    fun getMaxChainWinNum(db:FirebaseFirestore,collection:String,context:Context):Int{
+        max_chain_win_num_all_rank_everyone = 0
+        max_chain_win_num_prefecture_rank_everyone = 0
+        max_chain_win_num_sex_rank_everyone = 0
+        max_chain_win_num_age_rank_everyone = 0
+
+        max_chain_win_num_all_rank_user = 0
+        max_chain_win_num_prefecture_rank_user = 0
+        max_chain_win_num_sex_rank_user = 0
+        max_chain_win_num_age_rank_user = 0
+
+        db.collection(collection)
+            .orderBy(UserItem::b6_max_chain_win_num.name)
+            .get()
+            .addOnCompleteListener{ task ->
+                if (task.isSuccessful) {
+                    val document = task.result
+                    if (document != null && document.toObjects(UserItem::class.java) != null) {
+                        val userList = document.toObjects(UserItem::class.java)
+                        LOGD(TAG, "getDataOrderByLimit")
+                        LOGD(TAG, "userList.size " + userList.size)
+                        for(i in 0 until  userList.size){
+
+                            LOGD(TAG, "userList.get(" + i + ").max_chain_win_num " + userList.get(i).b6_max_chain_win_num)
+
+                            if(userList.get(i).a3_prefecture.equals(SettingsUtils.getSettingRadioIdPrefecture(context))){
+                                max_chain_win_num_prefecture_rank_everyone++
+                            }
+
+                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
+                                max_chain_win_num_sex_rank_everyone++
+                            }
+
+                            if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
+                                max_chain_win_num_age_rank_everyone++
+                            }
+
+                            max_chain_win_num_all_rank_everyone++
+                        }
+
+                        max_chain_win_num_prefecture_rank_user = max_chain_win_num_prefecture_rank_everyone + 1
+                        max_chain_win_num_sex_rank_user = max_chain_win_num_sex_rank_everyone + 1
+                        max_chain_win_num_age_rank_user = max_chain_win_num_age_rank_everyone + 1
+                        max_chain_win_num_all_rank_user = max_chain_win_num_all_rank_everyone + 1
+
+                        for(i in 0 until  userList.size){
+
+                            LOGD(TAG, "userList.get(" + i + ").b6_max_chain_win_num " + userList.get(i).b6_max_chain_win_num)
+
+                            if(userList.get(i).a3_prefecture.equals(SettingsUtils.getSettingRadioIdPrefecture(context))){
+                                if(userList.get(i).b6_max_chain_win_num <= SettingsUtils.getSettingWinNum(context)) max_chain_win_num_prefecture_rank_user--
+                            }
+
+                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
+                                if(userList.get(i).b6_max_chain_win_num <= SettingsUtils.getSettingWinNum(context)) max_chain_win_num_sex_rank_user--
+                            }
+
+                            if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
+                                if(userList.get(i).b6_max_chain_win_num <= SettingsUtils.getSettingWinNum(context)) max_chain_win_num_age_rank_user--
+                            }
+
+                            if(userList.get(i).b6_max_chain_win_num <= SettingsUtils.getSettingWinNum(context)) max_chain_win_num_all_rank_user--
+                        }
+
+                        LOGD(TAG, "DEBUG_DATA SettingsUtils.getSettingUuid(context):" + SettingsUtils.getSettingUuid(context) )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_prefecture_rank_user:" + max_chain_win_num_prefecture_rank_user )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_prefecture_rank_everyone:" + max_chain_win_num_prefecture_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_sex_rank_user:" + max_chain_win_num_sex_rank_user )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_sex_rank_everyone:" + max_chain_win_num_sex_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_age_rank_user:" + max_chain_win_num_age_rank_user )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_age_rank_everyone:" + max_chain_win_num_age_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_all_rank_user:" + max_chain_win_num_all_rank_user )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_all_rank_everyone:" + max_chain_win_num_all_rank_everyone )
+                    }
+                } else {
+                    LOGD(TAG, "No such document")
+                }
+            }
+
+        return 0
+    }
+
+
+
+
+
+
+    /*
+     * コレクション、ドキュメント、フィールドを登録
+     * ・コレクション、ドキュメントが同名だと上書き保存
+     * ・ .documnentを外せば、ランダムでユニークなIDが自動で付与される
+     * （例）val user = UserItem("Ichiro","Suzuki",55,true,"TOKYO")
+     */
+    fun addData(db:FirebaseFirestore,user:UserItem,collection:String,document:String){
+        db.collection(collection)
+            .document(document)
+            .set(user)
+            .addOnSuccessListener { documentReference ->
+                LOGD(TAG, "addUserData user:" + user)
+            }
+            .addOnFailureListener { e -> LOGD(TAG, "Error adding document" + e)}
+    }
+
+
+
+
 
     /*
      * 利用サンプル
@@ -48,33 +608,13 @@ object CloudFirestoreHelper {
         CloudFirestoreHelper.getDataWhere(db,"users","TOKYO")
         CloudFirestoreHelper.getDataOrderByLimit(db,"users")
      */
-    data class UserItem(
-        val firstName: String = "",
-        val lastName: String = "",
-        val age: Int = 0,
-        val adult: Boolean = false,
-        val state: String = "",
-        val regTime: Date = Date())
+
 
     data class HobbyItem(
         val firstHobby: String = "Ski",
         val year: Int = 3)
 
 
-    /*
-     * コレクション、ドキュメント、フィールドを登録
-     * ・コレクション、ドキュメントが同名だと上書き保存
-     * ・ .documnentを外せば、ランダムでユニークなIDが自動で付与される
-     */
-    fun addData(db:FirebaseFirestore,user:UserItem,collection:String,document:String){
-        db.collection(collection)
-            .document(document)
-            .set(user)
-            .addOnSuccessListener { documentReference ->
-                LOGD(TAG, "addData")
-            }
-            .addOnFailureListener { e -> LOGD(TAG, "Error adding document" + e)}
-    }
 
     /*
      * コレクション、ドキュメント、フィールドを登録
@@ -160,10 +700,7 @@ object CloudFirestoreHelper {
                         LOGD(TAG, "getDataAll")
                         LOGD(TAG, "userList.size " + userList.size)
                         for(i in 0 until  userList.size){
-                            LOGD(TAG, "userList.get(" + i + ").firstName " + userList.get(i).firstName)
-                            LOGD(TAG, "userList.get(" + i + ").lastName " + userList.get(i).lastName)
-                            LOGD(TAG, "userList.get(" + i + ").age " + userList.get(i).age)
-                            LOGD(TAG, "userList.get(" + i + ").regTime " + userList.get(i).regTime)
+                            LOGD(TAG, "userList.get(" + i + ").age " + userList.get(i).a2_age)
                         }
                     }
                 } else {
@@ -183,8 +720,8 @@ object CloudFirestoreHelper {
      */
     fun getDataConditions(db:FirebaseFirestore,collection:String){
         db.collection(collection)
-            .whereEqualTo(UserItem::state.name,"TOKYO")
-            .orderBy(UserItem::age.name,Query.Direction.DESCENDING)
+            .whereEqualTo(UserItem::a2_age.name,"TOKYO")
+            .orderBy(UserItem::a2_age.name,Query.Direction.DESCENDING)
             .startAt(40)
             .endAt(60)
             .limit(2)
@@ -197,10 +734,7 @@ object CloudFirestoreHelper {
                         LOGD(TAG, "getDataOrderByLimit")
                         LOGD(TAG, "userList.size " + userList.size)
                         for(i in 0 until  userList.size){
-                            LOGD(TAG, "userList.get(" + i + ").firstName " + userList.get(i).firstName)
-                            LOGD(TAG, "userList.get(" + i + ").lastName " + userList.get(i).lastName)
-                            LOGD(TAG, "userList.get(" + i + ").age " + userList.get(i).age)
-                            LOGD(TAG, "userList.get(" + i + ").regTime " + userList.get(i).regTime)
+                            LOGD(TAG, "userList.get(" + i + ").age " + userList.get(i).a2_age)
                         }
                     }
                 } else {

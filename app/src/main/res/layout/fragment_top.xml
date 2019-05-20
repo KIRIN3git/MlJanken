@@ -29,7 +29,7 @@
         </LinearLayout>
 
         <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/buttle"
+                android:id="@+id/game"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 app:lottie_autoPlay="true"
@@ -42,7 +42,7 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
         <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/record"
+                android:id="@+id/award"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 app:lottie_autoPlay="true"
@@ -50,24 +50,24 @@
                 app:lottie_rawRes="@raw/trophy"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="10dp"
-                app:layout_constraintBottom_toTopOf="@+id/statistics"
+                app:layout_constraintBottom_toTopOf="@+id/totalization"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
         <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/statistics"
+                android:id="@+id/totalization"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/star2"
+                app:lottie_rawRes="@raw/world"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="10dp"
-                app:layout_constraintBottom_toTopOf="@+id/manual"
+                app:layout_constraintBottom_toTopOf="@+id/information"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
 
         <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/manual"
+                android:id="@+id/information"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 app:lottie_autoPlay="true"

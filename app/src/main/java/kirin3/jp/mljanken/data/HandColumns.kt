@@ -15,15 +15,22 @@ class HandColumns : BaseColumns {
         val HAND_ID = "hand_id"
         // 結果ID(1:勝ち,2:あいこ,3:負け)
         val RESULT_ID = "result_id"
+        // 選択したモード
+        val MODE_ID = "mode_id"
         // 勝ち数
         val WIN_NUM = "win_num"
+        // あいこ数
+        val DROW_NUM ="drow_num"
         // 負け数
         val LOSE_NUM ="lose_num"
         // 連勝数
         val WIN_CHAIN_NUM = "win_chain_num"
         // 連敗数
         val LOSE_CHAIN_NUM = "lose_chain_num"
-        // アップデート時間
-        val CREATE_TIME = "create_time"
+        // 作成日時（ミリ秒）
+        val CREATE_TIME1 = "create_time1"
+        // 作成日時（文字列）
+        val CREATE_TIME2 = "create_time2"
     }
 }
+

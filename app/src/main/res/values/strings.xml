@@ -4,6 +4,8 @@
     <string name="privacy_poricy"><u>プライバシーポリシー</u></string>
     <string name="privacy_poricy_url">https://sites.google.com/view/kirin3-privacy-policy/</string>
 
+    <string name="award_title"><u>成績</u></string>
+
     <string name="admob_app_id">ca-app-pub-1057765466901496~6547353363</string>
     <string name="banner_ad_unit_id_test">ca-app-pub-3940256099942544/6300978111</string>
     <string name="banner_ad_unit_id_top">ca-app-pub-1057765466901496/9911883305</string>
