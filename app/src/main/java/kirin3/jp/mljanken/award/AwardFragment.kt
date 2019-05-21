@@ -63,12 +63,12 @@ class AwardFragment : Fragment() {
             sTextWinNumPrefecture = view?.findViewById(R.id.win_num_prefecture) as TextView
             sTextWinNumSex = view?.findViewById(R.id.win_num_sex) as TextView
             sTextWinNumAge = view?.findViewById(R.id.win_num_age) as TextView
-            
+
             sTextProbabilityAll = view?.findViewById(R.id.probability_all) as TextView
             sTextProbabilityPrefecture = view?.findViewById(R.id.probability_prefecture) as TextView
             sTextProbabilitySex = view?.findViewById(R.id.probability_sex) as TextView
             sTextProbabilityAge = view?.findViewById(R.id.probability_age) as TextView
-            
+
             sTextMaxChainWinNumAll = view?.findViewById(R.id.win_chain_num_all) as TextView
             sTextMaxChainWinNumPrefecture = view?.findViewById(R.id.win_chain_num_prefecture) as TextView
             sTextMaxChainWinNumSex = view?.findViewById(R.id.win_chain_num_sex) as TextView
@@ -88,20 +88,20 @@ class AwardFragment : Fragment() {
         }
 
         fun setAwardData(){
-            sTextWinNumAll?.text = CloudFirestoreHelper.win_num_all_rank_user.toString() + "/" + CloudFirestoreHelper.win_num_all_rank_everyone.toString().toString() + "位"
-            sTextWinNumPrefecture?.text = CloudFirestoreHelper.win_num_prefecture_rank_user.toString() + "/" + CloudFirestoreHelper.win_num_prefecture_rank_everyone.toString().toString() + "位"
-            sTextWinNumSex?.text = CloudFirestoreHelper.win_num_sex_rank_user.toString() + "/" + CloudFirestoreHelper.win_num_sex_rank_everyone.toString().toString() + "位"
-            sTextWinNumAge?.text = CloudFirestoreHelper.win_num_age_rank_user.toString() + "/" + CloudFirestoreHelper.win_num_age_rank_everyone.toString().toString() + "位"
-            
-            sTextProbabilityAll?.text = CloudFirestoreHelper.probability_all_rank_user.toString() + "/" + CloudFirestoreHelper.probability_all_rank_everyone.toString().toString() + "位"
-            sTextProbabilityPrefecture?.text = CloudFirestoreHelper.probability_prefecture_rank_user.toString() + "/" + CloudFirestoreHelper.probability_prefecture_rank_everyone.toString().toString() + "位"
-            sTextProbabilitySex?.text = CloudFirestoreHelper.probability_sex_rank_user.toString() + "/" + CloudFirestoreHelper.probability_sex_rank_everyone.toString().toString() + "位"
-            sTextProbabilityAge?.text = CloudFirestoreHelper.probability_age_rank_user.toString() + "/" + CloudFirestoreHelper.probability_age_rank_everyone.toString().toString() + "位"
-            
-            sTextMaxChainWinNumAll?.text = CloudFirestoreHelper.max_chain_win_num_all_rank_user.toString() + "/" + CloudFirestoreHelper.max_chain_win_num_all_rank_everyone.toString().toString() + "位"
-            sTextMaxChainWinNumPrefecture?.text = CloudFirestoreHelper.max_chain_win_num_prefecture_rank_user.toString() + "/" + CloudFirestoreHelper.max_chain_win_num_prefecture_rank_everyone.toString().toString() + "位"
-            sTextMaxChainWinNumSex?.text = CloudFirestoreHelper.max_chain_win_num_sex_rank_user.toString() + "/" + CloudFirestoreHelper.max_chain_win_num_sex_rank_everyone.toString().toString() + "位"
-            sTextMaxChainWinNumAge?.text = CloudFirestoreHelper.max_chain_win_num_age_rank_user.toString() + "/" + CloudFirestoreHelper.max_chain_win_num_age_rank_everyone.toString().toString() + "位"
+            sTextWinNumAll?.text = AwardCoudFirestoreHelper.win_num_all_rank_user.toString() + "/" + AwardCoudFirestoreHelper.win_num_all_rank_everyone.toString().toString() + "位"
+            sTextWinNumPrefecture?.text = AwardCoudFirestoreHelper.win_num_prefecture_rank_user.toString() + "/" + AwardCoudFirestoreHelper.win_num_prefecture_rank_everyone.toString().toString() + "位"
+            sTextWinNumSex?.text = AwardCoudFirestoreHelper.win_num_sex_rank_user.toString() + "/" + AwardCoudFirestoreHelper.win_num_sex_rank_everyone.toString().toString() + "位"
+            sTextWinNumAge?.text = AwardCoudFirestoreHelper.win_num_age_rank_user.toString() + "/" + AwardCoudFirestoreHelper.win_num_age_rank_everyone.toString().toString() + "位"
+
+            sTextProbabilityAll?.text = AwardCoudFirestoreHelper.probability_all_rank_user.toString() + "/" + AwardCoudFirestoreHelper.probability_all_rank_everyone.toString().toString() + "位"
+            sTextProbabilityPrefecture?.text = AwardCoudFirestoreHelper.probability_prefecture_rank_user.toString() + "/" + AwardCoudFirestoreHelper.probability_prefecture_rank_everyone.toString().toString() + "位"
+            sTextProbabilitySex?.text = AwardCoudFirestoreHelper.probability_sex_rank_user.toString() + "/" + AwardCoudFirestoreHelper.probability_sex_rank_everyone.toString().toString() + "位"
+            sTextProbabilityAge?.text = AwardCoudFirestoreHelper.probability_age_rank_user.toString() + "/" + AwardCoudFirestoreHelper.probability_age_rank_everyone.toString().toString() + "位"
+
+            sTextMaxChainWinNumAll?.text = AwardCoudFirestoreHelper.max_chain_win_num_all_rank_user.toString() + "/" + AwardCoudFirestoreHelper.max_chain_win_num_all_rank_everyone.toString().toString() + "位"
+            sTextMaxChainWinNumPrefecture?.text = AwardCoudFirestoreHelper.max_chain_win_num_prefecture_rank_user.toString() + "/" + AwardCoudFirestoreHelper.max_chain_win_num_prefecture_rank_everyone.toString().toString() + "位"
+            sTextMaxChainWinNumSex?.text = AwardCoudFirestoreHelper.max_chain_win_num_sex_rank_user.toString() + "/" + AwardCoudFirestoreHelper.max_chain_win_num_sex_rank_everyone.toString().toString() + "位"
+            sTextMaxChainWinNumAge?.text = AwardCoudFirestoreHelper.max_chain_win_num_age_rank_user.toString() + "/" + AwardCoudFirestoreHelper.max_chain_win_num_age_rank_everyone.toString().toString() + "位"
         }
     }
 
@@ -128,7 +128,7 @@ class AwardFragment : Fragment() {
         CloudFirestoreHelper.getProbability(db,"users",mContext!!)
         CloudFirestoreHelper.getMaxChainWinNum(db,"users",mContext!!)
         */
-        CloudFirestoreHelper.getAwardData(db,"users",mContext!!)
+        AwardCoudFirestoreHelper.getAwardData(db,"users",mContext!!)
 
         /*
         do{

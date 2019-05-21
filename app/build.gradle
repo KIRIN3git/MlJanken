@@ -12,6 +12,7 @@ android {
         applicationId "kirin3.jp.mljanken"
         minSdkVersion 17
         targetSdkVersion 28
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
