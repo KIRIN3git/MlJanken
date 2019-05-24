@@ -9,7 +9,7 @@ class TotalizationFragmentStatePagerAdapter(fm: FragmentManager) : FragmentState
     override fun getItem(i: Int): Fragment {
 
         when (i) {
-            0 -> return TotalizationFragment1()
+            0 -> return TotalizationFragmentSex()
             1 -> return TotalizationFragment2()
             else -> return TotalizationFragment3()
         }

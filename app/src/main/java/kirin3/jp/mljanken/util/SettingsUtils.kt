@@ -1,6 +1,7 @@
 package kirin3.jp.mljanken.util
 
 import android.content.Context
+import android.icu.util.IslamicCalendar
 import android.preference.PreferenceManager
 import kirin3.jp.mljanken.util.LogUtils.LOGD
 import java.math.BigDecimal
@@ -282,26 +283,16 @@ object SettingsUtils {
     /**
      * 勝率を取得
      */
-    fun getSettingProbability(context: Context): Double {
+    fun getSettingProbability(context: Context): Float {
         val win_num = getSettingWinNum(context)
         val lose_num = getSettingLoseNum(context)
 
-        LOGD(TAG, "aaa win_num : " + win_num );
-        LOGD(TAG, "aaa lose_num : " + lose_num );
+        LOGD(TAG, "aaa win_num : " + win_num);
+        LOGD(TAG, "aaa lose_num : " + lose_num);
 
 
-        if(win_num == 0) return 0.0
-        else if(lose_num == 0) return 100.0
-        else{
-            val win_num_d = win_num.toDouble()
-            val lose_num_d = lose_num.toDouble()
-            val probability = ( win_num_d / ( win_num_d + lose_num_d ) ) * 100.0
-            var bd = BigDecimal(probability)
-            bd = bd.setScale(1, BigDecimal.ROUND_HALF_UP)
-            val ret_probability = bd.toDouble()
+        return CalculationUtils.getProbability(win_num, lose_num)
 
-            return ret_probability
-        }
     }
 }
 
