@@ -14,9 +14,7 @@ import kirin3.jp.mljanken.data.HandHelper
 import kirin3.jp.mljanken.mng.GraphMng
 import kirin3.jp.mljanken.util.CloudFirestoreHelper
 import kirin3.jp.mljanken.util.LogUtils
-import kirin3.jp.mljanken.util.LogUtils.LOGD
 import kirin3.jp.mljanken.util.SettingsUtils
-import kirin3.jp.mljanken.util.SettingsUtils.TAG
 import kotlinx.android.synthetic.main.fragment_totalization.view.*
 import java.util.ArrayList
 
@@ -37,33 +35,24 @@ class TotalizationFragmentSex : Fragment() {
         }
         fun drawGraph(){
             var labels = arrayOfNulls<String>(2)
-
-            for (entry in TotalizationCoudFirestoreHelper.sex_probability) {
-                LOGD(TAG, "bbb333 Key: " + entry.key)
-                LOGD(TAG, "bbb333 Value: " + entry.value)
-            }
+            var colors = IntArray(2)
+            var data = ArrayList<Float>();
 
             val sex_probability_sort = TotalizationCoudFirestoreHelper.sex_probability.toList().sortedByDescending { (_, value) -> value}.toMap()
             var i = 0
             for (entry in sex_probability_sort) {
-                LOGD(TAG, "bbb444 Key: " + entry.key)
-                LOGD(TAG, "bbb444 Value: " + entry.value)
-
+                // 男性、女性を登録
                 labels[i] = SettingsUtils.sex_items[entry.key]
+                // 色を登録
+                when(entry.key){
+                    1 -> colors[i] = R.color.lightBlue
+                    else -> colors[i] = R.color.lightRed
+                }
+                // 確率データを登録
+                data.add(entry.value)
 
                 i++
             }
-
-            val colors = intArrayOf(R.color.lightBlue,R.color.lightRed)
-
-            var data = ArrayList<Float>();
-
-            LOGD(TAG, "DEBUG_DATA TotalizationCoudFirestoreHelper.sex_probability[0]:" +  TotalizationCoudFirestoreHelper.sex_probability[0]);
-
-//            data.add(TotalizationCoudFirestoreHelper.sex_probability[0])
-//            data.add(TotalizationCoudFirestoreHelper.sex_probability[1])
-            data.add(56f)
-            data.add(46f)
 
             GraphMng.setInitBar(sChart!!,sContext!!,0,labels,colors,data)
         }
@@ -78,8 +67,6 @@ class TotalizationFragmentSex : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        LOGD(TAG, "DEBUG_DATA:onViewCreated   1");
 
         initStaticData(activity!!,view)
 

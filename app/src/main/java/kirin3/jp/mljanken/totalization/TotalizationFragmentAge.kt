@@ -8,21 +8,13 @@ import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import kirin3.jp.mljanken.R
 import kirin3.jp.mljanken.data.HandHelper
 import kirin3.jp.mljanken.mng.GraphMng
 import kirin3.jp.mljanken.util.CloudFirestoreHelper
 import kirin3.jp.mljanken.util.LogUtils
-import kirin3.jp.mljanken.util.LogUtils.LOGD
-import kotlinx.android.synthetic.main.fragment_totalization.*
+import kirin3.jp.mljanken.util.SettingsUtils
 import kotlinx.android.synthetic.main.fragment_totalization.view.*
 import java.util.ArrayList
 
@@ -42,20 +34,27 @@ class TotalizationFragmentAge : Fragment() {
             sChart = view?.chart
         }
         fun drawGraph(){
-            val labels = arrayOf("0～9歳","10代","20代","30代","40代","50代","60代","70代","80～")
-            val colors = intArrayOf(R.color.lightBlue,R.color.lightRed)
-
+            var labels = arrayOfNulls<String>(2)
+            var colors = IntArray(2)
             var data = ArrayList<Float>();
-            data.add(TotalizationCoudFirestoreHelper.age_probability[0])
-            data.add(TotalizationCoudFirestoreHelper.age_probability[1])
-            data.add(TotalizationCoudFirestoreHelper.age_probability[2])
-            data.add(TotalizationCoudFirestoreHelper.age_probability[3])
-            data.add(TotalizationCoudFirestoreHelper.age_probability[4])
-            data.add(TotalizationCoudFirestoreHelper.age_probability[5])
-            data.add(TotalizationCoudFirestoreHelper.age_probability[6])
-            data.add(TotalizationCoudFirestoreHelper.age_probability[7])
-            data.add(TotalizationCoudFirestoreHelper.age_probability[8])
-//            GraphMng.setInitBar(sChart!!,sContext!!,0,labels,colors,data)
+
+            val age_probability_sort = TotalizationCoudFirestoreHelper.age_probability.toList().sortedByDescending { (_, value) -> value}.toMap()
+            var i = 0
+            for (entry in age_probability_sort) {
+                // 男性、女性を登録
+                labels[i] = SettingsUtils.age_items[entry.key]
+                // 色を登録
+                when(entry.key){
+                    1 -> colors[i] = R.color.lightBlue
+                    else -> colors[i] = R.color.lightRed
+                }
+                // 確率データを登録
+                data.add(entry.value)
+
+                i++
+            }
+
+            GraphMng.setInitBar(sChart!!,sContext!!,0,labels,colors,data)
         }
     }
 
@@ -69,10 +68,7 @@ class TotalizationFragmentAge : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        LOGD(TAG, "DEBUG_DATA:onViewCreated   2");
-
         initStaticData(activity!!,view)
-
 
         drawGraph()
     }

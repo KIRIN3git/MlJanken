@@ -22,11 +22,7 @@ class TotalizationActivity : AppCompatActivity() {
 
         var sViewPager: ViewPager? = null
 
-
-        fun setInit(view: View){
-            sViewPager = view.pager
-        }
-
+        // Firebaseのデータ取得後にViewPager作成
         fun setViewPager(supportFragmentManager:FragmentManager){
 
             LOGD(TAG, "DEBUG_DATA setViewPager:")
@@ -51,9 +47,6 @@ class TotalizationActivity : AppCompatActivity() {
 
         LOGD(TAG, "DEBUG_DATA :" + "TotalizationActivity" )
 
-//        setInit(pager)
-
-
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
@@ -66,18 +59,8 @@ class TotalizationActivity : AppCompatActivity() {
 
         var db = CloudFirestoreHelper.getInitDb(mContext!!)
 
-
         TotalizationCoudFirestoreHelper.getTotalizationData(db,"users",mContext!!,supportFragmentManager)
 
         sViewPager = findViewById(R.id.pager) as ViewPager
-        sViewPager?.setAdapter(TotalizationFragmentStatePagerAdapter(supportFragmentManager))
-        sViewPager?.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
-            override fun onPageSelected(position: Int) {
-                LOGD(TAG, "DEBUG_DATA position:" + position )
-            }
-        })
-
-
-
     }
 }

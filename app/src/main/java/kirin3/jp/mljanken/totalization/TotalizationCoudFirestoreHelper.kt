@@ -18,9 +18,9 @@ object TotalizationCoudFirestoreHelper {
     var sex_lose_num  = mutableMapOf(1 to 0,2 to 0)
     var sex_probability = mutableMapOf(1 to 0.0f,2 to 0.0f)
 
-    var age_win_num = arrayOf(0,0,0,0,0,0,0,0,0)
-    var age_lose_num = arrayOf(0,0,0,0,0,0,0,0,0)
-    var age_probability = arrayOf(0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f)
+    var age_win_num = arrayOf(1 to 0,2 to 0,3 to 0,4 to 0,5 to 0,6 to 0,7 to 0,8 to 0,9 to 0)
+    var age_lose_num = arrayOf(1 to 0,2 to 0,3 to 0,4 to 0,5 to 0,6 to 0,7 to 0,8 to 0,9 to 0)
+    var age_probability = arrayOf(1 to 0.0f,2 to 0.0f,3 to 0.0f,4 to 0.0f,5 to 0.0f,6 to 0.0f,7 to 0.0f,8 to 0.0f,9 to 0.0f)
 
     var prefecture_win_num = arrayOf(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
     var prefecture_lose_num = arrayOf(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
@@ -98,7 +98,7 @@ object TotalizationCoudFirestoreHelper {
                         }
 
 
-//                        TotalizationActivity.setViewPager(supportFragmentManager)
+                        TotalizationActivity.setViewPager(supportFragmentManager)
                     }
                 } else {
                     LogUtils.LOGD(TAG, "No such document")
