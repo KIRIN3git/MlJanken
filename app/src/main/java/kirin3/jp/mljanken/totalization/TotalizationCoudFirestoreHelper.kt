@@ -7,15 +7,25 @@ import kirin3.jp.mljanken.award.AwardFragment
 import kirin3.jp.mljanken.util.CalculationUtils
 import kirin3.jp.mljanken.util.CloudFirestoreHelper
 import kirin3.jp.mljanken.util.LogUtils
+import kirin3.jp.mljanken.util.LogUtils.LOGD
 import kirin3.jp.mljanken.util.SettingsUtils
 
 object TotalizationCoudFirestoreHelper {
 
     private val TAG = LogUtils.makeLogTag(TotalizationCoudFirestoreHelper::class.java)
 
-    var sex_probability = ArrayList<Float>()
-    var age_probability = ArrayList<Float>()
-    var prefecture_probability = ArrayList<Float>()
+    var sex_win_num = mutableMapOf(1 to 0,2 to 0)
+    var sex_lose_num  = mutableMapOf(1 to 0,2 to 0)
+    var sex_probability = mutableMapOf(1 to 0.0f,2 to 0.0f)
+
+    var age_win_num = arrayOf(0,0,0,0,0,0,0,0,0)
+    var age_lose_num = arrayOf(0,0,0,0,0,0,0,0,0)
+    var age_probability = arrayOf(0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f)
+
+    var prefecture_win_num = arrayOf(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
+    var prefecture_lose_num = arrayOf(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
+    var prefecture_probability = arrayOf(0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f)
+
 
 
     /**
@@ -23,18 +33,6 @@ object TotalizationCoudFirestoreHelper {
      * 取得後は、Awardのデータ表示機能を呼び出す。
      */
     fun getTotalizationData(db: FirebaseFirestore, collection:String, context: Context,supportFragmentManager: FragmentManager):Int{
-
-        var sex_win_num = ArrayList<Int>(2)
-        var sex_lose_num = ArrayList<Int>(2)
-        var sex_probability = ArrayList<Float>(2)
-
-        var age_win_num = ArrayList<Int>(9)
-        var age_lose_num = ArrayList<Int>(9)
-        var age_probability = ArrayList<Float>(9)
-
-        var prefecture_win_num = ArrayList<Int>(47)
-        var prefecture_lose_num = ArrayList<Int>(47)
-        var prefecture_probability = ArrayList<Float>(47)
 
         db.collection(collection)
             .orderBy(CloudFirestoreHelper.UserItem::b2_win_num.name)
@@ -64,21 +62,43 @@ object TotalizationCoudFirestoreHelper {
                             }
 */
 
-                            sex_win_num[userList.get(i).a1_sex -1] += userList.get(i).b2_win_num
-                            sex_lose_num[userList.get(i).a1_sex -1] += userList.get(i).b4_lose_num
-                            sex_probability[userList.get(i).a1_sex -1] = CalculationUtils.getProbability(sex_win_num[userList.get(i).a1_sex -1],sex_lose_num[userList.get(i).a1_sex -1])
+
+//                            sex_win_num[userList.get(i).a1_sex] += userList.get(i).b2_win_num
+//                            sex_lose_num[userList.get(i).a1_sex -1] += userList.get(i).b4_lose_num
+//                            sex_probability[userList.get(i).a1_sex -1] = CalculationUtils.getProbability(sex_win_num[userList.get(i).a1_sex -1]!!,sex_lose_num[userList.get(i).a1_sex -1]!!)
+
+
+                            sex_win_num.put(userList.get(i).a1_sex,sex_win_num[userList.get(i).a1_sex]!! + userList.get(i).b2_win_num)
+                            sex_lose_num.put(userList.get(i).a1_sex,sex_lose_num[userList.get(i).a1_sex]!! + userList.get(i).b4_lose_num)
+                            sex_probability.put(userList.get(i).a1_sex,CalculationUtils.getProbability(sex_win_num[userList.get(i).a1_sex]!!,sex_lose_num[userList.get(i).a1_sex]!!))
+
+
+                            for (entry in sex_win_num) {
+                                LOGD(SettingsUtils.TAG, "aaa Key: " + entry.key)
+                                LOGD(SettingsUtils.TAG, "aaa Value: " + entry.value)
+                            }
+                            for (entry in sex_lose_num) {
+                                LOGD(SettingsUtils.TAG, "aaa Key: " + entry.key)
+                                LOGD(SettingsUtils.TAG, "aaa Value: " + entry.value)
+                            }
+                            for (entry in sex_probability) {
+                                LOGD(SettingsUtils.TAG, "aaa Key: " + entry.key)
+                                LOGD(SettingsUtils.TAG, "aaa Value: " + entry.value)
+                            }
+
+
+
 
                             age_win_num[userList.get(i).a2_age -1] += userList.get(i).b2_win_num
                             age_lose_num[userList.get(i).a2_age -1] += userList.get(i).b4_lose_num
-                            age_probability[userList.get(i).a2_age -1] = CalculationUtils.getProbability(sex_win_num[userList.get(i).a2_age -1],sex_lose_num[userList.get(i).a2_age -1])
-
+                            age_probability[userList.get(i).a2_age -1] = CalculationUtils.getProbability(age_win_num[userList.get(i).a2_age -1]!!,age_lose_num[userList.get(i).a2_age -1]!!)
                             prefecture_win_num[userList.get(i).a3_prefecture -1] += userList.get(i).b2_win_num
                             prefecture_lose_num[userList.get(i).a3_prefecture -1] += userList.get(i).b4_lose_num
-                            prefecture_probability[userList.get(i).a3_prefecture -1] = CalculationUtils.getProbability(sex_win_num[userList.get(i).a3_prefecture -1],sex_lose_num[userList.get(i).a3_prefecture -1])
+                            prefecture_probability[userList.get(i).a3_prefecture -1] = CalculationUtils.getProbability(prefecture_win_num[userList.get(i).a3_prefecture -1]!!,prefecture_lose_num[userList.get(i).a3_prefecture -1]!!)
                         }
 
 
-                        TotalizationActivity.setViewPager(supportFragmentManager)
+//                        TotalizationActivity.setViewPager(supportFragmentManager)
                     }
                 } else {
                     LogUtils.LOGD(TAG, "No such document")

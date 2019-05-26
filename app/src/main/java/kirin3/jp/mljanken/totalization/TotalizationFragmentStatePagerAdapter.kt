@@ -10,8 +10,8 @@ class TotalizationFragmentStatePagerAdapter(fm: FragmentManager) : FragmentState
 
         when (i) {
             0 -> return TotalizationFragmentSex()
-            1 -> return TotalizationFragment2()
-            else -> return TotalizationFragment3()
+            1 -> return TotalizationFragmentAge()
+            else -> return TotalizationFragmentPrefecture1()
         }
     }
 

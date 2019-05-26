@@ -8,20 +8,26 @@ import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import kirin3.jp.mljanken.R
 import kirin3.jp.mljanken.data.HandHelper
 import kirin3.jp.mljanken.mng.GraphMng
 import kirin3.jp.mljanken.util.CloudFirestoreHelper
 import kirin3.jp.mljanken.util.LogUtils
 import kirin3.jp.mljanken.util.LogUtils.LOGD
-import kirin3.jp.mljanken.util.SettingsUtils
-import kirin3.jp.mljanken.util.SettingsUtils.TAG
+import kotlinx.android.synthetic.main.fragment_totalization.*
 import kotlinx.android.synthetic.main.fragment_totalization.view.*
 import java.util.ArrayList
 
 
-class TotalizationFragmentSex : Fragment() {
+class TotalizationFragmentAge : Fragment() {
     val TAG = LogUtils.makeLogTag(CloudFirestoreHelper::class.java)
 
     private var mDbHelper: HandHelper? = null
@@ -36,36 +42,20 @@ class TotalizationFragmentSex : Fragment() {
             sChart = view?.chart
         }
         fun drawGraph(){
-            var labels = arrayOfNulls<String>(2)
-
-            for (entry in TotalizationCoudFirestoreHelper.sex_probability) {
-                LOGD(TAG, "bbb333 Key: " + entry.key)
-                LOGD(TAG, "bbb333 Value: " + entry.value)
-            }
-
-            val sex_probability_sort = TotalizationCoudFirestoreHelper.sex_probability.toList().sortedByDescending { (_, value) -> value}.toMap()
-            var i = 0
-            for (entry in sex_probability_sort) {
-                LOGD(TAG, "bbb444 Key: " + entry.key)
-                LOGD(TAG, "bbb444 Value: " + entry.value)
-
-                labels[i] = SettingsUtils.sex_items[entry.key]
-
-                i++
-            }
-
+            val labels = arrayOf("0～9歳","10代","20代","30代","40代","50代","60代","70代","80～")
             val colors = intArrayOf(R.color.lightBlue,R.color.lightRed)
 
             var data = ArrayList<Float>();
-
-            LOGD(TAG, "DEBUG_DATA TotalizationCoudFirestoreHelper.sex_probability[0]:" +  TotalizationCoudFirestoreHelper.sex_probability[0]);
-
-//            data.add(TotalizationCoudFirestoreHelper.sex_probability[0])
-//            data.add(TotalizationCoudFirestoreHelper.sex_probability[1])
-            data.add(56f)
-            data.add(46f)
-
-            GraphMng.setInitBar(sChart!!,sContext!!,0,labels,colors,data)
+            data.add(TotalizationCoudFirestoreHelper.age_probability[0])
+            data.add(TotalizationCoudFirestoreHelper.age_probability[1])
+            data.add(TotalizationCoudFirestoreHelper.age_probability[2])
+            data.add(TotalizationCoudFirestoreHelper.age_probability[3])
+            data.add(TotalizationCoudFirestoreHelper.age_probability[4])
+            data.add(TotalizationCoudFirestoreHelper.age_probability[5])
+            data.add(TotalizationCoudFirestoreHelper.age_probability[6])
+            data.add(TotalizationCoudFirestoreHelper.age_probability[7])
+            data.add(TotalizationCoudFirestoreHelper.age_probability[8])
+//            GraphMng.setInitBar(sChart!!,sContext!!,0,labels,colors,data)
         }
     }
 
@@ -79,9 +69,10 @@ class TotalizationFragmentSex : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        LOGD(TAG, "DEBUG_DATA:onViewCreated   1");
+        LOGD(TAG, "DEBUG_DATA:onViewCreated   2");
 
         initStaticData(activity!!,view)
+
 
         drawGraph()
     }

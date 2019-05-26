@@ -40,14 +40,19 @@ class TotalizationActivity : AppCompatActivity() {
         }
     }
 
-    val mContext: Context = applicationContext
+    var mContext: Context ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+        mContext = applicationContext
+
+
         LOGD(TAG, "DEBUG_DATA :" + "TotalizationActivity" )
 
-        setInit(pager)
+//        setInit(pager)
+
 
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -59,15 +64,11 @@ class TotalizationActivity : AppCompatActivity() {
         // AdMob設定
         AdmobHelper.loadBanner(findViewById(R.id.adView) as AdView)
 
-        var db = CloudFirestoreHelper.getInitDb(mContext)
+        var db = CloudFirestoreHelper.getInitDb(mContext!!)
 
 
-        TotalizationCoudFirestoreHelper.getTotalizationData(db,"users",mContext,supportFragmentManager)
+        TotalizationCoudFirestoreHelper.getTotalizationData(db,"users",mContext!!,supportFragmentManager)
 
-
-
-
-        /*
         sViewPager = findViewById(R.id.pager) as ViewPager
         sViewPager?.setAdapter(TotalizationFragmentStatePagerAdapter(supportFragmentManager))
         sViewPager?.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
@@ -75,7 +76,7 @@ class TotalizationActivity : AppCompatActivity() {
                 LOGD(TAG, "DEBUG_DATA position:" + position )
             }
         })
-        */
+
 
 
     }

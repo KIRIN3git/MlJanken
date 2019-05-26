@@ -30,7 +30,7 @@ object CloudFirestoreHelper {
         val b2_win_num: Int = 0,
         val b3_drow_num: Int = 0,
         val b4_lose_num: Int = 0,
-        val b5_probability:Double = 0.0,
+        val b5_probability:Float = 0.0F,
         val b6_max_chain_win_num: Int = 0,
         val b7_max_chain_lose_num: Int = 0,
         val c1_most_choice: Int = 0,

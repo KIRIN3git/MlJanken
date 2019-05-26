@@ -14,7 +14,7 @@ object GraphMng {
 
 
 
-    fun setInitBar(bar_chart:BarChart,context:Context,mode:Int,labels:Array<String>,colors:IntArray,data_list:ArrayList<Float>){
+    fun setInitBar(bar_chart:BarChart,context:Context,mode:Int,labels:Array<String?>,colors:IntArray,data_list:ArrayList<Float>){
 
         val chart: BarChart = bar_chart
 
