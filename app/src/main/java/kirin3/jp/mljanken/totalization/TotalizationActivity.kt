@@ -41,26 +41,19 @@ class TotalizationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setContentView(R.layout.activity_totalization)
 
         mContext = applicationContext
-
+        sViewPager = findViewById(R.id.pager) as ViewPager
 
         LOGD(TAG, "DEBUG_DATA :" + "TotalizationActivity" )
 
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
-
-        setContentView(R.layout.activity_totalization)
 
         // AdMob設定
         AdmobHelper.loadBanner(findViewById(R.id.adView) as AdView)
 
         var db = CloudFirestoreHelper.getInitDb(mContext!!)
 
-        TotalizationCoudFirestoreHelper.getTotalizationData(db,"users",mContext!!,supportFragmentManager)
-
-        sViewPager = findViewById(R.id.pager) as ViewPager
+        TotalizationCloudFirestoreHelper.getTotalizationData(db,"users",mContext!!,supportFragmentManager)
     }
 }

@@ -43,15 +43,12 @@ class TopFragment : Fragment() {
         val view_totalization = view.findViewById(R.id.totalization) as LottieAnimationView
         val view_information = view.findViewById(R.id.information) as LottieAnimationView
 
-        LOGD(TAG, "aaaaaaaaaaaaa : " + 1111111111 );
-
         val text_policy = view.findViewById(R.id.policy) as TextView
 
         view_game.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 val intent = Intent(mActivity, GameActivity::class.java)
                 startActivity(intent)
-                LOGD(TAG, "aaaaaaaaaaaaa1 : " + 1111111111 );
             }
         })
 
@@ -59,7 +56,6 @@ class TopFragment : Fragment() {
             override fun onClick(p0: View?) {
                 val intent = Intent(mActivity, AwardActivity::class.java)
                 startActivity(intent)
-                LOGD(TAG, "aaaaaaaaaaaaa2 : " + 1111111111 );
             }
         })
 
@@ -67,15 +63,21 @@ class TopFragment : Fragment() {
             override fun onClick(p0: View?) {
                 val intent = Intent(mActivity, TotalizationActivity::class.java)
                 startActivity(intent)
-                LOGD(TAG, "aaaaaaaaaaaaa3 : " + 1111111111 );
             }
         })
 
         view_information.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                val intent = Intent(mActivity, InformationActivity::class.java)
+                // インテントのインスタンス生成
+                val intent = Intent(mActivity, WebViewActivity::class.java)
+
+                intent.putExtra(
+                    WebViewActivity.INTENT_INPUT_URL,
+                    mActivity?.applicationContext?.getString(R.string.information_url)
+                )
+
+                // プライバシーポリシーの起動
                 startActivity(intent)
-                LOGD(TAG, "aaaaaaaaaaaaa4 : " + 1111111111 );
             }
         })
 

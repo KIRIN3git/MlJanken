@@ -9,9 +9,9 @@ import kirin3.jp.mljanken.util.CloudFirestoreHelper
 import kirin3.jp.mljanken.util.LogUtils.LOGD
 
 
-object AwardCoudFirestoreHelper {
+object AwardCloudFirestoreHelper {
 
-    private val TAG = LogUtils.makeLogTag(AwardCoudFirestoreHelper::class.java)
+    private val TAG = LogUtils.makeLogTag(AwardCloudFirestoreHelper::class.java)
 
     var win_num_all_rank_user = 0
     var win_num_prefecture_rank_user = 0
