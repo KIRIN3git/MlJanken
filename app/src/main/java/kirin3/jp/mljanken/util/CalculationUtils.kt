@@ -1,6 +1,5 @@
 package kirin3.jp.mljanken.util
 
-import android.content.Context
 import java.math.BigDecimal
 
 object CalculationUtils {

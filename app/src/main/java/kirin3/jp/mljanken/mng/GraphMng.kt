@@ -8,13 +8,17 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
-import java.util.ArrayList
 
 object GraphMng {
 
-
-
-    fun setInitBar(bar_chart:BarChart,context:Context,mode:Int,labels:Array<String?>,colors:IntArray,data_list:ArrayList<Float>){
+    fun setInitBar(
+        bar_chart: BarChart,
+        context: Context,
+        mode: Int,
+        labels: Array<String?>,
+        colors: IntArray,
+        data_list: ArrayList<Float>
+    ) {
 
         val chart: BarChart = bar_chart
 
@@ -67,13 +71,11 @@ object GraphMng {
             setDrawTopYLabelEntry(true)
         }
 
-        val data = BarData(getBarData(context,mode,colors,data_list))
+        val data = BarData(getBarData(context, mode, colors, data_list))
         chart.setData(data)
-
-
     }
 
-    fun getBarData(context: Context,mode: Int,colors:IntArray,data_list: ArrayList<Float>): ArrayList<IBarDataSet> {
+    fun getBarData(context: Context, mode: Int, colors: IntArray, data_list: ArrayList<Float>): ArrayList<IBarDataSet> {
 
         val values = ArrayList<BarEntry>()
         for (i in 0 until data_list.size) {

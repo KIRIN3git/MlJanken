@@ -1,14 +1,14 @@
-package kirin3.jp.mljanken.data
+package kirin3.jp.mljanken.mng.databaseMng
 
+import android.content.ContentValues
 import android.content.Context
+import android.database.sqlite.SQLiteCursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.content.ContentValues
+import kirin3.jp.mljanken.game.GameData
 import kirin3.jp.mljanken.util.CloudFirestoreHelper
 import kirin3.jp.mljanken.util.LogUtils
 import kirin3.jp.mljanken.util.LogUtils.LOGD
-import android.database.sqlite.SQLiteCursor
-import kirin3.jp.mljanken.game.GameData
 import kirin3.jp.mljanken.util.TimeUtils
 
 
@@ -18,7 +18,6 @@ class HandHelper internal constructor(context: Context) :
     val TAG = LogUtils.makeLogTag(CloudFirestoreHelper::class.java)
 
     companion object {
-
         // データーベースのバージョン
         const val DATABASE_VERSION = 3
         // データーベース名
@@ -47,11 +46,10 @@ class HandHelper internal constructor(context: Context) :
         )
     }
 
-    override fun onUpgrade(db:SQLiteDatabase, oldVersion:Int, newVersion:Int) {
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         var SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + HandColumns.TABLE
 
-        if (oldVersion != DATABASE_VERSION)
-        {
+        if (oldVersion != DATABASE_VERSION) {
             LOGD(TAG, "SQL_DELETE_ENTRIES:" + SQL_DELETE_ENTRIES)
 
             db.execSQL(
@@ -68,10 +66,21 @@ class HandHelper internal constructor(context: Context) :
         onUpgrade(db, oldVersion, newVersion)
     }
 
-    fun saveData(db: SQLiteDatabase,context:Context, hand_id: Int, result_id: Int, mode_id: Int, win_num: Int, drow_num: Int, lose_num: Int, win_chain_num: Int, lose_chain_num: Int) {
+    fun saveData(
+        db: SQLiteDatabase,
+        context: Context,
+        hand_id: Int,
+        result_id: Int,
+        mode_id: Int,
+        win_num: Int,
+        drow_num: Int,
+        lose_num: Int,
+        win_chain_num: Int,
+        lose_chain_num: Int
+    ) {
 
         val create_time1 = TimeUtils.getCurrentTime(context)
-        val create_time2 = TimeUtils.formatDateTime(context,TimeUtils.getCurrentTime(context))
+        val create_time2 = TimeUtils.formatDateTime(context, TimeUtils.getCurrentTime(context))
         val values = ContentValues()
         values.put(HandColumns.HAND_ID, hand_id)
         values.put(HandColumns.RESULT_ID, result_id)
@@ -81,17 +90,20 @@ class HandHelper internal constructor(context: Context) :
         values.put(HandColumns.LOSE_NUM, lose_num)
         values.put(HandColumns.WIN_CHAIN_NUM, win_chain_num)
         values.put(HandColumns.LOSE_CHAIN_NUM, lose_chain_num)
-        values.put(HandColumns.CREATE_TIME1,create_time1)
-        values.put(HandColumns.CREATE_TIME2,create_time2)
+        values.put(HandColumns.CREATE_TIME1, create_time1)
+        values.put(HandColumns.CREATE_TIME2, create_time2)
 
-        LOGD(TAG,  "saveData:" + "HAND_ID " + hand_id + "RESULT_ID " + result_id + "MODE_ID " + mode_id + "WIN_NUM " + win_num + "DROW_NUM " + drow_num + "LOSE_NUM " + lose_num
-                + "WIN_CHAIN_NUM " + win_chain_num + "LOSE_CHAIN_NUM " + lose_chain_num + "CREATE_TIME1 " + create_time1 + "CREATE_TIME2 " + create_time2 )
+        LOGD(
+            TAG,
+            "saveData:" + "HAND_ID " + hand_id + "RESULT_ID " + result_id + "MODE_ID " + mode_id + "WIN_NUM " + win_num + "DROW_NUM " + drow_num + "LOSE_NUM " + lose_num
+                    + "WIN_CHAIN_NUM " + win_chain_num + "LOSE_CHAIN_NUM " + lose_chain_num + "CREATE_TIME1 " + create_time1 + "CREATE_TIME2 " + create_time2
+        )
         db.insert(HandColumns.TABLE, null, values)
     }
 
-    fun readData(db:SQLiteDatabase?):Array<HandData?>?{
+    fun readData(db: SQLiteDatabase?): Array<HandData?>? {
 
-        if( db == null) return null
+        if (db == null) return null
 
         val cursor = db.query(
             HandColumns.TABLE,
@@ -103,12 +115,31 @@ class HandHelper internal constructor(context: Context) :
         cursor.moveToFirst()
 
         for (i in 0 until cursor.count) {
-            var hand = HandData(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getInt(3),cursor.getInt(4),cursor.getInt(5),cursor.getInt(6),cursor.getInt(7),cursor.getInt(8),cursor.getInt(9),cursor.getString(10))
+            var hand = HandData(
+                cursor.getInt(0),
+                cursor.getInt(1),
+                cursor.getInt(2),
+                cursor.getInt(3),
+                cursor.getInt(4),
+                cursor.getInt(5),
+                cursor.getInt(6),
+                cursor.getInt(7),
+                cursor.getInt(8),
+                cursor.getInt(9),
+                cursor.getString(10)
+            )
             handArray[i] = hand
 
-            LOGD(TAG, "readData:" + "ID " + cursor.getInt(0) + " HAND_ID " + cursor.getInt(1) + " RESULT_ID " + cursor.getInt(2) + " MODE_ID " + cursor.getInt(3)
-                    + " WIN_NUM " + cursor.getInt(4)+ " DROW_NUM " + cursor.getInt(5) + " LOSE_NUM " + cursor.getInt(6) + " WIN_CHAIN_NUM " + cursor.getInt(7) + " LOSE_CHAIN_NUM " + cursor.getInt(8)
-                    + " CREATE_TIME1 " + cursor.getInt(9) + " CREATE_TIME2 " + cursor.getString(10) )
+            LOGD(
+                TAG,
+                "readData:" + "ID " + cursor.getInt(0) + " HAND_ID " + cursor.getInt(1) + " RESULT_ID " + cursor.getInt(
+                    2
+                ) + " MODE_ID " + cursor.getInt(3)
+                        + " WIN_NUM " + cursor.getInt(4) + " DROW_NUM " + cursor.getInt(5) + " LOSE_NUM " + cursor.getInt(
+                    6
+                ) + " WIN_CHAIN_NUM " + cursor.getInt(7) + " LOSE_CHAIN_NUM " + cursor.getInt(8)
+                        + " CREATE_TIME1 " + cursor.getInt(9) + " CREATE_TIME2 " + cursor.getString(10)
+            )
 
             cursor.moveToNext()
         }
@@ -126,17 +157,17 @@ class HandHelper internal constructor(context: Context) :
      * @return 最も選択しているhand_id(0:なし,1:グー,2:チョキ,3:パー)
      * （注意）同一数の場合、上から優先される
      */
-    fun getMostChoice(db:SQLiteDatabase?):Int{
+    fun getMostChoice(db: SQLiteDatabase?): Int {
 
-        LOGD(TAG, "getMostChoice" )
+        LOGD(TAG, "getMostChoice")
 
-        if( db == null) return 0
+        if (db == null) return 0
 
         val sql = "select hand_id from " + HandColumns.TABLE + ";"
         val cursor = db.rawQuery(sql, null) as SQLiteCursor
 
 
-        LOGD(TAG, "SQL:" + sql )
+        LOGD(TAG, "SQL:" + sql)
 
         cursor.moveToFirst()
 
@@ -147,22 +178,22 @@ class HandHelper internal constructor(context: Context) :
 
         for (i in 0 until cursor.count) {
 
-            LOGD(TAG, "readData:" + "hand_id " + cursor.getInt(0) )
+            LOGD(TAG, "readData:" + "hand_id " + cursor.getInt(0))
 
-            if( cursor.getInt(0) == GameData.GUU ) guu_num++
-            else if( cursor.getInt(0) == GameData.CHOKI ) choki_num++
-            else if( cursor.getInt(0) == GameData.PAA ) paa_num++
+            if (cursor.getInt(0) == GameData.GUU) guu_num++
+            else if (cursor.getInt(0) == GameData.CHOKI) choki_num++
+            else if (cursor.getInt(0) == GameData.PAA) paa_num++
 
             cursor.moveToNext()
         }
 
-        if( 0 < guu_num ) result_id = GameData.GUU
-        if( guu_num < choki_num ) result_id = GameData.CHOKI
-        if( guu_num < paa_num && choki_num < paa_num ) result_id = GameData.PAA
+        if (0 < guu_num) result_id = GameData.GUU
+        if (guu_num < choki_num) result_id = GameData.CHOKI
+        if (guu_num < paa_num && choki_num < paa_num) result_id = GameData.PAA
 
         cursor.close()
 
-        LOGD(TAG, "result_id:" + result_id )
+        LOGD(TAG, "result_id:" + result_id)
 
         return result_id
     }
@@ -175,17 +206,17 @@ class HandHelper internal constructor(context: Context) :
      * @return 最も選択しているhand_id(0:なし,1:グー,2:チョキ,3:パー)
      * （注意）同一数の場合、上から優先される
      */
-    fun getMostChainChoice(db:SQLiteDatabase?):Int{
+    fun getMostChainChoice(db: SQLiteDatabase?): Int {
 
-        LOGD(TAG, "getMostChainChoice" )
+        LOGD(TAG, "getMostChainChoice")
 
-        if( db == null) return 0
+        if (db == null) return 0
 
         val sql = "select hand_id from " + HandColumns.TABLE + " where win_chain_num > 0;"
         val cursor = db.rawQuery(sql, null) as SQLiteCursor
 
 
-        LOGD(TAG, "SQL:" + sql )
+        LOGD(TAG, "SQL:" + sql)
 
         cursor.moveToFirst()
 
@@ -196,20 +227,20 @@ class HandHelper internal constructor(context: Context) :
 
         for (i in 0 until cursor.count) {
 
-            if( cursor.getInt(0) == GameData.GUU ) guu_num++
-            else if( cursor.getInt(0) == GameData.CHOKI ) choki_num++
-            else if( cursor.getInt(0) == GameData.PAA ) paa_num++
+            if (cursor.getInt(0) == GameData.GUU) guu_num++
+            else if (cursor.getInt(0) == GameData.CHOKI) choki_num++
+            else if (cursor.getInt(0) == GameData.PAA) paa_num++
 
             cursor.moveToNext()
         }
 
-        if( 0 < guu_num ) result_id = GameData.GUU
-        if( guu_num < choki_num ) result_id = GameData.CHOKI
-        if( guu_num < paa_num && choki_num < paa_num ) result_id = GameData.PAA
+        if (0 < guu_num) result_id = GameData.GUU
+        if (guu_num < choki_num) result_id = GameData.CHOKI
+        if (guu_num < paa_num && choki_num < paa_num) result_id = GameData.PAA
 
         cursor.close()
 
-        LOGD(TAG, "result_id:" + result_id )
+        LOGD(TAG, "result_id:" + result_id)
 
         return result_id
     }
@@ -221,17 +252,17 @@ class HandHelper internal constructor(context: Context) :
      * @return 最も選択しているhand_id(0:なし,1:グー,2:チョキ,3:パー)
      * （注意）同一数の場合、上から優先される
      */
-    fun getFirstChoice(db:SQLiteDatabase?):Int{
+    fun getFirstChoice(db: SQLiteDatabase?): Int {
 
 
-        LOGD(TAG, "getFirstChoice" )
+        LOGD(TAG, "getFirstChoice")
 
-        if( db == null) return 0
+        if (db == null) return 0
 
         val sql = "select hand_id from " + HandColumns.TABLE + " order by _id limit 1;"
         val cursor = db.rawQuery(sql, null) as SQLiteCursor
 
-        LOGD(TAG, "SQL:" + sql )
+        LOGD(TAG, "SQL:" + sql)
 
         cursor.moveToFirst()
 
@@ -242,20 +273,20 @@ class HandHelper internal constructor(context: Context) :
 
         for (i in 0 until cursor.count) {
 
-            if( cursor.getInt(0) == GameData.GUU ) guu_num++
-            else if( cursor.getInt(0) == GameData.CHOKI ) choki_num++
-            else if( cursor.getInt(0) == GameData.PAA ) paa_num++
+            if (cursor.getInt(0) == GameData.GUU) guu_num++
+            else if (cursor.getInt(0) == GameData.CHOKI) choki_num++
+            else if (cursor.getInt(0) == GameData.PAA) paa_num++
 
             cursor.moveToNext()
         }
 
-        if( 0 < guu_num ) result_id = GameData.GUU
-        if( guu_num < choki_num ) result_id = GameData.CHOKI
-        if( guu_num < paa_num && choki_num < paa_num ) result_id = GameData.PAA
+        if (0 < guu_num) result_id = GameData.GUU
+        if (guu_num < choki_num) result_id = GameData.CHOKI
+        if (guu_num < paa_num && choki_num < paa_num) result_id = GameData.PAA
 
         cursor.close()
 
-        LOGD(TAG, "result_id:" + result_id )
+        LOGD(TAG, "result_id:" + result_id)
 
         return result_id
     }
@@ -267,11 +298,11 @@ class HandHelper internal constructor(context: Context) :
      * @return 最も選択しているhand_id(0:なし,1:グー,2:チョキ,3:パー)
      * （注意）同一数の場合、上から優先される
      */
-    fun getExcellenceMode(db:SQLiteDatabase?):Int{
+    fun getExcellenceMode(db: SQLiteDatabase?): Int {
 
-        LOGD(TAG, "getExcellenceMode" )
+        LOGD(TAG, "getExcellenceMode")
 
-        if( db == null) return 0
+        if (db == null) return 0
 
         var most_probability = 0.0
         var buf_probability = 0.0
@@ -280,21 +311,20 @@ class HandHelper internal constructor(context: Context) :
 
         readData(db)
 
-        for( i in 1 until GameData.MODE_NUM + 1 ){
+        for (i in 1 until GameData.MODE_NUM + 1) {
 
-            buf_probability = getModeProbability(db,i)
-            if( most_probability < buf_probability ){
+            buf_probability = getModeProbability(db, i)
+            if (most_probability < buf_probability) {
                 most_probability = buf_probability
                 most_mode = i
 
             }
         }
 
-        LOGD(TAG, "most_mode:" + most_mode )
+        LOGD(TAG, "most_mode:" + most_mode)
 
         return most_mode
     }
-
 
 
     /**
@@ -305,17 +335,17 @@ class HandHelper internal constructor(context: Context) :
      * @return 勝率
      * （注意）同一数の場合は上から優先される、ユーザーの勝率ではなく機械の勝率が返却される
      */
-    fun getModeProbability(db:SQLiteDatabase?, mode:Int):Double{
+    fun getModeProbability(db: SQLiteDatabase?, mode: Int): Double {
 
-        LOGD(TAG, "getModeProbability" )
+        LOGD(TAG, "getModeProbability")
 
-        if( db == null) return 0.0
+        if (db == null) return 0.0
 
         val sql = "select result_id from " + HandColumns.TABLE + " where mode_id = " + mode + ";"
         val cursor = db.rawQuery(sql, null) as SQLiteCursor
 
 
-        LOGD(TAG, "SQL:" + sql )
+        LOGD(TAG, "SQL:" + sql)
 
         cursor.moveToFirst()
 
@@ -324,20 +354,20 @@ class HandHelper internal constructor(context: Context) :
         var result = 0.0
 
         for (i in 0 until cursor.count) {
-            LOGD(TAG, "SQLLLL : " + cursor.getInt(0) );
-            if( cursor.getInt(0) == GameData.WIN ) win_num++
-            else if( cursor.getInt(0) == GameData.LOSE ) lose_num++
+            LOGD(TAG, "SQLLLL : " + cursor.getInt(0));
+            if (cursor.getInt(0) == GameData.WIN) win_num++
+            else if (cursor.getInt(0) == GameData.LOSE) lose_num++
 
             cursor.moveToNext()
         }
         cursor.close()
 
 
-        if(win_num == 0.0) result = 0.0
-        else if(lose_num == 0.0 ) result = 100.0
-        else result = ( lose_num / (win_num + lose_num) ) * 100
+        if (win_num == 0.0) result = 0.0
+        else if (lose_num == 0.0) result = 100.0
+        else result = (lose_num / (win_num + lose_num)) * 100
 
-        LOGD(TAG, "Probability:" + result )
+        LOGD(TAG, "Probability:" + result)
 
         return result
     }

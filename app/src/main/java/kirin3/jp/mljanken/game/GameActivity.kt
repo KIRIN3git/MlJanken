@@ -2,8 +2,8 @@ package kirin3.jp.mljanken.game
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import kirin3.jp.mljanken.R
 import com.google.android.gms.ads.AdView
+import kirin3.jp.mljanken.R
 import kirin3.jp.mljanken.util.AdmobHelper
 
 class GameActivity : AppCompatActivity() {

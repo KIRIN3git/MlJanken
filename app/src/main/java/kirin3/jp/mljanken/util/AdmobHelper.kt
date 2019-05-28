@@ -1,11 +1,10 @@
 package kirin3.jp.mljanken.util
 
 import android.content.Context
-import kirin3.jp.mljanken.R
-import kirin3.jp.mljanken.util.LogUtils.LOGD
-import android.widget.RelativeLayout
 import android.view.View
 import com.google.android.gms.ads.*
+import kirin3.jp.mljanken.R
+import kirin3.jp.mljanken.util.LogUtils.LOGD
 
 
 object AdmobHelper {
@@ -20,7 +19,10 @@ object AdmobHelper {
     // バナーもインターステシャルも必要
     fun initializeAdmob(context: Context) {
         LOGD(TAG, "initializeAdmob")
-        MobileAds.initialize(context.applicationContext, context.applicationContext!!.resources.getString(R.string.admob_app_id))
+        MobileAds.initialize(
+            context.applicationContext,
+            context.applicationContext!!.resources.getString(R.string.admob_app_id)
+        )
     }
 
     /*
@@ -37,7 +39,7 @@ object AdmobHelper {
     /*
      * 作成中
      */
-    fun setAdsInXml(context: Context,view: View) {
+    fun setAdsInXml(context: Context, view: View) {
 
         LOGD(TAG, "setAdsInXml")
 

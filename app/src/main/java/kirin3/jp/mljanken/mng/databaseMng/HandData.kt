@@ -1,4 +1,4 @@
-package kirin3.jp.mljanken.data
+package kirin3.jp.mljanken.mng.databaseMng
 
 // DBから取得したデータ格納用クラス
 data class HandData(
@@ -12,5 +12,6 @@ data class HandData(
     var win_chain_num: Int,
     var lose_chain_num: Int,
     var create_time1: Int,
-    var create_time2: String)
+    var create_time2: String
+)
 

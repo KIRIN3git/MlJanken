@@ -24,13 +24,9 @@ class TotalizationActivity : AppCompatActivity() {
 
         // Firebaseのデータ取得後にViewPager作成
         fun setViewPager(supportFragmentManager:FragmentManager){
-
-            LOGD(TAG, "DEBUG_DATA setViewPager:")
-
             sViewPager?.setAdapter(TotalizationFragmentStatePagerAdapter(supportFragmentManager))
             sViewPager?.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
                 override fun onPageSelected(position: Int) {
-                    LOGD(TAG, "DEBUG_DATA position:" + position )
                 }
             })
         }
@@ -45,9 +41,6 @@ class TotalizationActivity : AppCompatActivity() {
 
         mContext = applicationContext
         sViewPager = findViewById(R.id.pager) as ViewPager
-
-        LOGD(TAG, "DEBUG_DATA :" + "TotalizationActivity" )
-
 
         // AdMob設定
         AdmobHelper.loadBanner(findViewById(R.id.adView) as AdView)

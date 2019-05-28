@@ -10,42 +10,44 @@ import android.view.View
 import android.view.ViewGroup
 import com.github.mikephil.charting.charts.BarChart
 import kirin3.jp.mljanken.R
-import kirin3.jp.mljanken.data.HandHelper
 import kirin3.jp.mljanken.mng.GraphMng
+import kirin3.jp.mljanken.mng.databaseMng.HandHelper
 import kirin3.jp.mljanken.util.CloudFirestoreHelper
 import kirin3.jp.mljanken.util.LogUtils
 import kirin3.jp.mljanken.util.SettingsUtils
 import kotlinx.android.synthetic.main.fragment_totalization.view.*
-import java.util.ArrayList
+import java.util.*
 
 
 class TotalizationFragmentAge : Fragment() {
     val TAG = LogUtils.makeLogTag(CloudFirestoreHelper::class.java)
 
-    var mContext: Context ?= null
+    var mContext: Context? = null
     var mDbHelper: HandHelper? = null
     var mDb: SQLiteDatabase? = null
-    var mChart: BarChart ?= null
+    var mChart: BarChart? = null
 
     companion object {
     }
 
-    fun initStaticData(activity: FragmentActivity, view:View) {
+    fun initStaticData(activity: FragmentActivity, view: View) {
         mContext = activity?.applicationContext
         mChart = view?.chart
     }
-    fun drawGraph(){
+
+    fun drawGraph() {
         var labels = arrayOfNulls<String>(9)
         var colors = IntArray(9)
         var data = ArrayList<Float>();
 
-        val age_probability_sort = TotalizationCloudFirestoreHelper.age_probability.toList().sortedByDescending { (_, value) -> value}.toMap()
+        val age_probability_sort =
+            TotalizationCloudFirestoreHelper.age_probability.toList().sortedByDescending { (_, value) -> value }.toMap()
         var i = 0
         for (entry in age_probability_sort) {
             // ラベルを登録
             labels[i] = SettingsUtils.age_items[entry.key]
             // 色を登録
-            when(entry.key){
+            when (entry.key) {
                 1 -> colors[i] = R.color.lightRed
                 2 -> colors[i] = R.color.lightOrange
                 3 -> colors[i] = R.color.lightPink
@@ -61,7 +63,7 @@ class TotalizationFragmentAge : Fragment() {
 
             i++
         }
-        GraphMng.setInitBar(mChart!!,mContext!!,0,labels,colors,data)
+        GraphMng.setInitBar(mChart!!, mContext!!, 0, labels, colors, data)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -74,7 +76,7 @@ class TotalizationFragmentAge : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initStaticData(activity!!,view)
+        initStaticData(activity!!, view)
 
         drawGraph()
     }

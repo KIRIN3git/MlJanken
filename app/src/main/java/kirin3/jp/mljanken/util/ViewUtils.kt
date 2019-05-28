@@ -82,7 +82,6 @@ object ViewUtils {
         return resources.displayMetrics.ydpi
     }
 
-
     // テキストビューの反転表示
     fun mirrorDrowText(canvas: Canvas, paint: Paint, x: Float, y: Float, text: String) {
 

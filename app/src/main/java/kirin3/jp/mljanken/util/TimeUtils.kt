@@ -69,6 +69,4 @@ object TimeUtils {
         val formatter = Formatter(recycle)
         return DateUtils.formatDateRange(context, formatter, time, time, DAY_FLAGS).toString()
     }
-
-
 }

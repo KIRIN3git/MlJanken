@@ -1,5 +1,6 @@
 package kirin3.jp.mljanken.top
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -9,25 +10,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.airbnb.lottie.LottieAnimationView
 import kirin3.jp.mljanken.R
-import kirin3.jp.mljanken.game.GameActivity
-import kirin3.jp.mljanken.webview.WebViewActivity
-import android.app.Activity
 import kirin3.jp.mljanken.award.AwardActivity
-import kirin3.jp.mljanken.information.InformationActivity
+import kirin3.jp.mljanken.game.GameActivity
 import kirin3.jp.mljanken.totalization.TotalizationActivity
-import kirin3.jp.mljanken.util.LogUtils.LOGD
-import kirin3.jp.mljanken.util.SettingsUtils.TAG
+import kirin3.jp.mljanken.webview.WebViewActivity
 
 class TopFragment : Fragment() {
 
-
     private var mActivity: Activity? = null
 
-
     companion object {
-
     }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mActivity = getActivity();
@@ -36,7 +29,6 @@ class TopFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         val view_game = view.findViewById(R.id.game) as LottieAnimationView
         val view_award = view.findViewById(R.id.award) as LottieAnimationView
@@ -81,7 +73,7 @@ class TopFragment : Fragment() {
             }
         })
 
-        text_policy.setOnClickListener(object: View.OnClickListener {
+        text_policy.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 // インテントのインスタンス生成
                 val intent = Intent(mActivity, WebViewActivity::class.java)

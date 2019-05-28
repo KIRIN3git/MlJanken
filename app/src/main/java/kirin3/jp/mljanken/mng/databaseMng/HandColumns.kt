@@ -1,4 +1,4 @@
-package kirin3.jp.mljanken.data
+package kirin3.jp.mljanken.mng.databaseMng
 
 import android.provider.BaseColumns
 
@@ -20,9 +20,9 @@ class HandColumns : BaseColumns {
         // 勝ち数
         val WIN_NUM = "win_num"
         // あいこ数
-        val DROW_NUM ="drow_num"
+        val DROW_NUM = "drow_num"
         // 負け数
-        val LOSE_NUM ="lose_num"
+        val LOSE_NUM = "lose_num"
         // 連勝数
         val WIN_CHAIN_NUM = "win_chain_num"
         // 連敗数

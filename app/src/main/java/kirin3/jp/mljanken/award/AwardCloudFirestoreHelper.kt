@@ -1,12 +1,11 @@
 package kirin3.jp.mljanken.award
 
-import kirin3.jp.mljanken.util.LogUtils
-import kirin3.jp.mljanken.util.SettingsUtils
-
 import android.content.Context
 import com.google.firebase.firestore.FirebaseFirestore
 import kirin3.jp.mljanken.util.CloudFirestoreHelper
+import kirin3.jp.mljanken.util.LogUtils
 import kirin3.jp.mljanken.util.LogUtils.LOGD
+import kirin3.jp.mljanken.util.SettingsUtils
 
 
 object AwardCloudFirestoreHelper {
@@ -58,7 +57,6 @@ object AwardCloudFirestoreHelper {
         max_chain_win_num_prefecture_rank_everyone = 0
         max_chain_win_num_sex_rank_everyone = 0
         max_chain_win_num_age_rank_everyone = 0
-
 
         win_num_all_rank_user = 0
         win_num_prefecture_rank_user = 0
@@ -223,7 +221,6 @@ object AwardCloudFirestoreHelper {
                         LOGD(TAG, "DEBUG_DATA win_num_all_rank_user:" + win_num_all_rank_user )
                         LOGD(TAG, "DEBUG_DATA win_num_all_rank_everyone:" + win_num_all_rank_everyone )
 
-
                         LOGD(TAG, "DEBUG_DATA SettingsUtils.getSettingUuid(context):" + SettingsUtils.getSettingUuid(context) )
                         LOGD(TAG, "DEBUG_DATA probability_prefecture_rank_user:" + probability_prefecture_rank_user )
                         LOGD(TAG, "DEBUG_DATA probability_prefecture_rank_everyone:" + probability_prefecture_rank_everyone )
@@ -233,7 +230,6 @@ object AwardCloudFirestoreHelper {
                         LOGD(TAG, "DEBUG_DATA probability_age_rank_everyone:" + probability_age_rank_everyone )
                         LOGD(TAG, "DEBUG_DATA probability_all_rank_user:" + probability_all_rank_user )
                         LOGD(TAG, "DEBUG_DATA probability_all_rank_everyone:" + win_num_all_rank_everyone )
-
 
                         LOGD(TAG, "DEBUG_DATA SettingsUtils.getSettingUuid(context):" + SettingsUtils.getSettingUuid(context) )
                         LOGD(TAG, "DEBUG_DATA max_chain_win_num_prefecture_rank_user:" + max_chain_win_num_prefecture_rank_user )

@@ -45,7 +45,7 @@ object IOUtils {
             val fis = FileInputStream(file)
             val reader = BufferedReader(InputStreamReader(fis, CHARSET_UTF8))
 
-            var line : String?
+            var line: String?
             do {
                 line = reader.readLine()
                 if (line == null) break
