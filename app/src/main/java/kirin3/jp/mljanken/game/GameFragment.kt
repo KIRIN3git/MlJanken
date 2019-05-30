@@ -27,6 +27,7 @@ import kirin3.jp.mljanken.util.CloudFirestoreHelper
 import kirin3.jp.mljanken.util.LogUtils
 import kirin3.jp.mljanken.util.LogUtils.LOGD
 import kirin3.jp.mljanken.util.SettingsUtils
+import kirin3.jp.mljanken.util.ViewUtils
 import java.util.*
 import kirin3.jp.mljanken.game.GameData.GUU as GUU1
 
@@ -383,7 +384,8 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                 // PropertyValuesHolderを使ってＸ軸方向移動範囲のpropertyを保持
                 val vhX = PropertyValuesHolder.ofFloat("translationX", 0.0f, 0.0f)
                 // PropertyValuesHolderを使ってＹ軸方向移動範囲のpropertyを保持
-                val vhY = PropertyValuesHolder.ofFloat("translationY", 0.0f, 700.0f)
+
+                val vhY = PropertyValuesHolder.ofFloat("translationY", 0.0f, ViewUtils.dpToPx(250f,mContext!!.getResources()))
                 // PropertyValuesHolderを使って回転範囲のpropertyを保持
                 val vhRotaion = PropertyValuesHolder.ofFloat("rotation", 0.0f, 0.0f)
 
@@ -410,6 +412,8 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
 
                 var judge = JudgeJanken()
                 if (judge == WIN) {
+                    // 正解音
+                    SoundMng.playSoundCorrect()
                     sImgResult?.setImageResource(R.drawable.mark_maru)
                     sImgResult?.visibility = View.VISIBLE
                     sLottieRetry?.visibility = View.VISIBLE
@@ -425,12 +429,14 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                     if (SettingsUtils.getSettingNowChainWinNum(mContext!!) > SettingsUtils.getSettingMaxChainWinNum(mContext!!)){
                         SettingsUtils.setSettingMaxChainWinNum(mContext!!,SettingsUtils.getSettingNowChainWinNum(mContext!!))
                     }
-                    // 現在連勝数を0
-                    SettingsUtils.setSettingNowChainWinNum(mContext!!, 0)
+                    // 現在連敗数を0
+                    SettingsUtils.setSettingNowChainLoseNum(mContext!!, 0)
 
                     AddWinStar()
                     DisplayFireWork()
                 } else if (judge == LOSE) {
+                    // 不正解音音
+                    SoundMng.playSoundMistake()
                     sImgResult?.setImageResource(R.drawable.mark_batsu)
                     sImgResult?.visibility = View.VISIBLE
                     sLottieRetry?.visibility = View.VISIBLE
@@ -443,8 +449,8 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                     if (SettingsUtils.getSettingNowChainLoseNum(mContext!!) > SettingsUtils.getSettingMaxChainLoseNum(mContext!!)){
                         SettingsUtils.setSettingMaxChainLoseNum(mContext!!,SettingsUtils.getSettingNowChainLoseNum(mContext!!))
                     }
-                    // 現在連負数を0
-                    SettingsUtils.setSettingNowChainLoseNum(mContext!!, 0)
+                    // 現在連勝数を0
+                    SettingsUtils.setSettingNowChainWinNum(mContext!!, 0)
 
                     HiddenWinStar()
 
