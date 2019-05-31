@@ -14,28 +14,28 @@ object AwardCloudFirestoreHelper {
 
     var win_num_all_rank_user = 0
     var win_num_prefecture_rank_user = 0
-    var win_num_sex_rank_user = 0
+    var win_num_gender_rank_user = 0
     var win_num_age_rank_user = 0
     var probability_all_rank_user = 0
     var probability_prefecture_rank_user = 0
-    var probability_sex_rank_user = 0
+    var probability_gender_rank_user = 0
     var probability_age_rank_user = 0
     var max_chain_win_num_all_rank_user = 0
     var max_chain_win_num_prefecture_rank_user = 0
-    var max_chain_win_num_sex_rank_user = 0
+    var max_chain_win_num_gender_rank_user = 0
     var max_chain_win_num_age_rank_user = 0
 
     var win_num_all_rank_everyone = 0
     var win_num_prefecture_rank_everyone = 0
-    var win_num_sex_rank_everyone = 0
+    var win_num_gender_rank_everyone = 0
     var win_num_age_rank_everyone = 0
     var probability_all_rank_everyone = 0
     var probability_prefecture_rank_everyone = 0
-    var probability_sex_rank_everyone = 0
+    var probability_gender_rank_everyone = 0
     var probability_age_rank_everyone = 0
     var max_chain_win_num_all_rank_everyone = 0
     var max_chain_win_num_prefecture_rank_everyone = 0
-    var max_chain_win_num_sex_rank_everyone = 0
+    var max_chain_win_num_gender_rank_everyone = 0
     var max_chain_win_num_age_rank_everyone = 0
 
     /**
@@ -45,32 +45,32 @@ object AwardCloudFirestoreHelper {
     fun getAwardData(db:FirebaseFirestore, collection:String, context:Context):Int{
         win_num_all_rank_everyone = 0
         win_num_prefecture_rank_everyone = 0
-        win_num_sex_rank_everyone = 0
+        win_num_gender_rank_everyone = 0
         win_num_age_rank_everyone = 0
 
         probability_all_rank_everyone = 0
         probability_prefecture_rank_everyone = 0
-        probability_sex_rank_everyone = 0
+        probability_gender_rank_everyone = 0
         probability_age_rank_everyone = 0
 
         max_chain_win_num_all_rank_everyone = 0
         max_chain_win_num_prefecture_rank_everyone = 0
-        max_chain_win_num_sex_rank_everyone = 0
+        max_chain_win_num_gender_rank_everyone = 0
         max_chain_win_num_age_rank_everyone = 0
 
         win_num_all_rank_user = 0
         win_num_prefecture_rank_user = 0
-        win_num_sex_rank_user = 0
+        win_num_gender_rank_user = 0
         win_num_age_rank_user = 0
 
         probability_all_rank_user = 0
         probability_prefecture_rank_user = 0
-        probability_sex_rank_user = 0
+        probability_gender_rank_user = 0
         probability_age_rank_user = 0
 
         max_chain_win_num_all_rank_user = 0
         max_chain_win_num_prefecture_rank_user = 0
-        max_chain_win_num_sex_rank_user = 0
+        max_chain_win_num_gender_rank_user = 0
         max_chain_win_num_age_rank_user = 0
 
         db.collection(collection)
@@ -91,8 +91,8 @@ object AwardCloudFirestoreHelper {
                                 win_num_prefecture_rank_everyone++
                             }
 
-                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
-                                win_num_sex_rank_everyone++
+                            if(userList.get(i).a1_gender.equals(SettingsUtils.getSettingRadioIdGender(context))){
+                                win_num_gender_rank_everyone++
                             }
 
                             if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
@@ -108,8 +108,8 @@ object AwardCloudFirestoreHelper {
                                 probability_prefecture_rank_everyone++
                             }
 
-                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
-                                probability_sex_rank_everyone++
+                            if(userList.get(i).a1_gender.equals(SettingsUtils.getSettingRadioIdGender(context))){
+                                probability_gender_rank_everyone++
                             }
 
                             if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
@@ -125,8 +125,8 @@ object AwardCloudFirestoreHelper {
                                 max_chain_win_num_prefecture_rank_everyone++
                             }
 
-                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
-                                max_chain_win_num_sex_rank_everyone++
+                            if(userList.get(i).a1_gender.equals(SettingsUtils.getSettingRadioIdGender(context))){
+                                max_chain_win_num_gender_rank_everyone++
                             }
 
                             if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
@@ -137,18 +137,18 @@ object AwardCloudFirestoreHelper {
                         }
 
                         win_num_prefecture_rank_user = win_num_prefecture_rank_everyone + 1
-                        win_num_sex_rank_user = win_num_sex_rank_everyone + 1
+                        win_num_gender_rank_user = win_num_gender_rank_everyone + 1
                         win_num_age_rank_user = win_num_age_rank_everyone + 1
                         win_num_all_rank_user = win_num_all_rank_everyone + 1
 
                         probability_prefecture_rank_user = probability_prefecture_rank_everyone + 1
-                        probability_sex_rank_user = probability_sex_rank_everyone + 1
+                        probability_gender_rank_user = probability_gender_rank_everyone + 1
                         probability_age_rank_user = probability_age_rank_everyone + 1
                         probability_all_rank_user = probability_all_rank_everyone + 1
 
 
                         max_chain_win_num_prefecture_rank_user = max_chain_win_num_prefecture_rank_everyone + 1
-                        max_chain_win_num_sex_rank_user = max_chain_win_num_sex_rank_everyone + 1
+                        max_chain_win_num_gender_rank_user = max_chain_win_num_gender_rank_everyone + 1
                         max_chain_win_num_age_rank_user = max_chain_win_num_age_rank_everyone + 1
                         max_chain_win_num_all_rank_user = max_chain_win_num_all_rank_everyone + 1
 
@@ -160,8 +160,8 @@ object AwardCloudFirestoreHelper {
                                 if(userList.get(i).b2_win_num <= SettingsUtils.getSettingWinNum(context)) win_num_prefecture_rank_user--
                             }
 
-                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
-                                if(userList.get(i).b2_win_num <= SettingsUtils.getSettingWinNum(context)) win_num_sex_rank_user--
+                            if(userList.get(i).a1_gender.equals(SettingsUtils.getSettingRadioIdGender(context))){
+                                if(userList.get(i).b2_win_num <= SettingsUtils.getSettingWinNum(context)) win_num_gender_rank_user--
                             }
 
                             if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
@@ -177,8 +177,8 @@ object AwardCloudFirestoreHelper {
                                 if(userList.get(i).b5_probability <= SettingsUtils.getSettingProbability(context)) probability_prefecture_rank_user--
                             }
 
-                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
-                                if(userList.get(i).b5_probability <= SettingsUtils.getSettingProbability(context)) probability_sex_rank_user--
+                            if(userList.get(i).a1_gender.equals(SettingsUtils.getSettingRadioIdGender(context))){
+                                if(userList.get(i).b5_probability <= SettingsUtils.getSettingProbability(context)) probability_gender_rank_user--
                             }
 
                             if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
@@ -195,13 +195,13 @@ object AwardCloudFirestoreHelper {
 
                             }
 
-                            if(userList.get(i).a1_sex.equals(SettingsUtils.getSettingRadioIdSex(context))){
+                            if(userList.get(i).a1_gender.equals(SettingsUtils.getSettingRadioIdGender(context))){
 
-                                if(userList.get(i).b6_max_chain_win_num <= SettingsUtils.getSettingMaxChainWinNum(context)) max_chain_win_num_sex_rank_user--
+                                if(userList.get(i).b6_max_chain_win_num <= SettingsUtils.getSettingMaxChainWinNum(context)) max_chain_win_num_gender_rank_user--
 
                                 LOGD(TAG, "DEBUG_DATAggg SettingsUtils.getSettingWinNum(context):" + SettingsUtils.getSettingWinNum(context) );
                                 LOGD(TAG, "DEBUG_DATAggg userList.get(i).b6_max_chain_win_num:" + userList.get(i).b6_max_chain_win_num );
-                                LOGD(TAG, "DEBUG_DATAggg max_chain_win_num_sex_rank_user:" + max_chain_win_num_sex_rank_user )
+                                LOGD(TAG, "DEBUG_DATAggg max_chain_win_num_gender_rank_user:" + max_chain_win_num_gender_rank_user )
                             }
 
                             if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
@@ -214,8 +214,8 @@ object AwardCloudFirestoreHelper {
                         LOGD(TAG, "DEBUG_DATA SettingsUtils.getSettingUuid(context):" + SettingsUtils.getSettingUuid(context) )
                         LOGD(TAG, "DEBUG_DATA win_num_prefecture_rank_user:" + win_num_prefecture_rank_user )
                         LOGD(TAG, "DEBUG_DATA win_num_prefecture_rank_everyone:" + win_num_prefecture_rank_everyone )
-                        LOGD(TAG, "DEBUG_DATA win_num_sex_rank_user:" + win_num_sex_rank_user )
-                        LOGD(TAG, "DEBUG_DATA win_num_sex_rank_everyone:" + win_num_sex_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA win_num_gender_rank_user:" + win_num_gender_rank_user )
+                        LOGD(TAG, "DEBUG_DATA win_num_gender_rank_everyone:" + win_num_gender_rank_everyone )
                         LOGD(TAG, "DEBUG_DATA win_num_age_rank_user:" + win_num_age_rank_user )
                         LOGD(TAG, "DEBUG_DATA win_num_age_rank_everyone:" + win_num_age_rank_everyone )
                         LOGD(TAG, "DEBUG_DATA win_num_all_rank_user:" + win_num_all_rank_user )
@@ -224,8 +224,8 @@ object AwardCloudFirestoreHelper {
                         LOGD(TAG, "DEBUG_DATA SettingsUtils.getSettingUuid(context):" + SettingsUtils.getSettingUuid(context) )
                         LOGD(TAG, "DEBUG_DATA probability_prefecture_rank_user:" + probability_prefecture_rank_user )
                         LOGD(TAG, "DEBUG_DATA probability_prefecture_rank_everyone:" + probability_prefecture_rank_everyone )
-                        LOGD(TAG, "DEBUG_DATA probability_sex_rank_user:" + probability_sex_rank_user )
-                        LOGD(TAG, "DEBUG_DATA probability_sex_rank_everyone:" + probability_sex_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA probability_gender_rank_user:" + probability_gender_rank_user )
+                        LOGD(TAG, "DEBUG_DATA probability_gender_rank_everyone:" + probability_gender_rank_everyone )
                         LOGD(TAG, "DEBUG_DATA probability_age_rank_user:" + probability_age_rank_user )
                         LOGD(TAG, "DEBUG_DATA probability_age_rank_everyone:" + probability_age_rank_everyone )
                         LOGD(TAG, "DEBUG_DATA probability_all_rank_user:" + probability_all_rank_user )
@@ -234,8 +234,8 @@ object AwardCloudFirestoreHelper {
                         LOGD(TAG, "DEBUG_DATA SettingsUtils.getSettingUuid(context):" + SettingsUtils.getSettingUuid(context) )
                         LOGD(TAG, "DEBUG_DATA max_chain_win_num_prefecture_rank_user:" + max_chain_win_num_prefecture_rank_user )
                         LOGD(TAG, "DEBUG_DATA max_chain_win_num_prefecture_rank_everyone:" + max_chain_win_num_prefecture_rank_everyone )
-                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_sex_rank_user:" + max_chain_win_num_sex_rank_user )
-                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_sex_rank_everyone:" + max_chain_win_num_sex_rank_everyone )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_gender_rank_user:" + max_chain_win_num_gender_rank_user )
+                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_gender_rank_everyone:" + max_chain_win_num_gender_rank_everyone )
                         LOGD(TAG, "DEBUG_DATA max_chain_win_num_age_rank_user:" + max_chain_win_num_age_rank_user )
                         LOGD(TAG, "DEBUG_DATA max_chain_win_num_age_rank_everyone:" + max_chain_win_num_age_rank_everyone )
                         LOGD(TAG, "DEBUG_DATA max_chain_win_num_all_rank_user:" + max_chain_win_num_all_rank_user )

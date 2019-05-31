@@ -19,7 +19,7 @@ class TotalizationFragmentStatePagerAdapter(fm: FragmentManager) : FragmentState
 
     override fun getItem(i: Int): Fragment {
         when (i) {
-            0 -> return TotalizationFragmentSex()
+            0 -> return TotalizationFragmentGender()
             1 -> return TotalizationFragmentAge()
             else -> {
                 val fragment = TotalizationFragmentPrefecture()

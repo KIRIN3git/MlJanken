@@ -8,7 +8,7 @@ object SettingsUtils {
 
     val TAG = LogUtils.makeLogTag(CloudFirestoreHelper::class.java)
 
-    enum class Sex {
+    enum class Gender {
         NOTHING,
         MEN,
         WOMEN
@@ -27,7 +27,7 @@ object SettingsUtils {
         EIGHTY
     }
 
-    val sex_items = arrayOf("", "男性", "女性")
+    val gender_items = arrayOf("", "男性", "女性")
 
     val age_items = arrayOf(
         "", "０～１歳", "１０代", "２０代", "３０代",
@@ -46,7 +46,7 @@ object SettingsUtils {
 
 
     val PREF_SETTING_UUID = "pref_setting_uuid"
-    val PREF_SETTING_SEX = "pref_setting_sex"
+    val PREF_SETTING_GENDER = "pref_setting_gender"
     val PREF_SETTING_AGE = "pref_setting_age"
     val PREF_SETTING_PREFECTURE = "pref_setting_prefecture"
     val PREF_SETTING_BATTEL_NUM = "pref_setting_battle_num"
@@ -71,10 +71,10 @@ object SettingsUtils {
     /**
      * 性別のIDを保存
      */
-    fun setSettingRadioIdSex(context: Context, sex_id: Int) {
+    fun setSettingRadioIdGender(context: Context, gender_id: Int) {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
-        LOGD(TAG, "setSettingRadioIdSex:" + sex_id)
-        sp.edit().putInt(PREF_SETTING_SEX, sex_id).apply()
+        LOGD(TAG, "setSettingRadioIdGender:" + gender_id)
+        sp.edit().putInt(PREF_SETTING_GENDER, gender_id).apply()
     }
 
     /**
@@ -182,10 +182,10 @@ object SettingsUtils {
     /**
      * 性別のIDを取得
      */
-    fun getSettingRadioIdSex(context: Context): Int {
+    fun getSettingRadioIdGender(context: Context): Int {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
-        LOGD(TAG, "getSettingRadioIdSex:" + sp.getInt(PREF_SETTING_SEX, 0))
-        return sp.getInt(PREF_SETTING_SEX, 0)
+        LOGD(TAG, "getSettingRadioIdGender:" + sp.getInt(PREF_SETTING_GENDER, 0))
+        return sp.getInt(PREF_SETTING_GENDER, 0)
     }
 
     /**

@@ -16,7 +16,7 @@ object CloudFirestoreHelper {
     }
 
     data class UserItem(
-        val a1_sex: Int = 0,
+        val a1_gender: Int = 0,
         val a2_age: Int = 0,
         val a3_prefecture: Int = 0,
         val b1_battel_num: Int = 0,

@@ -39,7 +39,7 @@ class TopActivity : AppCompatActivity() {
 
         SettingsUtils.setSettingUuid(this, UUID.randomUUID().toString())
 
-        if (SettingsUtils.getSettingRadioIdSex(this) == 0
+        if (SettingsUtils.getSettingRadioIdGender(this) == 0
             || SettingsUtils.getSettingRadioIdAge(this) == 0
             || SettingsUtils.getSettingRadioIdPrefecture(this) == 0
         ) showInfoDialog()
@@ -54,7 +54,7 @@ class TopActivity : AppCompatActivity() {
             "OK"
         ) { dialog, which ->
             // OK ボタンクリック処理
-            settingSexDialog()
+            settingGenderDialog()
         }
         // 表示
         alertDlg.create().show()
@@ -62,9 +62,9 @@ class TopActivity : AppCompatActivity() {
     }
 
 
-    fun settingSexDialog() {
+    fun settingGenderDialog() {
 
-        LOGD(TAG, "setSettingRadioIdSex:")
+        LOGD(TAG, "setSettingRadioIdGender:")
 
         val items = arrayOf("男性（だんせい）", "女性（じょせい）")
         // タイトル部分のTextView
@@ -88,7 +88,7 @@ class TopActivity : AppCompatActivity() {
             .setCustomTitle(textView)
             .setCancelable(false)
             .setItems(items) { dialog, which ->
-                SettingsUtils.setSettingRadioIdSex(this, which + 1)
+                SettingsUtils.setSettingRadioIdGender(this, which + 1)
                 settingAgeDialog()
             }
             .show()

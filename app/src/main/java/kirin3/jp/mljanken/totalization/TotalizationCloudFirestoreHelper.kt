@@ -12,9 +12,9 @@ object TotalizationCloudFirestoreHelper {
 
     private val TAG = LogUtils.makeLogTag(TotalizationCloudFirestoreHelper::class.java)
 
-    var sex_win_num = mutableMapOf(1 to 0, 2 to 0)
-    var sex_lose_num = mutableMapOf(1 to 0, 2 to 0)
-    var sex_probability = mutableMapOf(1 to 0.0f, 2 to 0.0f)
+    var gender_win_num = mutableMapOf(1 to 0, 2 to 0)
+    var gender_lose_num = mutableMapOf(1 to 0, 2 to 0)
+    var gender_probability = mutableMapOf(1 to 0.0f, 2 to 0.0f)
 
     var age_win_num = mutableMapOf(1 to 0, 2 to 0, 3 to 0, 4 to 0, 5 to 0, 6 to 0, 7 to 0, 8 to 0, 9 to 0)
     var age_lose_num = mutableMapOf(1 to 0, 2 to 0, 3 to 0, 4 to 0, 5 to 0, 6 to 0, 7 to 0, 8 to 0, 9 to 0)
@@ -109,19 +109,19 @@ object TotalizationCloudFirestoreHelper {
                         LOGD(TAG, "userList.size " + userList.size)
                         for (i in 0 until userList.size) {
 
-                            sex_win_num.put(
-                                userList.get(i).a1_sex,
-                                sex_win_num[userList.get(i).a1_sex]!! + userList.get(i).b2_win_num
+                            gender_win_num.put(
+                                userList.get(i).a1_gender,
+                                gender_win_num[userList.get(i).a1_gender]!! + userList.get(i).b2_win_num
                             )
-                            sex_lose_num.put(
-                                userList.get(i).a1_sex,
-                                sex_lose_num[userList.get(i).a1_sex]!! + userList.get(i).b4_lose_num
+                            gender_lose_num.put(
+                                userList.get(i).a1_gender,
+                                gender_lose_num[userList.get(i).a1_gender]!! + userList.get(i).b4_lose_num
                             )
-                            sex_probability.put(
-                                userList.get(i).a1_sex,
+                            gender_probability.put(
+                                userList.get(i).a1_gender,
                                 CalculationUtils.getProbability(
-                                    sex_win_num[userList.get(i).a1_sex]!!,
-                                    sex_lose_num[userList.get(i).a1_sex]!!
+                                    gender_win_num[userList.get(i).a1_gender]!!,
+                                    gender_lose_num[userList.get(i).a1_gender]!!
                                 )
                             )
 

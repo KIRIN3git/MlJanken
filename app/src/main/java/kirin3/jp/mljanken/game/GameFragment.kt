@@ -79,24 +79,29 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         sImgRobArm = view?.findViewById(R.id.robo_arm) as ImageView
         sImgResult = view?.findViewById(R.id.totalization) as ImageView
         sLottieRetry = view?.findViewById(R.id.retry) as LottieAnimationView
-        
+
+        // CloudFirestoreのデータを事前取得
+        var db = CloudFirestoreHelper.getInitDb(mContext!!)
+        GameCloudFirestoreHelper.getGameData(db,"users",mContext!!)
+
         sLottieRetry?.setOnClickListener {
             LOGD(TAG, "sLottieRetry CLICK")
             playGame(view)
         }
 
         // タッチ処理
-        sImgManGu?.setOnTouchListener(ImageViewEvent())
-        sImgManChoki?.setOnTouchListener(ImageViewEvent())
-        sImgManPa?.setOnTouchListener(ImageViewEvent())
+        sImgManGu?.setOnTouchListener(imageViewEvent())
+        sImgManChoki?.setOnTouchListener(imageViewEvent())
+        sImgManPa?.setOnTouchListener(imageViewEvent())
+
+
     }
 
     fun playGame(view: View) {
         LOGD(TAG, "playGame")
 
         SoundMng.soundStopFireWork()
-        ThinkRobo()
-        ChangeJankenImg(view)
+        changeJankenImg(view)
     }
 
     override fun onStart() {
@@ -125,7 +130,7 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
 
         // アクティビティ破棄時にプリファランスとデータベースに設定
         val user = CloudFirestoreHelper.UserItem(
-            SettingsUtils.getSettingRadioIdSex(mContext!!),
+            SettingsUtils.getSettingRadioIdGender(mContext!!),
             SettingsUtils.getSettingRadioIdAge(mContext!!),
             SettingsUtils.getSettingRadioIdPrefecture(mContext!!),
             SettingsUtils.getSettingBattleNum(mContext!!),
@@ -151,25 +156,79 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         CloudFirestoreHelper.addUserData(db, user, "users", SettingsUtils.getSettingUuid(mContext!!))
     }
 
-    fun ThinkRobo() {
+    fun thinkRobo() {
         val r = Random()
-        // 1/2で分岐
-        val judge = r.nextInt(2) + 1
-        if (judge == 1) { // 最強のモードを採用
-            sMode = mDbHelper?.getExcellenceMode(mDb)!!
-        } else { // ランダムでモードを採用
-            sMode = r.nextInt(GameData.MODE_NUM) + 1
+        // 初戦なら特別にCloudFirestoreのデータからモード選択
+        if (SettingsUtils.getSettingBattleNum(mContext!!) == 0){
+            sMode = r.nextInt(5) + 4
+        }
+        // 1/2で 最強モード or ランダムでモード選択
+        else {
+            var judge = r.nextInt(3) + 1
+            if (judge == 1) { // 最強のモードを採用
+                LOGD(TAG, "thinkRobo CHOICE VEST")
+                sMode = mDbHelper?.getExcellenceMode(mDb)!!
+            } else { // ランダムでモードを採用
+                LOGD(TAG, "thinkRobo CHOICE RANDOM")
+                sMode = r.nextInt(GameData.MODE_NUM) + 1
+            }
         }
 
-        LOGD(TAG, "ThinkRobo mode:" + sMode);
+        LOGD(TAG, "thinkRobo mode:" + sMode)
 
+        // ・内部DBの情報から判断
+        // 最もユーザーに勝利している手
         if (sMode == GameData.MOST_WIN_MODE) sRoboChoice = mDbHelper?.getMostChoice(mDb)!!
+        // 最も連勝中のユーザーに勝利している手
         else if (sMode == GameData.MOST_CHAIN_WIN_MODE) sRoboChoice = mDbHelper?.getMostChoice(mDb)!!
-        // ランダムで手を選択
-        else sRoboChoice = r.nextInt(3) + 1
+        // ・CloudFirestoreの情報から判断
+        // CloudFirestoreからデータ取得済みなら
+        if (GameCloudFirestoreHelper.data_existing == true) {
+            // 最もユーザーの性別の人が出している手
+            if (sMode == GameData.MOST_GENDER_CHOICE_MODE){
+                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_gender_choice.toList().sortedByDescending { (_, value) -> value }.toMap())
+            }
+            // 最もユーザーの年代の人が出している手
+            if (sMode == GameData.MOST_AGE_CHOICE_MODE){
+                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_age_choice.toList().sortedByDescending { (_, value) -> value }.toMap())
+            }
+            // 最もユーザーの地域の人が出している手
+            if (sMode == GameData.MOST_PREFECTURE_CHOICE_MODE){
+                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_prefecture_choice.toList().sortedByDescending { (_, value) -> value }.toMap())
+            }
+
+            // 最もユーザーの性別の人が最初に出している手
+            if (sMode == GameData.MOST_GENDER_FIRST_CHOICE_MODE){
+                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_gender_first_choice.toList().sortedByDescending { (_, value) -> value }.toMap())
+            }
+            // 最もユーザーの年代の人が最初に出している手
+            if (sMode == GameData.MOST_AGE_FIRST_CHOICE_MODE){
+                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_age_first_choice.toList().sortedByDescending { (_, value) -> value }.toMap())
+            }
+            // 最もユーザーの地域の人が最初に出している手
+            if (sMode == GameData.MOST_PREFECTURE_FIRST_CHOICE_MODE){
+                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_prefecture_first_choice.toList().sortedByDescending { (_, value) -> value }.toMap())
+            }
+        }
+
+        if(sRoboChoice == 0){
+            // ランダムで手を選択
+            sRoboChoice = r.nextInt(3) + 1
+        }
     }
 
-    fun JudgeJanken(): Int {
+    fun getMapTopKey(map:Map<Int,Int> ):Int{
+        var choice = 0
+
+        for(entry in map){
+            if( entry.value != 0 ) choice = entry.key
+            break
+        }
+        return choice
+    }
+
+
+    fun judgeJanken(): Int {
         var judge: Int
         if (sManChoice == GUU1) {
             if (sRoboChoice == GUU1) judge = DROW
@@ -188,10 +247,10 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         return judge
     }
 
-    fun DisplayWinStar() {
+    fun displayWinStar() {
         val num = SettingsUtils.getSettingNowChainWinNum(mContext!!)
 
-        LOGD(TAG, "DisplayWinStar:" + num);
+        LOGD(TAG, "displayWinStar:" + num);
 
         for (i in 0 until num) {
             // 最大7個
@@ -208,14 +267,14 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                 else -> id = R.id.wstar1
             }
 
-            LOGD(TAG, "DisplayWinStar:");
+            LOGD(TAG, "displayWinStar:");
             sLottieWinStar = view?.findViewById(id) as LottieAnimationView
             sLottieWinStar?.visibility = View.VISIBLE
             sLottieWinStar?.playAnimation()
         }
     }
 
-    fun HiddenWinStar() {
+    fun hiddenWinStar() {
         val num = SettingsUtils.getSettingMaxChainWinNum(mContext!!)
         for (i in 0 until num) {
             // 最大7個
@@ -237,7 +296,7 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         }
     }
 
-    fun AddWinStar() {
+    fun addWinStar() {
         val num = SettingsUtils.getSettingNowChainWinNum(mContext!!)
 
         var id = 0
@@ -257,10 +316,10 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
     }
 
 
-    fun DisplayFireWork() {
+    fun displayFireWork() {
         val num = SettingsUtils.getSettingNowChainWinNum(mContext!!)
 
-        LOGD(TAG, "DisplayFireWork getSettingNowChainWinNum:" + num);
+        LOGD(TAG, "displayFireWork getSettingNowChainWinNum:" + num);
 
         // 音を再生
         val now_chain_win_num = SettingsUtils.getSettingNowChainWinNum(mContext!!)
@@ -290,9 +349,9 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         }
     }
 
-    fun HiddenFireWork() {
+    fun hiddenFireWork() {
 
-        LOGD(TAG, "HiddenFireWork");
+        LOGD(TAG, "hiddenFireWork");
 
         for (i in 0 until 7) {
 
@@ -312,7 +371,7 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         }
     }
 
-    fun ChangeJankenImg(view: View) {
+    fun changeJankenImg(view: View) {
 
         // 0:jan,1:janken,2:jankenpon,3:robo_arm,4:Judge
         var situation = 0
@@ -323,13 +382,13 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         sImgRobArm?.visibility = View.GONE
         sImgResult?.visibility = View.GONE
         sLottieRetry?.visibility = View.GONE
-        HiddenFireWork()
-        DisplayWinStar()
+        hiddenFireWork()
+        displayWinStar()
 
 
         mRunnable = Runnable {
 
-            LOGD(TAG, "ChangeJankenImg situation:" + situation);
+            LOGD(TAG, "changeJankenImg situation:" + situation);
 
             // じゃん or あい
             if (situation == 0) {
@@ -358,6 +417,9 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
             }
             // じゃんけんぽん or あいこでしょ
             else if (situation == 2) {
+                // ロボの手を考える
+                thinkRobo()
+
                 LOGD(TAG, "situationc:" + situation);
                 if (drow_flg == false) sImgJankenpon?.setImageResource(R.drawable.jankenpon)
                 else sImgJankenpon?.setImageResource(R.drawable.aikodesho)
@@ -410,7 +472,7 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
             else if (situation == 4) {
                 LOGD(TAG, "situatione:" + situation);
 
-                var judge = JudgeJanken()
+                var judge = judgeJanken()
                 if (judge == WIN) {
                     // 正解音
                     SoundMng.playSoundCorrect()
@@ -432,8 +494,8 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                     // 現在連敗数を0
                     SettingsUtils.setSettingNowChainLoseNum(mContext!!, 0)
 
-                    AddWinStar()
-                    DisplayFireWork()
+                    addWinStar()
+                    displayFireWork()
                 } else if (judge == LOSE) {
                     // 不正解音音
                     SoundMng.playSoundMistake()
@@ -452,13 +514,11 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                     // 現在連勝数を0
                     SettingsUtils.setSettingNowChainWinNum(mContext!!, 0)
 
-                    HiddenWinStar()
+                    hiddenWinStar()
 
                 } else { // DROW
                     drow_flg = true
                     sImgRobArm?.visibility = View.GONE
-                    // ロボの手を再考
-                    ThinkRobo()
                     // 総合あいこ数を+1
                     SettingsUtils.setSettingDrowNum(mContext!!, SettingsUtils.getSettingDrowNum(mContext!!) + 1)
 
@@ -492,7 +552,7 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
     /**
      * 人間の手をタッチしたときの挙動
      */
-    inner class ImageViewEvent : View.OnTouchListener {
+    inner class imageViewEvent : View.OnTouchListener {
         override fun onTouch(v: View, event: MotionEvent): Boolean {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {

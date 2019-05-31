@@ -147,7 +147,7 @@
                       android:layout_margin="0dp"
                       android:orientation="horizontal">
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:id="@+id/sex"
+                      android:id="@+id/gender"
                       android:layout_weight="1"
                       android:textSize="20sp"
                       android:gravity="center"
@@ -155,7 +155,7 @@
                       android:background="@drawable/text_background_green"
                       android:text=""/>
             <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-                      android:id="@+id/win_num_sex"
+                      android:id="@+id/win_num_gender"
                       android:layout_weight="1"
                       android:textSize="10sp"
                       android:gravity="center"
@@ -163,7 +163,7 @@
                       android:background="@drawable/text_background_purple"
                       android:text=""/>
             <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-                      android:id="@+id/probability_sex"
+                      android:id="@+id/probability_gender"
                       android:layout_weight="1"
                       android:textSize="10sp"
                       android:gravity="center"
@@ -171,7 +171,7 @@
                       android:background="@drawable/text_background_purple"
                       android:text=""/>
             <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-                      android:id="@+id/win_chain_num_sex"
+                      android:id="@+id/win_chain_num_gender"
                       android:layout_weight="1"
                       android:textSize="10sp"
                       android:gravity="center"

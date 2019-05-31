@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_totalization.view.*
 import java.util.*
 
 
-class TotalizationFragmentSex : Fragment() {
+class TotalizationFragmentGender : Fragment() {
     val TAG = LogUtils.makeLogTag(CloudFirestoreHelper::class.java)
 
     var mContext: Context? = null
@@ -37,12 +37,12 @@ class TotalizationFragmentSex : Fragment() {
         var colors = IntArray(2)
         var data = ArrayList<Float>();
 
-        val sex_probability_sort =
-            TotalizationCloudFirestoreHelper.sex_probability.toList().sortedByDescending { (_, value) -> value }.toMap()
+        val gender_probability_sort =
+            TotalizationCloudFirestoreHelper.gender_probability.toList().sortedByDescending { (_, value) -> value }.toMap()
         var i = 0
-        for (entry in sex_probability_sort) {
+        for (entry in gender_probability_sort) {
             // ラベルを登録
-            labels[i] = SettingsUtils.sex_items[entry.key]
+            labels[i] = SettingsUtils.gender_items[entry.key]
             // 色を登録
             when (entry.key) {
                 1 -> colors[i] = R.color.lightBlue
