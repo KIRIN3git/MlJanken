@@ -126,8 +126,14 @@ class AwardFragment : Fragment() {
 
         setBasicData(mContext!!)
 
-
         var db = CloudFirestoreHelper.getInitDb(activity!!.applicationContext)
         AwardCloudFirestoreHelper.getAwardData(db, "users", mContext!!)
+
+        /*
+        if ( !(SettingsUtils.getSettingRadioIdGender(mContext!!) == 0
+            || SettingsUtils.getSettingRadioIdAge(mContext!!) == 0
+            || SettingsUtils.getSettingRadioIdPrefecture(mContext!!) == 0) ) {
+        }
+        */
     }
 }

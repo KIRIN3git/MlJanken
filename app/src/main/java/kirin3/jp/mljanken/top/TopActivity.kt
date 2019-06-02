@@ -49,7 +49,7 @@ class TopActivity : AppCompatActivity() {
     fun showInfoDialog() {
         val alertDlg = AlertDialog.Builder(this)
         alertDlg.setTitle("はじめに")
-        alertDlg.setMessage("性別（せいべつ）、年代（ねんだい）、出身地（しゅっしんち）ごとにデータをあつめてロボがつよくなります。\nランキングもあるので協力（きょうりょく）おねがいします。")
+        alertDlg.setMessage("ロボを強くするために３つの質問に答えてください")
         alertDlg.setPositiveButton(
             "OK"
         ) { dialog, which ->

@@ -3,6 +3,7 @@ package kirin3.jp.mljanken.totalization
 import android.content.Context
 import android.support.v4.app.FragmentManager
 import com.google.firebase.firestore.FirebaseFirestore
+import kirin3.jp.mljanken.Config
 import kirin3.jp.mljanken.util.CalculationUtils
 import kirin3.jp.mljanken.util.CloudFirestoreHelper
 import kirin3.jp.mljanken.util.LogUtils
@@ -109,6 +110,9 @@ object TotalizationCloudFirestoreHelper {
                         LOGD(TAG, "userList.size " + userList.size)
                         for (i in 0 until userList.size) {
 
+                            // 本番モードの場合、デバックモードのデータは非表示
+                            if(Config.IS_DOGFOOD_BUILD == false && userList.get(i).y1_debug_flg == true) continue
+
                             gender_win_num.put(
                                 userList.get(i).a1_gender,
                                 gender_win_num[userList.get(i).a1_gender]!! + userList.get(i).b2_win_num
@@ -157,8 +161,6 @@ object TotalizationCloudFirestoreHelper {
                                 )
                             )
                         }
-
-
                         TotalizationActivity.setViewPager(supportFragmentManager)
                     }
                 } else {

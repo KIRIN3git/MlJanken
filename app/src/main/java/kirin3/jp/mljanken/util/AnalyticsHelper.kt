@@ -3,6 +3,7 @@ package kirin3.jp.mljanken.util
 import android.content.Context
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
+import kirin3.jp.mljanken.Config
 import kirin3.jp.mljanken.util.LogUtils.LOGD
 
 object AnalyticsHelper {
@@ -12,7 +13,7 @@ object AnalyticsHelper {
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
     /****
-     * スプラッシュ画面など起動時のクラスで呼び出す必要あり
+     * スプラッシュ画面、など起動時のクラスで呼び出す必要あり
      */
     @Synchronized
     fun initializeAnalytic(context: Context) {
@@ -22,6 +23,20 @@ object AnalyticsHelper {
             setAnalyticsEnabled(false)
         }
     }
+
+    fun setAnalyticsJanken(result: String,gender: String,age: String,prefecture: String) {
+        LOGD(TAG, "setAnalyticsJanken: result[$result] gender[$gender] age[$age] prefecture[$prefecture]")
+        if(Config.IS_DOGFOOD_BUILD == false) {
+            val bundle = Bundle()
+            bundle.putString("result", result)
+            bundle.putString("gender", gender)
+            bundle.putString("age", age)
+            bundle.putString("prefecture", prefecture)
+            mFirebaseAnalytics!!.logEvent("janken", bundle)
+        }
+    }
+
+
 
     fun setAnalyticsConfig(key: String, value: String) {
         setAnalytics("event001", "CONFIG", key, value)

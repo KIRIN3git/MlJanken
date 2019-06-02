@@ -37,6 +37,7 @@ object CloudFirestoreHelper {
         val d5_mode5_rate: Double = 0.0,
         val d6_mode6_rate: Double = 0.0,
         val d7_mode7_rate: Double = 0.0,
+        val y1_debug_flg: Boolean = false,
         val z1_upd_time: Date = Date()
     )
 

@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.airbnb.lottie.LottieAnimationView
+import kirin3.jp.mljanken.Config
 import kirin3.jp.mljanken.R
 import kirin3.jp.mljanken.mng.databaseMng.HandHelper
 import kirin3.jp.mljanken.game.GameData.CHOKI
@@ -23,11 +24,8 @@ import kirin3.jp.mljanken.game.GameData.NOTHING
 import kirin3.jp.mljanken.game.GameData.PAA
 import kirin3.jp.mljanken.game.GameData.WIN
 import kirin3.jp.mljanken.mng.SoundMng
-import kirin3.jp.mljanken.util.CloudFirestoreHelper
-import kirin3.jp.mljanken.util.LogUtils
+import kirin3.jp.mljanken.util.*
 import kirin3.jp.mljanken.util.LogUtils.LOGD
-import kirin3.jp.mljanken.util.SettingsUtils
-import kirin3.jp.mljanken.util.ViewUtils
 import java.util.*
 import kirin3.jp.mljanken.game.GameData.GUU as GUU1
 
@@ -56,7 +54,6 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
     private var mContext: Context? = null
     private var mDbHelper: HandHelper? = null
     private var mDb: SQLiteDatabase? = null
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mContext = activity?.applicationContext
@@ -93,8 +90,6 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         sImgManGu?.setOnTouchListener(imageViewEvent())
         sImgManChoki?.setOnTouchListener(imageViewEvent())
         sImgManPa?.setOnTouchListener(imageViewEvent())
-
-
     }
 
     fun playGame(view: View) {
@@ -150,7 +145,8 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
             mDbHelper?.getModeProbability(mDb, 4)!!,
             mDbHelper?.getModeProbability(mDb, 5)!!,
             mDbHelper?.getModeProbability(mDb, 6)!!,
-            mDbHelper?.getModeProbability(mDb, 7)!!
+            mDbHelper?.getModeProbability(mDb, 7)!! ,
+            Config.IS_DOGFOOD_BUILD
         )
 
         CloudFirestoreHelper.addUserData(db, user, "users", SettingsUtils.getSettingUuid(mContext!!))
@@ -390,6 +386,7 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
 
             LOGD(TAG, "changeJankenImg situation:" + situation);
 
+
             // じゃん or あい
             if (situation == 0) {
                 if (drow_flg == false) {
@@ -471,9 +468,13 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
             // 判定
             else if (situation == 4) {
                 LOGD(TAG, "situatione:" + situation);
+                // アナリティクス用結果文字列
+                var result = ""
 
                 var judge = judgeJanken()
                 if (judge == WIN) {
+                    result = "WIN"
+
                     // 正解音
                     SoundMng.playSoundCorrect()
                     sImgResult?.setImageResource(R.drawable.mark_maru)
@@ -497,6 +498,8 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                     addWinStar()
                     displayFireWork()
                 } else if (judge == LOSE) {
+                    result = "LOSE"
+
                     // 不正解音音
                     SoundMng.playSoundMistake()
                     sImgResult?.setImageResource(R.drawable.mark_batsu)
@@ -517,6 +520,8 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                     hiddenWinStar()
 
                 } else { // DROW
+                    result = "DROW"
+
                     drow_flg = true
                     sImgRobArm?.visibility = View.GONE
                     // 総合あいこ数を+1
@@ -529,6 +534,7 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                 // 勝負数を+1
                 SettingsUtils.setSettingBattleNum(mContext!!, SettingsUtils.getSettingBattleNum(mContext!!) + 1)
 
+                // DBに結果を保存
                 mDbHelper?.saveData(
                     mDb!!,
                     activity!!.applicationContext,
@@ -541,6 +547,15 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                     SettingsUtils.getSettingNowChainWinNum(mContext!!),
                     SettingsUtils.getSettingNowChainLoseNum(mContext!!)
                 )
+
+                // アナリティクスにデータを送信
+                var gender = SettingsUtils.gender_items[SettingsUtils.getSettingRadioIdGender(mContext!!)]
+                var age = SettingsUtils.age_items[SettingsUtils.getSettingRadioIdAge(mContext!!)]
+                var prefecture = SettingsUtils.prefecture_items[SettingsUtils.getSettingRadioIdPrefecture(mContext!!)]
+
+
+
+                AnalyticsHelper.setAnalyticsJanken(result,gender,age,prefecture)
             }
             // 1秒ごとに再判定
             else mHandler?.postDelayed(mRunnable, 1000)
