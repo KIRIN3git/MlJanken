@@ -49,6 +49,9 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
     var sManChoice = NOTHING
     var sRoboChoice = NOTHING
 
+    // 画像のタッチ判定可能フラグ
+    var sImgTouchOkFlg = false
+
     var sMode = 0
 
     private var mContext: Context? = null
@@ -63,6 +66,12 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         mHandler = Handler()
         SoundMng.soundInit(mContext!!)
 
+        if( GameCloudFirestoreHelper.data_existing == false ){
+            // CloudFirestoreのデータを事前取得
+            var db = CloudFirestoreHelper.getInitDb(mContext!!)
+            GameCloudFirestoreHelper.getGameData(db,"users",mContext!!)
+        }
+
         return inflater.inflate(R.layout.fragment_game, container, false)
     }
 
@@ -76,10 +85,6 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         sImgRobArm = view?.findViewById(R.id.robo_arm) as ImageView
         sImgResult = view?.findViewById(R.id.totalization) as ImageView
         sLottieRetry = view?.findViewById(R.id.retry) as LottieAnimationView
-
-        // CloudFirestoreのデータを事前取得
-        var db = CloudFirestoreHelper.getInitDb(mContext!!)
-        GameCloudFirestoreHelper.getGameData(db,"users",mContext!!)
 
         sLottieRetry?.setOnClickListener {
             LOGD(TAG, "sLottieRetry CLICK")
@@ -124,6 +129,7 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         var db = CloudFirestoreHelper.getInitDb(mContext!!)
 
         // アクティビティ破棄時にプリファランスとデータベースに設定
+        // (注)Float型は誤差が出てしまうので注意
         val user = CloudFirestoreHelper.UserItem(
             SettingsUtils.getSettingRadioIdGender(mContext!!),
             SettingsUtils.getSettingRadioIdAge(mContext!!),
@@ -145,7 +151,9 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
             mDbHelper?.getModeProbability(mDb, 4)!!,
             mDbHelper?.getModeProbability(mDb, 5)!!,
             mDbHelper?.getModeProbability(mDb, 6)!!,
-            mDbHelper?.getModeProbability(mDb, 7)!! ,
+            mDbHelper?.getModeProbability(mDb, 7)!!,
+            mDbHelper?.getModeProbability(mDb, 8)!!,
+            mDbHelper?.getModeProbability(mDb, 9)!!,
             Config.IS_DOGFOOD_BUILD
         )
 
@@ -156,16 +164,17 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         val r = Random()
         // 初戦なら特別にCloudFirestoreのデータからモード選択
         if (SettingsUtils.getSettingBattleNum(mContext!!) == 0){
+            LOGD(TAG, "thinkRobo FIRST BATTLE")
             sMode = r.nextInt(5) + 4
         }
-        // 1/2で 最強モード or ランダムでモード選択
+        // 1/3で 最強モード or ランダムでモード選択
         else {
             var judge = r.nextInt(3) + 1
             if (judge == 1) { // 最強のモードを採用
                 LOGD(TAG, "thinkRobo CHOICE VEST")
                 sMode = mDbHelper?.getExcellenceMode(mDb)!!
-            } else { // ランダムでモードを採用
-                LOGD(TAG, "thinkRobo CHOICE RANDOM")
+            } else { // その他のモードを採用
+                LOGD(TAG, "thinkRobo CHOICE ATHER")
                 sMode = r.nextInt(GameData.MODE_NUM) + 1
             }
         }
@@ -182,35 +191,38 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         if (GameCloudFirestoreHelper.data_existing == true) {
             // 最もユーザーの性別の人が出している手
             if (sMode == GameData.MOST_GENDER_CHOICE_MODE){
-                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_gender_choice.toList().sortedByDescending { (_, value) -> value }.toMap())
+                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_choice_gender.toList().sortedByDescending { (_, value) -> value }.toMap())
             }
             // 最もユーザーの年代の人が出している手
             if (sMode == GameData.MOST_AGE_CHOICE_MODE){
-                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_age_choice.toList().sortedByDescending { (_, value) -> value }.toMap())
+                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_choice_age.toList().sortedByDescending { (_, value) -> value }.toMap())
             }
             // 最もユーザーの地域の人が出している手
             if (sMode == GameData.MOST_PREFECTURE_CHOICE_MODE){
-                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_prefecture_choice.toList().sortedByDescending { (_, value) -> value }.toMap())
+                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_choice_prefecture.toList().sortedByDescending { (_, value) -> value }.toMap())
             }
 
             // 最もユーザーの性別の人が最初に出している手
             if (sMode == GameData.MOST_GENDER_FIRST_CHOICE_MODE){
-                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_gender_first_choice.toList().sortedByDescending { (_, value) -> value }.toMap())
+                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.first_choice_gender.toList().sortedByDescending { (_, value) -> value }.toMap())
             }
             // 最もユーザーの年代の人が最初に出している手
             if (sMode == GameData.MOST_AGE_FIRST_CHOICE_MODE){
-                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_age_first_choice.toList().sortedByDescending { (_, value) -> value }.toMap())
+                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.first_choice_age.toList().sortedByDescending { (_, value) -> value }.toMap())
             }
             // 最もユーザーの地域の人が最初に出している手
             if (sMode == GameData.MOST_PREFECTURE_FIRST_CHOICE_MODE){
-                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_prefecture_first_choice.toList().sortedByDescending { (_, value) -> value }.toMap())
+                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.first_choice_prefecture.toList().sortedByDescending { (_, value) -> value }.toMap())
             }
         }
 
         if(sRoboChoice == 0){
+            LOGD(TAG, "thinkRobo RANDOM!!!")
+            sMode = GameData.RANDOM_MODE
             // ランダムで手を選択
             sRoboChoice = r.nextInt(3) + 1
         }
+        LOGD(TAG, "thinkRobo sRoboChoice:" + sRoboChoice)
     }
 
     fun getMapTopKey(map:Map<Int,Int> ):Int{
@@ -386,9 +398,10 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
 
             LOGD(TAG, "changeJankenImg situation:" + situation);
 
-
             // じゃん or あい
             if (situation == 0) {
+                clearJankenImg()
+                sImgTouchOkFlg = true
                 if (drow_flg == false) {
                     sImgJankenpon?.setImageResource(R.drawable.jan)
                     SoundMng.playSoundJankenpon()
@@ -404,7 +417,6 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
             }
             // じゃんけん or あいこで
             else if (situation == 1) {
-                LOGD(TAG, "situationb:" + situation);
 
                 if (drow_flg == false) sImgJankenpon?.setImageResource(R.drawable.janken)
                 else sImgJankenpon?.setImageResource(R.drawable.aikode)
@@ -417,7 +429,6 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                 // ロボの手を考える
                 thinkRobo()
 
-                LOGD(TAG, "situationc:" + situation);
                 if (drow_flg == false) sImgJankenpon?.setImageResource(R.drawable.jankenpon)
                 else sImgJankenpon?.setImageResource(R.drawable.aikodesho)
                 situation++
@@ -426,7 +437,7 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
             }
             // 人とロボが選択済みなら、ロボの手を出す。
             else if (situation == 3 && sManChoice != NOTHING && sRoboChoice != NOTHING) {
-
+                sImgTouchOkFlg = false
                 sImgJankenpon?.visibility = View.GONE
                 sImgRobArm?.visibility = View.VISIBLE
                 if (sRoboChoice == GUU1) {
@@ -565,10 +576,18 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
     }
 
     /**
-     * 人間の手をタッチしたときの挙動
+     * ジャンケンイメージをタッチしたときの挙動
      */
     inner class imageViewEvent : View.OnTouchListener {
         override fun onTouch(v: View, event: MotionEvent): Boolean {
+
+            LOGD(TAG, "onTouch1")
+
+            // デバックモードでないとチート禁止
+            if( sImgTouchOkFlg == false && Config.IS_DOGFOOD_BUILD == false ) return true
+
+            LOGD(TAG, "onTouch2")
+
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     if (v == sImgManGu) {
@@ -613,6 +632,13 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
             }
             return false
         }
+    }
+
+    fun clearJankenImg(){
+        sManChoice = NOTHING
+        sImgManGu?.setImageResource(R.drawable.man_gu1)
+        sImgManChoki?.setImageResource(R.drawable.man_choki1)
+        sImgManPa?.setImageResource(R.drawable.man_pa1)
     }
 
     // アニメーション開始で呼ばれる

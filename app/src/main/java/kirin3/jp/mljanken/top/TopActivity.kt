@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.google.android.gms.ads.AdView
 import kirin3.jp.mljanken.R
+import kirin3.jp.mljanken.game.GameCloudFirestoreHelper
 import kirin3.jp.mljanken.util.AdmobHelper
 import kirin3.jp.mljanken.util.CloudFirestoreHelper
 import kirin3.jp.mljanken.util.LogUtils
@@ -24,6 +25,10 @@ class TopActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var mContext = applicationContext
+
+        LOGD(TAG, "TopActivity")
+
         setContentView(R.layout.activity_top)
 
         // AdMob設定
@@ -31,13 +36,13 @@ class TopActivity : AppCompatActivity() {
 
         // UUIDをプリファランスに登録
         // ☆☆
-        /*
+
         if( SettingsUtils.getSettingUuid(this).isEmpty() ){
             SettingsUtils.setSettingUuid(this, UUID.randomUUID().toString())
         }
-        */
 
-        SettingsUtils.setSettingUuid(this, UUID.randomUUID().toString())
+
+        //SettingsUtils.setSettingUuid(this, UUID.randomUUID().toString())
 
         if (SettingsUtils.getSettingRadioIdGender(this) == 0
             || SettingsUtils.getSettingRadioIdAge(this) == 0
@@ -58,14 +63,9 @@ class TopActivity : AppCompatActivity() {
         }
         // 表示
         alertDlg.create().show()
-
     }
 
-
     fun settingGenderDialog() {
-
-        LOGD(TAG, "setSettingRadioIdGender:")
-
         val items = arrayOf("男性（だんせい）", "女性（じょせい）")
         // タイトル部分のTextView
         val paddingLeftRight =
@@ -159,6 +159,12 @@ class TopActivity : AppCompatActivity() {
             .setCancelable(false)
             .setItems(items) { dialog, which ->
                 SettingsUtils.setSettingRadioIdPrefecture(this, which + 1)
+
+                if( GameCloudFirestoreHelper.data_existing == false ){
+                    // CloudFirestoreのデータを事前取得
+                    var db = CloudFirestoreHelper.getInitDb(this)
+                    GameCloudFirestoreHelper.getGameData(db,"users",this)
+                }
             }
             .show()
     }

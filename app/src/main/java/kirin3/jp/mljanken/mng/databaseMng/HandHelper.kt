@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteCursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import kirin3.jp.mljanken.game.GameData
+import kirin3.jp.mljanken.util.CalculationUtils
 import kirin3.jp.mljanken.util.CloudFirestoreHelper
 import kirin3.jp.mljanken.util.LogUtils
 import kirin3.jp.mljanken.util.LogUtils.LOGD
@@ -254,7 +255,6 @@ class HandHelper internal constructor(context: Context) :
      */
     fun getFirstChoice(db: SQLiteDatabase?): Int {
 
-
         LOGD(TAG, "getFirstChoice")
 
         if (db == null) return 0
@@ -308,16 +308,13 @@ class HandHelper internal constructor(context: Context) :
         var buf_probability = 0.0
         var most_mode = 0
 
-
         readData(db)
 
         for (i in 1 until GameData.MODE_NUM + 1) {
-
             buf_probability = getModeProbability(db, i)
             if (most_probability < buf_probability) {
                 most_probability = buf_probability
                 most_mode = i
-
             }
         }
 
@@ -336,9 +333,6 @@ class HandHelper internal constructor(context: Context) :
      * （注意）同一数の場合は上から優先される、ユーザーの勝率ではなく機械の勝率が返却される
      */
     fun getModeProbability(db: SQLiteDatabase?, mode: Int): Double {
-
-        LOGD(TAG, "getModeProbability")
-
         if (db == null) return 0.0
 
         val sql = "select result_id from " + HandColumns.TABLE + " where mode_id = " + mode + ";"
@@ -349,12 +343,11 @@ class HandHelper internal constructor(context: Context) :
 
         cursor.moveToFirst()
 
-        var win_num = 0.0
-        var lose_num = 0.0
-        var result = 0.0
+        var win_num = 0
+        var lose_num = 0
 
         for (i in 0 until cursor.count) {
-            LOGD(TAG, "SQLLLL : " + cursor.getInt(0));
+            LOGD(TAG, "SQL:" + cursor.getInt(0));
             if (cursor.getInt(0) == GameData.WIN) win_num++
             else if (cursor.getInt(0) == GameData.LOSE) lose_num++
 
@@ -362,13 +355,9 @@ class HandHelper internal constructor(context: Context) :
         }
         cursor.close()
 
+        var result = CalculationUtils.getProbability2(win_num,lose_num)
 
-        if (win_num == 0.0) result = 0.0
-        else if (lose_num == 0.0) result = 100.0
-        else result = (lose_num / (win_num + lose_num)) * 100
-
-        LOGD(TAG, "Probability:" + result)
-
+        LOGD(TAG, "getModeProbability mode:$mode Probability:$result")
         return result
     }
 

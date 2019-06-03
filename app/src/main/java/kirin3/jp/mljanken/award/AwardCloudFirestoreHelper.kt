@@ -144,13 +144,13 @@ object AwardCloudFirestoreHelper {
                         if(SettingsUtils.getSettingWinNum(context)!=0) win_num_all_rank_user++
 
                         probability_gender_rank_user = probability_gender_rank_everyone
-                        if(SettingsUtils.getSettingProbability(context)!=0.0f) probability_gender_rank_user++
+                        if(SettingsUtils.getSettingProbability(context)!=0.0) probability_gender_rank_user++
                         probability_age_rank_user = probability_age_rank_everyone
-                        if(SettingsUtils.getSettingProbability(context)!=0.0f) probability_age_rank_user++
+                        if(SettingsUtils.getSettingProbability(context)!=0.0) probability_age_rank_user++
                         probability_prefecture_rank_user = probability_prefecture_rank_everyone
-                        if(SettingsUtils.getSettingProbability(context)!=0.0f) probability_prefecture_rank_user++
+                        if(SettingsUtils.getSettingProbability(context)!=0.0) probability_prefecture_rank_user++
                         probability_all_rank_user = probability_all_rank_everyone
-                        if(SettingsUtils.getSettingProbability(context)!=0.0f) probability_all_rank_user++
+                        if(SettingsUtils.getSettingProbability(context)!=0.0) probability_all_rank_user++
 
                         max_chain_win_num_gender_rank_user = max_chain_win_num_gender_rank_everyone
                         if(SettingsUtils.getSettingMaxChainWinNum(context)!=0) max_chain_win_num_gender_rank_user++

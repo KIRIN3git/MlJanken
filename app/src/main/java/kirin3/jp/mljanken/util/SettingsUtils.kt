@@ -282,11 +282,11 @@ object SettingsUtils {
     /**
      * 勝率を取得
      */
-    fun getSettingProbability(context: Context): Float {
+    fun getSettingProbability(context: Context): Double {
         val win_num = getSettingWinNum(context)
         val lose_num = getSettingLoseNum(context)
 
-        return CalculationUtils.getProbability(win_num, lose_num)
+        return CalculationUtils.getProbability2(win_num, lose_num)
 
     }
 }
