@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteCursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import kirin3.jp.mljanken.game.GameData
+import kirin3.jp.mljanken.game.GameUtils
 import kirin3.jp.mljanken.util.CalculationUtils
 import kirin3.jp.mljanken.util.CloudFirestoreHelper
 import kirin3.jp.mljanken.util.LogUtils
@@ -152,7 +153,7 @@ class HandHelper internal constructor(context: Context) :
 
 
     /**
-     * 最もユーザーが選択している手を取得
+     * 最もユーザーが選択している手に勝つてを取得
      *
      * @param db SQLiteDatabase
      * @return 最も選択しているhand_id(0:なし,1:グー,2:チョキ,3:パー)
@@ -168,18 +169,19 @@ class HandHelper internal constructor(context: Context) :
         val cursor = db.rawQuery(sql, null) as SQLiteCursor
 
 
-        LOGD(TAG, "SQL:" + sql)
+        LOGD(TAG, "getMostChoice SQL:" + sql)
 
         cursor.moveToFirst()
 
         var guu_num = 0
         var choki_num = 0
         var paa_num = 0
+        var most_choice_id = 0
         var result_id = 0
 
         for (i in 0 until cursor.count) {
 
-            LOGD(TAG, "readData:" + "hand_id " + cursor.getInt(0))
+            LOGD(TAG, "getMostChoice readData:" + "hand_id " + cursor.getInt(0))
 
             if (cursor.getInt(0) == GameData.GUU) guu_num++
             else if (cursor.getInt(0) == GameData.CHOKI) choki_num++
@@ -188,13 +190,16 @@ class HandHelper internal constructor(context: Context) :
             cursor.moveToNext()
         }
 
-        if (0 < guu_num) result_id = GameData.GUU
-        if (guu_num < choki_num) result_id = GameData.CHOKI
-        if (guu_num < paa_num && choki_num < paa_num) result_id = GameData.PAA
+
+        if (0 < guu_num) most_choice_id = GameData.GUU
+        if (guu_num < choki_num) most_choice_id = GameData.CHOKI
+        if (guu_num < paa_num && choki_num < paa_num) most_choice_id = GameData.PAA
 
         cursor.close()
 
-        LOGD(TAG, "result_id:" + result_id)
+        LOGD(TAG, "getMostChoice most_choice_id:" + most_choice_id)
+        result_id = GameUtils.choiceWinHand(most_choice_id)
+        LOGD(TAG, "getMostChoice result_id:" + result_id)
 
         return result_id
     }
@@ -217,13 +222,14 @@ class HandHelper internal constructor(context: Context) :
         val cursor = db.rawQuery(sql, null) as SQLiteCursor
 
 
-        LOGD(TAG, "SQL:" + sql)
+        LOGD(TAG, "getMostChainChoice SQL:" + sql)
 
         cursor.moveToFirst()
 
         var guu_num = 0
         var choki_num = 0
         var paa_num = 0
+        var most_choice_id = 0
         var result_id = 0
 
         for (i in 0 until cursor.count) {
@@ -235,13 +241,19 @@ class HandHelper internal constructor(context: Context) :
             cursor.moveToNext()
         }
 
-        if (0 < guu_num) result_id = GameData.GUU
-        if (guu_num < choki_num) result_id = GameData.CHOKI
-        if (guu_num < paa_num && choki_num < paa_num) result_id = GameData.PAA
+        LOGD(TAG, "getMostChainChoice guu_num:" + guu_num)
+        LOGD(TAG, "getMostChainChoice choki_num:" + choki_num)
+        LOGD(TAG, "getMostChainChoice paa_num:" + paa_num)
+
+        if (0 < guu_num) most_choice_id = GameData.GUU
+        if (guu_num < choki_num) most_choice_id = GameData.CHOKI
+        if (guu_num < paa_num && choki_num < paa_num) most_choice_id = GameData.PAA
 
         cursor.close()
 
-        LOGD(TAG, "result_id:" + result_id)
+        LOGD(TAG, "getMostChainChoice result_id:" + most_choice_id)
+        result_id = GameUtils.choiceWinHand(most_choice_id)
+        LOGD(TAG, "getMostChainChoice result_id:" + result_id)
 
         return result_id
     }
@@ -339,7 +351,7 @@ class HandHelper internal constructor(context: Context) :
         val cursor = db.rawQuery(sql, null) as SQLiteCursor
 
 
-        LOGD(TAG, "SQL:" + sql)
+        LOGD(TAG, "getModeProbability SQL:" + sql)
 
         cursor.moveToFirst()
 
@@ -347,7 +359,7 @@ class HandHelper internal constructor(context: Context) :
         var lose_num = 0
 
         for (i in 0 until cursor.count) {
-            LOGD(TAG, "SQL:" + cursor.getInt(0));
+            LOGD(TAG, "getModeProbability SQL:" + cursor.getInt(0));
             if (cursor.getInt(0) == GameData.WIN) win_num++
             else if (cursor.getInt(0) == GameData.LOSE) lose_num++
 

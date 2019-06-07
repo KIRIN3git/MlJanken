@@ -42,9 +42,12 @@ object GameCloudFirestoreHelper {
                         val userList = document.toObjects(CloudFirestoreHelper.UserItem::class.java)
                         LOGD(TAG, "GameCloudFirestoreHelper.getGameData userList.size " + userList.size)
                         for (i in 0 until userList.size) {
+                            // まだ勝負していない人は0なので弾く
+                            if( userList.get(i).c1_most_choice == 0 || userList.get(i).c2_first_choice == 0) continue
 
                             // 同性の人の最も出している手をカウントする
                             if(userList.get(i).a1_gender.equals(SettingsUtils.getSettingRadioIdGender(context))){
+
                                 most_choice_gender[userList.get(i).c1_most_choice] = most_choice_gender[userList.get(i).c1_most_choice]!! + 1
                             }
 

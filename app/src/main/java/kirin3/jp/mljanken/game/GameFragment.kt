@@ -161,6 +161,8 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
     }
 
     fun thinkRobo() {
+        sRoboChoice = NOTHING
+
         val r = Random()
         // 初戦なら特別にCloudFirestoreのデータからモード選択
         if (SettingsUtils.getSettingBattleNum(mContext!!) == 0){
@@ -180,44 +182,43 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         }
 
         LOGD(TAG, "thinkRobo mode:" + sMode)
-
         // ・内部DBの情報から判断
-        // 最もユーザーに勝利している手
+        // 最もユーザーに勝利している手に勝つ手
         if (sMode == GameData.MOST_WIN_MODE) sRoboChoice = mDbHelper?.getMostChoice(mDb)!!
-        // 最も連勝中のユーザーに勝利している手
-        else if (sMode == GameData.MOST_CHAIN_WIN_MODE) sRoboChoice = mDbHelper?.getMostChoice(mDb)!!
+        // 最も連勝中のユーザーに勝利している手に勝つ手
+        else if (sMode == GameData.MOST_CHAIN_WIN_MODE) sRoboChoice = mDbHelper?.getMostChainChoice(mDb)!!
         // ・CloudFirestoreの情報から判断
         // CloudFirestoreからデータ取得済みなら
         if (GameCloudFirestoreHelper.data_existing == true) {
-            // 最もユーザーの性別の人が出している手
+            // 最もユーザーの性別の人が出している手に勝つ手
             if (sMode == GameData.MOST_GENDER_CHOICE_MODE){
-                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_choice_gender.toList().sortedByDescending { (_, value) -> value }.toMap())
+                sRoboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.most_choice_gender.toList().sortedByDescending { (_, value) -> value }.toMap()))
             }
-            // 最もユーザーの年代の人が出している手
+            // 最もユーザーの年代の人が出している手に勝つ手
             if (sMode == GameData.MOST_AGE_CHOICE_MODE){
-                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_choice_age.toList().sortedByDescending { (_, value) -> value }.toMap())
+                sRoboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.most_choice_age.toList().sortedByDescending { (_, value) -> value }.toMap()))
             }
-            // 最もユーザーの地域の人が出している手
+            // 最もユーザーの地域の人が出している手に勝つ手
             if (sMode == GameData.MOST_PREFECTURE_CHOICE_MODE){
-                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.most_choice_prefecture.toList().sortedByDescending { (_, value) -> value }.toMap())
+                sRoboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.most_choice_prefecture.toList().sortedByDescending { (_, value) -> value }.toMap()))
             }
 
-            // 最もユーザーの性別の人が最初に出している手
+            // 最もユーザーの性別の人が最初に出している手に勝つ手
             if (sMode == GameData.MOST_GENDER_FIRST_CHOICE_MODE){
-                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.first_choice_gender.toList().sortedByDescending { (_, value) -> value }.toMap())
+                sRoboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.first_choice_gender.toList().sortedByDescending { (_, value) -> value }.toMap()))
             }
-            // 最もユーザーの年代の人が最初に出している手
+            // 最もユーザーの年代の人が最初に出している手に勝つ手
             if (sMode == GameData.MOST_AGE_FIRST_CHOICE_MODE){
-                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.first_choice_age.toList().sortedByDescending { (_, value) -> value }.toMap())
+                sRoboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.first_choice_age.toList().sortedByDescending { (_, value) -> value }.toMap()))
             }
-            // 最もユーザーの地域の人が最初に出している手
+            // 最もユーザーの地域の人が最初に出している手に勝つ手
             if (sMode == GameData.MOST_PREFECTURE_FIRST_CHOICE_MODE){
-                sRoboChoice = getMapTopKey(GameCloudFirestoreHelper.first_choice_prefecture.toList().sortedByDescending { (_, value) -> value }.toMap())
+                sRoboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.first_choice_prefecture.toList().sortedByDescending { (_, value) -> value }.toMap()))
             }
         }
 
         if(sRoboChoice == 0){
-            LOGD(TAG, "thinkRobo RANDOM!!!")
+            LOGD(TAG, "thinkRobo RANDOM")
             sMode = GameData.RANDOM_MODE
             // ランダムで手を選択
             sRoboChoice = r.nextInt(3) + 1
