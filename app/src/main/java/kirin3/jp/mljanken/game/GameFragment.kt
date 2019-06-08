@@ -218,7 +218,7 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         }
 
         if(sRoboChoice == 0){
-            LOGD(TAG, "thinkRobo RANDOM")
+            LOGD(TAG, "thinkRobo RANDOM_MODE")
             sMode = GameData.RANDOM_MODE
             // ランダムで手を選択
             sRoboChoice = r.nextInt(3) + 1
@@ -276,7 +276,6 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                 else -> id = R.id.wstar1
             }
 
-            LOGD(TAG, "displayWinStar:");
             sLottieWinStar = view?.findViewById(id) as LottieAnimationView
             sLottieWinStar?.visibility = View.VISIBLE
             sLottieWinStar?.playAnimation()
@@ -397,8 +396,6 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
 
         mRunnable = Runnable {
 
-            LOGD(TAG, "changeJankenImg situation:" + situation);
-
             // じゃん or あい
             if (situation == 0) {
                 clearJankenImg()
@@ -479,7 +476,6 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
             }
             // 判定
             else if (situation == 4) {
-                LOGD(TAG, "situatione:" + situation);
                 // アナリティクス用結果文字列
                 var result = ""
 
@@ -582,12 +578,8 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
     inner class imageViewEvent : View.OnTouchListener {
         override fun onTouch(v: View, event: MotionEvent): Boolean {
 
-            LOGD(TAG, "onTouch1")
-
             // デバックモードでないとチート禁止
             if( sImgTouchOkFlg == false && Config.IS_DOGFOOD_BUILD == false ) return true
-
-            LOGD(TAG, "onTouch2")
 
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {

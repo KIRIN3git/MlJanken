@@ -15,8 +15,6 @@ class AppApplication : MultiDexApplication()  {
 
     override fun onCreate() {
         super.onCreate()
-
-        LOGD(TAG, "DEBUG_DATAaaaaaaaaaa :");
         CrashlyticsHelper.initializeCrashlytics(this)
         AdmobHelper.initializeAdmob(this)
         AnalyticsHelper.initializeAnalytic(this)

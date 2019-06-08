@@ -74,6 +74,8 @@ object AwardCloudFirestoreHelper {
         max_chain_win_num_gender_rank_user = 0
         max_chain_win_num_age_rank_user = 0
 
+        LOGD(TAG, "getAwardData")
+
         db.collection(collection)
             .orderBy(CloudFirestoreHelper.UserItem::b2_win_num.name)
             .get()
@@ -96,12 +98,7 @@ object AwardCloudFirestoreHelper {
                             if(userList.get(i).a3_prefecture.equals(SettingsUtils.getSettingRadioIdPrefecture(context))){
                                 win_num_prefecture_rank_everyone++
                             }
-
                             win_num_all_rank_everyone++
-
-                            LOGD(TAG, "AAA win_num_all_rank_everyone " + win_num_all_rank_everyone)
-
-
 
                             if(userList.get(i).a1_gender.equals(SettingsUtils.getSettingRadioIdGender(context))){
                                 probability_gender_rank_everyone++
@@ -112,13 +109,9 @@ object AwardCloudFirestoreHelper {
                             if(userList.get(i).a3_prefecture.equals(SettingsUtils.getSettingRadioIdPrefecture(context))){
                                 probability_prefecture_rank_everyone++
                             }
-
                             probability_all_rank_everyone++
 
-
                             LOGD(TAG, "userList.get(" + i + ").max_chain_win_num " + userList.get(i).b6_max_chain_win_num)
-
-
 
                             if(userList.get(i).a1_gender.equals(SettingsUtils.getSettingRadioIdGender(context))){
                                 max_chain_win_num_gender_rank_everyone++
@@ -129,10 +122,8 @@ object AwardCloudFirestoreHelper {
                             if(userList.get(i).a3_prefecture.equals(SettingsUtils.getSettingRadioIdPrefecture(context))){
                                 max_chain_win_num_prefecture_rank_everyone++
                             }
-
                             max_chain_win_num_all_rank_everyone++
                         }
-
 
                         win_num_gender_rank_user = win_num_gender_rank_everyone
                         if(SettingsUtils.getSettingWinNum(context)!=0) win_num_gender_rank_user++
@@ -239,7 +230,7 @@ object AwardCloudFirestoreHelper {
                         AwardFragment.setAwardData()
                     }
                 } else {
-                    LOGD(TAG, "No such document")
+                    LOGD(TAG, "getAwardData:No such document")
                 }
             }
 

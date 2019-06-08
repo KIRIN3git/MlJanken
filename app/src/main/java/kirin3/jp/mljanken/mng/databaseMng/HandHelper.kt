@@ -21,7 +21,7 @@ class HandHelper internal constructor(context: Context) :
 
     companion object {
         // データーベースのバージョン
-        const val DATABASE_VERSION = 3
+        const val DATABASE_VERSION = 1
         // データーベース名
         const val DATABASE_NAME = "Hands.db"
     }

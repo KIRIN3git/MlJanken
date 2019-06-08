@@ -164,7 +164,7 @@ object TotalizationCloudFirestoreHelper {
                         TotalizationActivity.setViewPager(supportFragmentManager)
                     }
                 } else {
-                    LOGD(TAG, "No such document")
+                    LOGD(TAG, "getTotalizationData:No such document")
                 }
             }
         return 0

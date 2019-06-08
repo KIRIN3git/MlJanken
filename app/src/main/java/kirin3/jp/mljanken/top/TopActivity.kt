@@ -27,8 +27,6 @@ class TopActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         var mContext = applicationContext
 
-        LOGD(TAG, "TopActivity")
-
         setContentView(R.layout.activity_top)
 
         // AdMob設定
