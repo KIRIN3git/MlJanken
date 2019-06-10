@@ -111,7 +111,7 @@ object AwardCloudFirestoreHelper {
                             }
                             probability_all_rank_everyone++
 
-                            LOGD(TAG, "userList.get(" + i + ").max_chain_win_num " + userList.get(i).b6_max_chain_win_num)
+                            LOGD(TAG, "getAwardData userList.get(" + i + ").max_chain_win_num " + userList.get(i).b6_max_chain_win_num)
 
                             if(userList.get(i).a1_gender.equals(SettingsUtils.getSettingRadioIdGender(context))){
                                 max_chain_win_num_gender_rank_everyone++
@@ -154,7 +154,7 @@ object AwardCloudFirestoreHelper {
 
                         for(i in 0 until  userList.size){
 
-                            LOGD(TAG, "userList.get(" + i + ").b2_win_num " + userList.get(i).b2_win_num)
+                            LOGD(TAG, "getAwardData userList.get(" + i + ").b2_win_num " + userList.get(i).b2_win_num)
 
                             if(userList.get(i).a1_gender.equals(SettingsUtils.getSettingRadioIdGender(context))){
                                 if(userList.get(i).b2_win_num <= SettingsUtils.getSettingWinNum(context)) win_num_gender_rank_user--
@@ -169,7 +169,7 @@ object AwardCloudFirestoreHelper {
                             if(userList.get(i).b2_win_num <= SettingsUtils.getSettingWinNum(context)) win_num_all_rank_user--
 
 
-                            LOGD(TAG, "userList.get(" + i + ").probability " + userList.get(i).b5_probability)
+                            LOGD(TAG, "getAwardData userList.get(" + i + ").probability " + userList.get(i).b5_probability)
 
                             if(userList.get(i).a1_gender.equals(SettingsUtils.getSettingRadioIdGender(context))){
                                 if(userList.get(i).b5_probability <= SettingsUtils.getSettingProbability(context)) probability_gender_rank_user--
@@ -197,35 +197,35 @@ object AwardCloudFirestoreHelper {
                             if(userList.get(i).b6_max_chain_win_num <= SettingsUtils.getSettingMaxChainWinNum(context)) max_chain_win_num_all_rank_user--
                         }
 
-                        LOGD(TAG, "DEBUG_DATA SettingsUtils.getSettingUuid(context):" + SettingsUtils.getSettingUuid(context) )
-                        LOGD(TAG, "DEBUG_DATA win_num_prefecture_rank_user:" + win_num_prefecture_rank_user )
-                        LOGD(TAG, "DEBUG_DATA win_num_gender_rank_everyone:" + win_num_gender_rank_everyone )
-                        LOGD(TAG, "DEBUG_DATA win_num_age_rank_user:" + win_num_age_rank_user )
-                        LOGD(TAG, "DEBUG_DATA win_num_age_rank_everyone:" + win_num_age_rank_everyone )
-                        LOGD(TAG, "DEBUG_DATA win_num_prefecture_rank_everyone:" + win_num_prefecture_rank_everyone )
-                        LOGD(TAG, "DEBUG_DATA win_num_gender_rank_user:" + win_num_gender_rank_user )
-                        LOGD(TAG, "DEBUG_DATA win_num_all_rank_user:" + win_num_all_rank_user )
-                        LOGD(TAG, "DEBUG_DATA win_num_all_rank_everyone:" + win_num_all_rank_everyone )
+                        LOGD(TAG, "getAwardData SettingsUtils.getSettingUuid(context):" + SettingsUtils.getSettingUuid(context) )
+                        LOGD(TAG, "getAwardData win_num_prefecture_rank_user:" + win_num_prefecture_rank_user )
+                        LOGD(TAG, "getAwardData win_num_gender_rank_everyone:" + win_num_gender_rank_everyone )
+                        LOGD(TAG, "getAwardData win_num_age_rank_user:" + win_num_age_rank_user )
+                        LOGD(TAG, "getAwardData win_num_age_rank_everyone:" + win_num_age_rank_everyone )
+                        LOGD(TAG, "getAwardData win_num_prefecture_rank_everyone:" + win_num_prefecture_rank_everyone )
+                        LOGD(TAG, "getAwardData win_num_gender_rank_user:" + win_num_gender_rank_user )
+                        LOGD(TAG, "getAwardData win_num_all_rank_user:" + win_num_all_rank_user )
+                        LOGD(TAG, "getAwardData win_num_all_rank_everyone:" + win_num_all_rank_everyone )
 
-                        LOGD(TAG, "DEBUG_DATA SettingsUtils.getSettingUuid(context):" + SettingsUtils.getSettingUuid(context) )
-                        LOGD(TAG, "DEBUG_DATA probability_gender_rank_user:" + probability_gender_rank_user )
-                        LOGD(TAG, "DEBUG_DATA probability_gender_rank_everyone:" + probability_gender_rank_everyone )
-                        LOGD(TAG, "DEBUG_DATA probability_age_rank_user:" + probability_age_rank_user )
-                        LOGD(TAG, "DEBUG_DATA probability_age_rank_everyone:" + probability_age_rank_everyone )
-                        LOGD(TAG, "DEBUG_DATA probability_prefecture_rank_user:" + probability_prefecture_rank_user )
-                        LOGD(TAG, "DEBUG_DATA probability_prefecture_rank_everyone:" + probability_prefecture_rank_everyone )
-                        LOGD(TAG, "DEBUG_DATA probability_all_rank_user:" + probability_all_rank_user )
-                        LOGD(TAG, "DEBUG_DATA probability_all_rank_everyone:" + win_num_all_rank_everyone )
+                        LOGD(TAG, "getAwardData SettingsUtils.getSettingUuid(context):" + SettingsUtils.getSettingUuid(context) )
+                        LOGD(TAG, "getAwardData probability_gender_rank_user:" + probability_gender_rank_user )
+                        LOGD(TAG, "getAwardData probability_gender_rank_everyone:" + probability_gender_rank_everyone )
+                        LOGD(TAG, "getAwardData probability_age_rank_user:" + probability_age_rank_user )
+                        LOGD(TAG, "getAwardData probability_age_rank_everyone:" + probability_age_rank_everyone )
+                        LOGD(TAG, "getAwardData probability_prefecture_rank_user:" + probability_prefecture_rank_user )
+                        LOGD(TAG, "getAwardData probability_prefecture_rank_everyone:" + probability_prefecture_rank_everyone )
+                        LOGD(TAG, "getAwardData probability_all_rank_user:" + probability_all_rank_user )
+                        LOGD(TAG, "getAwardData probability_all_rank_everyone:" + win_num_all_rank_everyone )
 
-                        LOGD(TAG, "DEBUG_DATA SettingsUtils.getSettingUuid(context):" + SettingsUtils.getSettingUuid(context) )
-                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_gender_rank_user:" + max_chain_win_num_gender_rank_user )
-                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_gender_rank_everyone:" + max_chain_win_num_gender_rank_everyone )
-                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_age_rank_user:" + max_chain_win_num_age_rank_user )
-                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_age_rank_everyone:" + max_chain_win_num_age_rank_everyone )
-                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_prefecture_rank_user:" + max_chain_win_num_prefecture_rank_user )
-                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_prefecture_rank_everyone:" + max_chain_win_num_prefecture_rank_everyone )
-                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_all_rank_user:" + max_chain_win_num_all_rank_user )
-                        LOGD(TAG, "DEBUG_DATA max_chain_win_num_all_rank_everyone:" + max_chain_win_num_all_rank_everyone )
+                        LOGD(TAG, "getAwardData SettingsUtils.getSettingUuid(context):" + SettingsUtils.getSettingUuid(context) )
+                        LOGD(TAG, "getAwardData max_chain_win_num_gender_rank_user:" + max_chain_win_num_gender_rank_user )
+                        LOGD(TAG, "getAwardData max_chain_win_num_gender_rank_everyone:" + max_chain_win_num_gender_rank_everyone )
+                        LOGD(TAG, "getAwardData max_chain_win_num_age_rank_user:" + max_chain_win_num_age_rank_user )
+                        LOGD(TAG, "getAwardData max_chain_win_num_age_rank_everyone:" + max_chain_win_num_age_rank_everyone )
+                        LOGD(TAG, "getAwardData max_chain_win_num_prefecture_rank_user:" + max_chain_win_num_prefecture_rank_user )
+                        LOGD(TAG, "getAwardData max_chain_win_num_prefecture_rank_everyone:" + max_chain_win_num_prefecture_rank_everyone )
+                        LOGD(TAG, "getAwardData max_chain_win_num_all_rank_user:" + max_chain_win_num_all_rank_user )
+                        LOGD(TAG, "getAwardData max_chain_win_num_all_rank_everyone:" + max_chain_win_num_all_rank_everyone )
 
                         AwardFragment.setAwardData()
                     }
