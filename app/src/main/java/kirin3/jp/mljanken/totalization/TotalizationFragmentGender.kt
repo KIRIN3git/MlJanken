@@ -28,8 +28,8 @@ class TotalizationFragmentGender : Fragment() {
     var mChart: BarChart? = null
 
     fun initStaticData(activity: FragmentActivity, view: View) {
-        mContext = activity?.applicationContext
-        mChart = view?.chart
+        mContext = activity.applicationContext
+        mChart = view.chart
     }
 
     fun drawGraph() {

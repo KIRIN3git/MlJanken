@@ -40,10 +40,10 @@ class TotalizationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_totalization)
 
         mContext = applicationContext
-        sViewPager = findViewById(R.id.pager) as ViewPager
+        sViewPager = findViewById(R.id.pager)
 
         // AdMob設定
-        AdmobHelper.loadBanner(findViewById(R.id.adView) as AdView)
+        AdmobHelper.loadBanner(findViewById(R.id.adView))
 
         var db = CloudFirestoreHelper.getInitDb(mContext!!)
 

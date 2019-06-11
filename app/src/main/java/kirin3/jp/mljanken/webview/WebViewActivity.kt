@@ -20,7 +20,7 @@ class WebViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_webview)
 
-        var webView: WebView = findViewById(R.id.webview) as WebView
+        var webView: WebView = findViewById(R.id.webview)
         val extras = intent.extras
         url = extras!!.getString(INTENT_INPUT_URL)
 
@@ -30,7 +30,7 @@ class WebViewActivity : AppCompatActivity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
 
-        var webView: WebView = findViewById(R.id.webview) as WebView
+        var webView: WebView = findViewById(R.id.webview)
 
         // 端末の戻るボタンでブラウザバック
         if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {

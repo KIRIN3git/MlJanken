@@ -97,7 +97,7 @@ object TotalizationCloudFirestoreHelper {
         supportFragmentManager: FragmentManager
     ): Int {
 
-        LOGD(TAG, "getTotalizationData")
+        LOGD(TAG, "TotalizationCloudFirestoreHelper getTotalizationData")
 
         db.collection(collection)
             .orderBy(CloudFirestoreHelper.UserItem::b2_win_num.name)
@@ -107,7 +107,7 @@ object TotalizationCloudFirestoreHelper {
                     val document = task.result
                     if (document != null && document.toObjects(CloudFirestoreHelper.UserItem::class.java) != null) {
                         val userList = document.toObjects(CloudFirestoreHelper.UserItem::class.java)
-                        LOGD(TAG, "userList.size " + userList.size)
+                        LOGD(TAG, "TotalizationCloudFirestoreHelper userList.size " + userList.size)
                         for (i in 0 until userList.size) {
 
                             // 本番モードの場合、デバックモードのデータは非表示
@@ -164,7 +164,7 @@ object TotalizationCloudFirestoreHelper {
                         TotalizationActivity.setViewPager(supportFragmentManager)
                     }
                 } else {
-                    LOGD(TAG, "getTotalizationData:No such document")
+                    LOGD(TAG, "TotalizationCloudFirestoreHelper getTotalizationData No such document")
                 }
             }
         return 0

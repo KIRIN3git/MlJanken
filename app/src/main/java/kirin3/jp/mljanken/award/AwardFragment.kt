@@ -46,38 +46,38 @@ class AwardFragment : Fragment() {
         var sTextMaxChainWinNumAge: TextView? = null
 
         fun initView(view: View) {
-            sTextPrefetture = view?.findViewById(R.id.prefecture) as TextView
-            sTextGender = view?.findViewById(R.id.gender) as TextView
-            sTextAge = view?.findViewById(R.id.age) as TextView
+            sTextPrefetture = view.findViewById(R.id.prefecture) as TextView
+            sTextGender = view.findViewById(R.id.gender) as TextView
+            sTextAge = view.findViewById(R.id.age) as TextView
 
-            sTextWinNum = view?.findViewById(R.id.win_num) as TextView
-            sTextProbability = view?.findViewById(R.id.probability) as TextView
-            sTextMaxChainWinNum = view?.findViewById(R.id.win_chain_num) as TextView
+            sTextWinNum = view.findViewById(R.id.win_num) as TextView
+            sTextProbability = view.findViewById(R.id.probability) as TextView
+            sTextMaxChainWinNum = view.findViewById(R.id.win_chain_num) as TextView
 
-            sTextWinNumAll = view?.findViewById(R.id.win_num_all) as TextView
-            sTextWinNumPrefecture = view?.findViewById(R.id.win_num_prefecture) as TextView
-            sTextWinNumGender = view?.findViewById(R.id.win_num_gender) as TextView
-            sTextWinNumAge = view?.findViewById(R.id.win_num_age) as TextView
+            sTextWinNumAll = view.findViewById(R.id.win_num_all) as TextView
+            sTextWinNumPrefecture = view.findViewById(R.id.win_num_prefecture) as TextView
+            sTextWinNumGender = view.findViewById(R.id.win_num_gender) as TextView
+            sTextWinNumAge = view.findViewById(R.id.win_num_age) as TextView
 
-            sTextProbabilityAll = view?.findViewById(R.id.probability_all) as TextView
-            sTextProbabilityPrefecture = view?.findViewById(R.id.probability_prefecture) as TextView
-            sTextProbabilityGender = view?.findViewById(R.id.probability_gender) as TextView
-            sTextProbabilityAge = view?.findViewById(R.id.probability_age) as TextView
+            sTextProbabilityAll = view.findViewById(R.id.probability_all) as TextView
+            sTextProbabilityPrefecture = view.findViewById(R.id.probability_prefecture) as TextView
+            sTextProbabilityGender = view.findViewById(R.id.probability_gender) as TextView
+            sTextProbabilityAge = view.findViewById(R.id.probability_age) as TextView
 
-            sTextMaxChainWinNumAll = view?.findViewById(R.id.win_chain_num_all) as TextView
-            sTextMaxChainWinNumPrefecture = view?.findViewById(R.id.win_chain_num_prefecture) as TextView
-            sTextMaxChainWinNumGender = view?.findViewById(R.id.win_chain_num_gender) as TextView
-            sTextMaxChainWinNumAge = view?.findViewById(R.id.win_chain_num_age) as TextView
+            sTextMaxChainWinNumAll = view.findViewById(R.id.win_chain_num_all) as TextView
+            sTextMaxChainWinNumPrefecture = view.findViewById(R.id.win_chain_num_prefecture) as TextView
+            sTextMaxChainWinNumGender = view.findViewById(R.id.win_chain_num_gender) as TextView
+            sTextMaxChainWinNumAge = view.findViewById(R.id.win_chain_num_age) as TextView
         }
 
         fun setBasicData(context: Context) {
-            sTextWinNum?.text = SettingsUtils.getSettingWinNum(context!!).toString()
-            sTextProbability?.text = SettingsUtils.getSettingProbability(context!!).toString()
-            sTextMaxChainWinNum?.text = SettingsUtils.getSettingMaxChainWinNum(context!!).toString()
+            sTextWinNum?.text = SettingsUtils.getSettingWinNum(context).toString()
+            sTextProbability?.text = SettingsUtils.getSettingProbability(context).toString()
+            sTextMaxChainWinNum?.text = SettingsUtils.getSettingMaxChainWinNum(context).toString()
 
-            sTextPrefetture?.text = SettingsUtils.prefecture_items[SettingsUtils.getSettingRadioIdPrefecture(context!!)]
-            sTextGender?.text = SettingsUtils.gender_items[SettingsUtils.getSettingRadioIdGender(context!!)]
-            sTextAge?.text = SettingsUtils.age_items[SettingsUtils.getSettingRadioIdAge(context!!)]
+            sTextPrefetture?.text = SettingsUtils.prefecture_items[SettingsUtils.getSettingRadioIdPrefecture(context)]
+            sTextGender?.text = SettingsUtils.gender_items[SettingsUtils.getSettingRadioIdGender(context)]
+            sTextAge?.text = SettingsUtils.age_items[SettingsUtils.getSettingRadioIdAge(context)]
         }
 
         fun setAwardData() {

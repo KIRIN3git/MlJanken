@@ -33,8 +33,8 @@ class TotalizationFragmentPrefecture() : Fragment() {
     }
 
     fun initStaticData(activity: FragmentActivity, view: View) {
-        mContext = activity?.applicationContext
-        mChart = view?.chart
+        mContext = activity.applicationContext
+        mChart = view.chart
     }
 
     fun drawGraph() {

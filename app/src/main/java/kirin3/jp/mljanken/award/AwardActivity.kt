@@ -11,7 +11,7 @@ class AwardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_award)
 
-        // AdMob設定F
-        AdmobHelper.loadBanner(findViewById(R.id.adView) as AdView)
+        // AdMob設定
+        AdmobHelper.loadBanner(findViewById(R.id.adView))
     }
 }

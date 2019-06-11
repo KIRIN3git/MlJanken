@@ -74,7 +74,7 @@ object AwardCloudFirestoreHelper {
         max_chain_win_num_gender_rank_user = 0
         max_chain_win_num_age_rank_user = 0
 
-        LOGD(TAG, "getAwardData")
+        LOGD(TAG, "getAwardData getAwardData")
 
         db.collection(collection)
             .orderBy(CloudFirestoreHelper.UserItem::b2_win_num.name)
@@ -110,8 +110,6 @@ object AwardCloudFirestoreHelper {
                                 probability_prefecture_rank_everyone++
                             }
                             probability_all_rank_everyone++
-
-                            LOGD(TAG, "getAwardData userList.get(" + i + ").max_chain_win_num " + userList.get(i).b6_max_chain_win_num)
 
                             if(userList.get(i).a1_gender.equals(SettingsUtils.getSettingRadioIdGender(context))){
                                 max_chain_win_num_gender_rank_everyone++
@@ -154,8 +152,6 @@ object AwardCloudFirestoreHelper {
 
                         for(i in 0 until  userList.size){
 
-                            LOGD(TAG, "getAwardData userList.get(" + i + ").b2_win_num " + userList.get(i).b2_win_num)
-
                             if(userList.get(i).a1_gender.equals(SettingsUtils.getSettingRadioIdGender(context))){
                                 if(userList.get(i).b2_win_num <= SettingsUtils.getSettingWinNum(context)) win_num_gender_rank_user--
                             }
@@ -167,9 +163,6 @@ object AwardCloudFirestoreHelper {
                             }
 
                             if(userList.get(i).b2_win_num <= SettingsUtils.getSettingWinNum(context)) win_num_all_rank_user--
-
-
-                            LOGD(TAG, "getAwardData userList.get(" + i + ").probability " + userList.get(i).b5_probability)
 
                             if(userList.get(i).a1_gender.equals(SettingsUtils.getSettingRadioIdGender(context))){
                                 if(userList.get(i).b5_probability <= SettingsUtils.getSettingProbability(context)) probability_gender_rank_user--
@@ -230,7 +223,7 @@ object AwardCloudFirestoreHelper {
                         AwardFragment.setAwardData()
                     }
                 } else {
-                    LOGD(TAG, "getAwardData:No such document")
+                    LOGD(TAG, "getAwardData No such document")
                 }
             }
 

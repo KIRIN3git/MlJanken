@@ -3,6 +3,7 @@ package kirin3.jp.mljanken.game
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.annotation.SuppressLint
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
@@ -26,6 +27,7 @@ import kirin3.jp.mljanken.game.GameData.WIN
 import kirin3.jp.mljanken.mng.SoundMng
 import kirin3.jp.mljanken.util.*
 import kirin3.jp.mljanken.util.LogUtils.LOGD
+import kotlinx.android.synthetic.main.fragment_award.view.*
 import java.util.*
 import kirin3.jp.mljanken.game.GameData.GUU as GUU1
 
@@ -75,16 +77,17 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         return inflater.inflate(R.layout.fragment_game, container, false)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sImgManGu = view?.findViewById(R.id.imgManGu) as ImageView
-        sImgManChoki = view?.findViewById(R.id.imgManChoki) as ImageView
-        sImgManPa = view?.findViewById(R.id.imgManPa) as ImageView
-        sImgJankenpon = view?.findViewById(R.id.jankenpon) as ImageView
-        sImgRobArm = view?.findViewById(R.id.robo_arm) as ImageView
-        sImgResult = view?.findViewById(R.id.totalization) as ImageView
-        sLottieRetry = view?.findViewById(R.id.retry) as LottieAnimationView
+        sImgManGu = view.findViewById(R.id.imgManGu) as ImageView
+        sImgManChoki = view.findViewById(R.id.imgManChoki) as ImageView
+        sImgManPa = view.findViewById(R.id.imgManPa) as ImageView
+        sImgJankenpon = view.findViewById(R.id.jankenpon) as ImageView
+        sImgRobArm = view.findViewById(R.id.robo_arm) as ImageView
+        sImgResult = view.findViewById(R.id.totalization) as ImageView
+        sLottieRetry = view.findViewById(R.id.retry) as LottieAnimationView
 
         sLottieRetry?.setOnClickListener {
             LOGD(TAG, "sLottieRetry CLICK")
@@ -577,24 +580,23 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
      */
     inner class imageViewEvent : View.OnTouchListener {
         override fun onTouch(v: View, event: MotionEvent): Boolean {
-
             // デバックモードでないとチート禁止
             if( sImgTouchOkFlg == false && Config.IS_DOGFOOD_BUILD == false ) return true
 
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     if (v == sImgManGu) {
-                        (v as ImageView)?.setImageResource(R.drawable.man_gu2)
+                        (v as ImageView).setImageResource(R.drawable.man_gu2)
                         sImgManChoki?.setImageResource(R.drawable.man_choki1)
                         sImgManPa?.setImageResource(R.drawable.man_pa1)
                         sManChoice = GUU1
                     } else if (v == sImgManChoki) {
-                        (v as ImageView)?.setImageResource(R.drawable.man_choki2)
+                        (v as ImageView).setImageResource(R.drawable.man_choki2)
                         sImgManGu?.setImageResource(R.drawable.man_gu1)
                         sImgManPa?.setImageResource(R.drawable.man_pa1)
                         sManChoice = CHOKI
                     } else {
-                        (v as ImageView)?.setImageResource(R.drawable.man_pa2)
+                        (v as ImageView).setImageResource(R.drawable.man_pa2)
                         sImgManGu?.setImageResource(R.drawable.man_gu1)
                         sImgManChoki?.setImageResource(R.drawable.man_choki1)
                         sManChoice = PAA
@@ -602,16 +604,17 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                     return true;
                 }
                 MotionEvent.ACTION_UP -> {
+                    v.performClick()
                     if (v == sImgManGu) {
-                        (v as ImageView)?.setImageResource(R.drawable.man_gu3)
+                        (v as ImageView).setImageResource(R.drawable.man_gu3)
                         sImgManChoki?.setImageResource(R.drawable.man_choki1)
                         sImgManPa?.setImageResource(R.drawable.man_pa1)
                     } else if (v == sImgManChoki) {
-                        (v as ImageView)?.setImageResource(R.drawable.man_choki3)
+                        (v as ImageView).setImageResource(R.drawable.man_choki3)
                         sImgManGu?.setImageResource(R.drawable.man_gu1)
                         sImgManPa?.setImageResource(R.drawable.man_pa1)
                     } else {
-                        (v as ImageView)?.setImageResource(R.drawable.man_pa3)
+                        (v as ImageView).setImageResource(R.drawable.man_pa3)
                         sImgManGu?.setImageResource(R.drawable.man_gu1)
                         sImgManChoki?.setImageResource(R.drawable.man_choki1)
                     }

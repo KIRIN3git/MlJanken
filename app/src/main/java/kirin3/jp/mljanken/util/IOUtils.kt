@@ -27,7 +27,7 @@ object IOUtils {
             os.flush()
             // Perform an fsync on the FileOutputStream.
             os.fd.sync()
-            os?.close()
+            os.close()
         } catch (e: FileNotFoundException) {
         } catch (e: SyncFailedException) {
         } catch (e: IOException) {
@@ -52,7 +52,7 @@ object IOUtils {
                 sb.append(line)
             } while (true)
 
-            reader?.close()
+            reader.close()
         } catch (e: FileNotFoundException) {
         } catch (e: IOException) {
         }

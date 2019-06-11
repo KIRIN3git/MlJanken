@@ -79,7 +79,7 @@
                       android:gravity="center"
                       android:textColor="@color/white"
                       android:background="@drawable/text_background_green"
-                      android:text="全国"/>
+                      android:text="@string/japan"/>
             <TextView android:layout_width="match_parent" android:layout_height="match_parent"
                       android:id="@+id/win_num_all"
                       android:layout_weight="1"

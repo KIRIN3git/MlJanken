@@ -30,7 +30,7 @@ class TopActivity : AppCompatActivity() {
         setContentView(R.layout.activity_top)
 
         // AdMob設定
-        AdmobHelper.loadBanner(findViewById(R.id.adView) as AdView)
+        AdmobHelper.loadBanner(findViewById(R.id.adView))
 
         // UUIDをプリファランスに登録
         // ☆☆
@@ -50,9 +50,27 @@ class TopActivity : AppCompatActivity() {
     }
 
     fun showInfoDialog() {
+        val textView = TextView(this)
+        // タイトル部分のTextView
+        val paddingLeftRight =
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+        val paddingTopBottom =
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+        // タイトルの背景色
+        textView.setBackgroundColor(ContextCompat.getColor(this, R.color.lightBlue2))
+        // タイトルの文字色
+        textView.setTextColor(Color.WHITE)
+        textView.layoutParams =
+            ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        textView.setPadding(paddingLeftRight, paddingTopBottom, paddingLeftRight, paddingTopBottom)
+        // テキスト
+        textView.text = getString(R.string.start_dialog_header)
+        // テキストサイズ
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+
         val alertDlg = AlertDialog.Builder(this)
-        alertDlg.setTitle("はじめに")
-        alertDlg.setMessage("ロボを強くするために３つの質問に答えてください")
+        alertDlg.setCustomTitle(textView)
+        alertDlg.setMessage(getString(R.string.start_dialog_body))
         alertDlg.setPositiveButton(
             "OK"
         ) { dialog, which ->
@@ -79,7 +97,7 @@ class TopActivity : AppCompatActivity() {
             ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         textView.setPadding(paddingLeftRight, paddingTopBottom, paddingLeftRight, paddingTopBottom)
         // テキスト
-        textView.text = "性別（せいべつ）"
+        textView.text = getString(R.string.gender_dialog_header)
         // テキストサイズ
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
         AlertDialog.Builder(this)
@@ -111,7 +129,7 @@ class TopActivity : AppCompatActivity() {
             ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         textView.setPadding(paddingLeftRight, paddingTopBottom, paddingLeftRight, paddingTopBottom)
         // テキスト
-        textView.text = "年代（ねんだい）"
+        textView.text = getString(R.string.age_dialog_header)
         // テキストサイズ
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
         AlertDialog.Builder(this)
@@ -148,7 +166,7 @@ class TopActivity : AppCompatActivity() {
             ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         textView.setPadding(paddingLeftRight, paddingTopBottom, paddingLeftRight, paddingTopBottom)
         // テキスト
-        textView.text = "出身地（しゅっしんち）"
+        textView.text = getString(R.string.prefacture_dialog_header)
         // テキストサイズ
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
 

@@ -14,6 +14,6 @@ class GameActivity : AppCompatActivity() {
         var mContext = applicationContext
 
         // AdMob設定
-        AdmobHelper.loadBanner(findViewById(R.id.adView) as AdView)
+        AdmobHelper.loadBanner(findViewById(R.id.adView))
     }
 }

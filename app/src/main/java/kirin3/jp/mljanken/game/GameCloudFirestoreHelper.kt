@@ -97,7 +97,7 @@ object GameCloudFirestoreHelper {
                         LOGD(TAG, "GameCloudFirestoreHelper.getGameData OK")
                     }
                 } else {
-                    LOGD(TAG, "No such document")
+                    LOGD(TAG, "GameCloudFirestoreHelper.getGameData No such document")
                 }
             }
         return 0
