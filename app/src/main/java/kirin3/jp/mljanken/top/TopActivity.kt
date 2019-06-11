@@ -8,14 +8,9 @@ import android.support.v7.app.AppCompatActivity
 import android.util.TypedValue
 import android.view.ViewGroup
 import android.widget.TextView
-import com.google.android.gms.ads.AdView
 import kirin3.jp.mljanken.R
 import kirin3.jp.mljanken.game.GameCloudFirestoreHelper
-import kirin3.jp.mljanken.util.AdmobHelper
-import kirin3.jp.mljanken.util.CloudFirestoreHelper
-import kirin3.jp.mljanken.util.LogUtils
-import kirin3.jp.mljanken.util.LogUtils.LOGD
-import kirin3.jp.mljanken.util.SettingsUtils
+import kirin3.jp.mljanken.util.*
 import java.util.*
 
 
@@ -35,8 +30,11 @@ class TopActivity : AppCompatActivity() {
         // UUIDをプリファランスに登録
         // ☆☆
 
-        if( SettingsUtils.getSettingUuid(this).isEmpty() ){
-            SettingsUtils.setSettingUuid(this, UUID.randomUUID().toString())
+        if (SettingsUtils.getSettingUuid(this).isEmpty()) {
+            SettingsUtils.setSettingUuid(
+                this,
+                TimeUtils.getCurrentTime(this).toString() + "-" + UUID.randomUUID().toString()
+            )
         }
 
 
@@ -176,10 +174,10 @@ class TopActivity : AppCompatActivity() {
             .setItems(items) { dialog, which ->
                 SettingsUtils.setSettingRadioIdPrefecture(this, which + 1)
 
-                if( GameCloudFirestoreHelper.data_existing == false ){
+                if (GameCloudFirestoreHelper.data_existing == false) {
                     // CloudFirestoreのデータを事前取得
                     var db = CloudFirestoreHelper.getInitDb(this)
-                    GameCloudFirestoreHelper.getGameData(db,"users",this)
+                    GameCloudFirestoreHelper.getGameData(db, "users", this)
                 }
             }
             .show()

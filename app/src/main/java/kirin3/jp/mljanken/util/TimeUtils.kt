@@ -19,6 +19,15 @@ object TimeUtils {
     }
 
     /**
+     * 現在時刻String(YYYY/MM/DD)
+     */
+    fun getFormatShortDate(context: Context): String {
+        val date = Date()
+        val format = android.text.format.DateFormat.getMediumDateFormat(context)
+        return format.format(date).toLowerCase(Locale.JAPAN)
+    }
+
+    /**
      * String型("yyyy-MM-dd kk:mm:ss") → Date型に変換
      */
     fun parseTimestamp(timestamp: String): Date? {

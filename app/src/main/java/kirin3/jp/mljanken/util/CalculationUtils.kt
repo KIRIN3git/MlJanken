@@ -29,7 +29,7 @@ object CalculationUtils {
         else {
             val win_num_d = win_num.toDouble()
             val lose_num_d = lose_num.toDouble()
-            val probability = (win_num_d / (win_num_d + lose_num_d)) * 100.0f
+            val probability = (win_num_d / (win_num_d + lose_num_d)) * 100.0
             var bd = BigDecimal(probability)
             bd = bd.setScale(1, BigDecimal.ROUND_HALF_UP)
             val ret_probability = bd.toDouble()
