@@ -16,15 +16,17 @@
 
     <string name="admob_app_id">ca-app-pub-1057765466901496~6547353363</string>
     <string name="banner_ad_unit_id_test">ca-app-pub-3940256099942544/6300978111</string>
-    <!--
+
     <string name="banner_ad_unit_id_top">ca-app-pub-1057765466901496/9911883305</string>
     <string name="banner_ad_unit_id_game">ca-app-pub-1057765466901496/6117243330</string>
     <string name="banner_ad_unit_id_award">ca-app-pub-1057765466901496/4385305364</string>
     <string name="banner_ad_unit_id_totalization">ca-app-pub-1057765466901496/7558263612</string>
-    -->
+
+    <!-- test id -->
+    <!--
     <string name="banner_ad_unit_id_top">ca-app-pub-3940256099942544/6300978111</string>
     <string name="banner_ad_unit_id_game">ca-app-pub-3940256099942544/6300978111</string>
     <string name="banner_ad_unit_id_award">ca-app-pub-3940256099942544/6300978111</string>
     <string name="banner_ad_unit_id_totalization">ca-app-pub-3940256099942544/6300978111</string>
-
+    -->
 </resources>
