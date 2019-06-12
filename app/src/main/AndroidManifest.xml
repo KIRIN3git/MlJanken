@@ -2,20 +2,69 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="kirin3.jp.mljanken">
 
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <!--
+    android:name="android.support.multidex.MultiDexApplication"
+    -->
     <application
+            android:name=".AppApplication"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+        <meta-data
+                android:name="com.google.android.gms.ads.APPLICATION_ID"
+                android:value="ca-app-pub-1057765466901496~6547353363"/>
+
+
+        <activity android:name=".splash.SplashActivity"
+                  android:theme="@style/AppFullScreenTheme"
+                  android:noHistory="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+                android:name=".top.TopActivity"
+                android:theme="@style/AppFullScreenTheme">
+        </activity>
+
+        <activity
+                android:name=".game.GameActivity"
+                android:theme="@style/AppFullScreenTheme">
+        </activity>
+
+        <activity
+                android:name=".award.AwardActivity"
+                android:theme="@style/AppTheme"
+
+                android:label="@string/award_title">
+        </activity>
+
+        <activity
+                android:name=".totalization.TotalizationActivity"
+                android:theme="@style/AppFullScreenTheme">
+        </activity>
+
+        <activity
+                android:name=".information.InformationActivity"
+                android:theme="@style/AppFullScreenTheme">
+        </activity>
+
+        <activity
+                android:name=".webview.WebViewActivity"
+                android:theme="@style/AppFullScreenTheme">
+        </activity>
+
     </application>
 
 </manifest>

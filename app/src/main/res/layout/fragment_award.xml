@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:orientation="vertical" android:layout_margin="10dp">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:layout_margin="0dp"
+                      android:orientation="horizontal">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:layout_weight="1"
+                      android:textSize="20sp"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:layout_weight="1"
+                      android:textSize="20sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_red"
+                      android:text="勝ち数"/>
+            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:textSize="20sp"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_red"
+                      android:gravity="center"
+                      android:text="勝率"/>
+            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:textSize="20sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_red"
+                      android:text="連勝数"/>
+
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:layout_margin="0dp"
+                      android:orientation="horizontal">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:layout_weight="1"
+                      android:textSize="20sp"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/win_num"
+                      android:layout_weight="1"
+                      android:textSize="20sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_salmon"
+                      android:text=""/>
+            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:id="@+id/probability"
+                      android:layout_weight="1"
+                      android:textSize="20sp"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_salmon"
+                      android:gravity="center"
+                      android:text=""/>
+            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:id="@+id/win_chain_num"
+                      android:layout_weight="1"
+                      android:textSize="20sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_salmon"
+                      android:text=""/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:layout_margin="0dp"
+                      android:orientation="horizontal">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:layout_weight="1"
+                      android:textSize="20sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_green"
+                      android:text="@string/japan"/>
+            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:id="@+id/win_num_all"
+                      android:layout_weight="1"
+                      android:textSize="10sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_purple"
+                      android:text=""/>
+            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:id="@+id/probability_all"
+                      android:layout_weight="1"
+                      android:textSize="10sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_purple"
+                      android:text=""/>
+            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:id="@+id/win_chain_num_all"
+                      android:layout_weight="1"
+                      android:textSize="10sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_purple"
+                      android:text=""/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:layout_margin="0dp"
+                      android:orientation="horizontal">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/prefecture"
+                      android:layout_weight="1"
+                      android:textSize="20sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_green"
+                      android:text=""/>
+            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:id="@+id/win_num_prefecture"
+                      android:layout_weight="1"
+                      android:textSize="10sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_purple"
+                      android:text=""/>
+            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:id="@+id/probability_prefecture"
+                      android:layout_weight="1"
+                      android:textSize="10sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_purple"
+                      android:text=""/>
+            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:id="@+id/win_chain_num_prefecture"
+                      android:layout_weight="1"
+                      android:textSize="10sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_purple"
+                      android:text=""/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:layout_margin="0dp"
+                      android:orientation="horizontal">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/gender"
+                      android:layout_weight="1"
+                      android:textSize="20sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_green"
+                      android:text=""/>
+            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:id="@+id/win_num_gender"
+                      android:layout_weight="1"
+                      android:textSize="10sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_purple"
+                      android:text=""/>
+            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:id="@+id/probability_gender"
+                      android:layout_weight="1"
+                      android:textSize="10sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_purple"
+                      android:text=""/>
+            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:id="@+id/win_chain_num_gender"
+                      android:layout_weight="1"
+                      android:textSize="10sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_purple"
+                      android:text=""/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:layout_margin="0dp"
+                      android:orientation="horizontal">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/age"
+                      android:layout_weight="1"
+                      android:textSize="20sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_green"
+                      android:text=""/>
+            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:id="@+id/win_num_age"
+                      android:layout_weight="1"
+                      android:textSize="10sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_purple"
+                      android:text=""/>
+            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:id="@+id/probability_age"
+                      android:layout_weight="1"
+                      android:textSize="10sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_purple"
+                      android:text=""/>
+            <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:id="@+id/win_chain_num_age"
+                      android:layout_weight="1"
+                      android:textSize="10sp"
+                      android:gravity="center"
+                      android:textColor="@color/white"
+                      android:background="@drawable/text_background_purple"
+                      android:text=""/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

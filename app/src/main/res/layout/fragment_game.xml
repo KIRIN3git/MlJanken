@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="500dp"
+                    android:id="@+id/robo_arm"
+                    android:layout_marginTop="-300dp"/>
+
+            <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/jankenpon"
+                        android:src="@drawable/jan"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/totalization"
+                        android:layout_width="300dp"
+                        android:layout_height="300dp"
+                        app:layout_constraintVertical_bias="0.9"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:visibility="visible"
+                        android:id="@+id/fireworks1"
+                        android:layout_width="250dp"
+                        android:layout_height="250dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/fireworks1"
+                        app:layout_constraintVertical_bias="0.3"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:visibility="visible"
+                        android:id="@+id/fireworks2"
+                        android:layout_width="250dp"
+                        android:layout_height="250dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/fireworks1"
+                        app:layout_constraintVertical_bias="0.2"
+                        app:layout_constraintHorizontal_bias="0.2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:visibility="visible"
+                        android:id="@+id/fireworks3"
+                        android:layout_width="250dp"
+                        android:layout_height="250dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/fireworks2"
+                        app:layout_constraintVertical_bias="0.1"
+                        app:layout_constraintHorizontal_bias="0.9"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:visibility="visible"
+                        android:id="@+id/fireworks4"
+                        android:layout_width="250dp"
+                        android:layout_height="250dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/fireworks3"
+                        app:layout_constraintVertical_bias="1"
+                        app:layout_constraintHorizontal_bias="0.8"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:visibility="visible"
+                        android:id="@+id/fireworks5"
+                        android:layout_width="250dp"
+                        android:layout_height="250dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/fireworks2"
+                        app:layout_constraintVertical_bias="1"
+                        app:layout_constraintHorizontal_bias="0.2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:visibility="visible"
+                        android:id="@+id/fireworks6"
+                        android:layout_width="250dp"
+                        android:layout_height="250dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/fireworks3"
+                        app:layout_constraintVertical_bias="0.4"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:visibility="visible"
+                        android:id="@+id/fireworks7"
+                        android:layout_width="300dp"
+                        android:layout_height="300dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/big_star"
+                        app:layout_constraintVertical_bias="0.9"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:visibility="gone"
+                        android:id="@+id/retry"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="false"
+                        app:lottie_rawRes="@raw/retry"
+                        app:layout_constraintVertical_bias="1"
+                        app:layout_constraintHorizontal_bias="1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="400dp"
+                android:layout_weight="1">
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/imgManGu"
+                        android:src="@drawable/man_gu1"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"/>
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/imgManChoki"
+                        android:src="@drawable/man_choki1"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"/>
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/imgManPa"
+                        android:src="@drawable/man_pa1"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="3dp"
+                    android:orientation="horizontal">
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:visibility="gone"
+                        android:id="@+id/wstar1"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="false"
+                        app:lottie_rawRes="@raw/wstar1">
+                </com.airbnb.lottie.LottieAnimationView>
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:visibility="gone"
+                        android:id="@+id/wstar2"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="false"
+                        app:lottie_rawRes="@raw/wstar1">
+                </com.airbnb.lottie.LottieAnimationView>
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:visibility="gone"
+                        android:id="@+id/wstar3"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="false"
+                        app:lottie_rawRes="@raw/wstar1">
+                </com.airbnb.lottie.LottieAnimationView>
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:visibility="gone"
+                        android:id="@+id/wstar4"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="false"
+                        app:lottie_rawRes="@raw/wstar1">
+                </com.airbnb.lottie.LottieAnimationView>
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:visibility="gone"
+                        android:id="@+id/wstar5"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="false"
+                        app:lottie_rawRes="@raw/wstar1">
+                </com.airbnb.lottie.LottieAnimationView>
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:visibility="gone"
+                        android:id="@+id/wstar6"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="false"
+                        app:lottie_rawRes="@raw/wstar1">
+                </com.airbnb.lottie.LottieAnimationView>
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:visibility="gone"
+                        android:id="@+id/wstar7"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="false"
+                        app:lottie_rawRes="@raw/wstar1">
+                </com.airbnb.lottie.LottieAnimationView>
+            </LinearLayout>
+        </LinearLayout>
+</LinearLayout>
