@@ -12,7 +12,7 @@ object AdmobHelper {
     private val TAG = LogUtils.makeLogTag(AdmobHelper::class.java)
 
 
-    var sInterstitialAdNextGame: InterstitialAd? = null
+    var interstitialAdNextGame: InterstitialAd? = null
     var test: String? = null
 
     // 初回アクティビティのみ
@@ -58,10 +58,10 @@ object AdmobHelper {
     fun setInterstitialNextGame() {
         LOGD(TAG, "setInterstitialNextGame")
         // イニシャライズ
-//        sInterstitialAdNextGame = InterstitialAd(sAppContext!!)
-//☆        sInterstitialAdNextGame!!.adUnitId = sAppContext!!.resources.getString(R.string.interstitial_ad_unit_id_test)
+//        interstitialAdNextGame = InterstitialAd(sAppContext!!)
+//☆        interstitialAdNextGame!!.adUnitId = sAppContext!!.resources.getString(R.string.interstitial_ad_unit_id_test)
         // ロード
-        sInterstitialAdNextGame!!.loadAd(AdRequest.Builder().build())
+        interstitialAdNextGame!!.loadAd(AdRequest.Builder().build())
     }
 
     /*
@@ -70,8 +70,8 @@ object AdmobHelper {
      */
     fun loadInterstitialNextGame(): Boolean {
         LOGD(TAG, "loadInterstitialNextGame")
-        if (sInterstitialAdNextGame!!.isLoaded) {
-            sInterstitialAdNextGame!!.show()
+        if (interstitialAdNextGame!!.isLoaded) {
+            interstitialAdNextGame!!.show()
             return true
         } else
             return false// まだロードできていない or ロードしていない
@@ -81,10 +81,10 @@ object AdmobHelper {
      * インターステシャルの閉じた判定サンプル
      */
     /*
-        AdmobHelper.sInterstitialAdNextGame.setAdListener(new AdListener() {
+        AdmobHelper.interstitialAdNextGame.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {
-                Intent intent = new Intent(mContext, TopActivity.class);
+                Intent intent = new Intent(appContext, TopActivity.class);
                 startActivity(intent);
             }
         });

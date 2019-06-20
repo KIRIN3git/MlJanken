@@ -12,13 +12,13 @@ object GameCloudFirestoreHelper {
     private val TAG = LogUtils.makeLogTag(GameCloudFirestoreHelper::class.java)
 
     // 出し手を保存
-    var most_choice_gender = mutableMapOf(1 to 0, 2 to 0, 3 to 0)
-    var most_choice_age = mutableMapOf(1 to 0, 2 to 0, 3 to 0)
-    var most_choice_prefecture = mutableMapOf(1 to 0, 2 to 0, 3 to 0)
-    var first_choice_gender = mutableMapOf(1 to 0, 2 to 0, 3 to 0)
-    var first_choice_age = mutableMapOf(1 to 0, 2 to 0, 3 to 0)
-    var first_choice_prefecture = mutableMapOf(1 to 0, 2 to 0, 3 to 0)
-    var data_existing = false // データ取得済みフラグ
+    var mostChoiceGender = mutableMapOf(1 to 0, 2 to 0, 3 to 0)
+    var mostChoiceAge = mutableMapOf(1 to 0, 2 to 0, 3 to 0)
+    var mostChoicePrefecture = mutableMapOf(1 to 0, 2 to 0, 3 to 0)
+    var firstChoiceGender = mutableMapOf(1 to 0, 2 to 0, 3 to 0)
+    var firstChoiceAge = mutableMapOf(1 to 0, 2 to 0, 3 to 0)
+    var firstChoicePrefecture = mutableMapOf(1 to 0, 2 to 0, 3 to 0)
+    var dataExisting = false // データ取得済みフラグ
 
     /**
      * CroudFirestoreから全データを取得し、Gameに必要なデータを取得する。
@@ -48,52 +48,52 @@ object GameCloudFirestoreHelper {
                             // 同性の人の最も出している手をカウントする
                             if(userList.get(i).a1_gender.equals(SettingsUtils.getSettingRadioIdGender(context))){
 
-                                most_choice_gender[userList.get(i).c1_most_choice] = most_choice_gender[userList.get(i).c1_most_choice]!! + 1
+                                mostChoiceGender[userList.get(i).c1_most_choice] = mostChoiceGender[userList.get(i).c1_most_choice]!! + 1
                             }
 
                             if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
-                                most_choice_age[userList.get(i).c1_most_choice] = most_choice_age[userList.get(i).c1_most_choice]!! + 1
+                                mostChoiceAge[userList.get(i).c1_most_choice] = mostChoiceAge[userList.get(i).c1_most_choice]!! + 1
                             }
 
                             if(userList.get(i).a3_prefecture.equals(SettingsUtils.getSettingRadioIdPrefecture(context))){
-                                most_choice_prefecture[userList.get(i).c1_most_choice] = most_choice_prefecture[userList.get(i).c1_most_choice]!! + 1
+                                mostChoicePrefecture[userList.get(i).c1_most_choice] = mostChoicePrefecture[userList.get(i).c1_most_choice]!! + 1
                             }
 
                             // 同性の人の最初の出し手をカウントする。
                             if(userList.get(i).a1_gender.equals(SettingsUtils.getSettingRadioIdGender(context))){
-                                first_choice_gender[userList.get(i).c2_first_choice] = first_choice_gender[userList.get(i).c2_first_choice]!! + 1
+                                firstChoiceGender[userList.get(i).c2_first_choice] = firstChoiceGender[userList.get(i).c2_first_choice]!! + 1
                             }
 
                             if(userList.get(i).a2_age.equals(SettingsUtils.getSettingRadioIdAge(context))){
-                                first_choice_age[userList.get(i).c2_first_choice] = first_choice_age[userList.get(i).c2_first_choice]!! + 1
+                                firstChoiceAge[userList.get(i).c2_first_choice] = firstChoiceAge[userList.get(i).c2_first_choice]!! + 1
                             }
 
                             if(userList.get(i).a3_prefecture.equals(SettingsUtils.getSettingRadioIdPrefecture(context))){
-                                first_choice_prefecture[userList.get(i).c2_first_choice] = first_choice_prefecture[userList.get(i).c2_first_choice]!! + 1
+                                firstChoicePrefecture[userList.get(i).c2_first_choice] = firstChoicePrefecture[userList.get(i).c2_first_choice]!! + 1
                             }
                             LOGD(TAG, "GameCloudFirestoreHelper.getGameData userList.get(i).a1_gender:"+ userList.get(i).a1_gender)
                             LOGD(TAG, "GameCloudFirestoreHelper.getGameData userList.get(i).a2_age:"+ userList.get(i).a2_age)
                             LOGD(TAG, "GameCloudFirestoreHelper.getGameData userList.get(i).a3_prefecture:"+ userList.get(i).a3_prefecture)
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData most_choice_gender[1]:"+ most_choice_gender[1])
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData most_choice_gender[2]:"+ most_choice_gender[2])
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData most_choice_gender[3]:"+ most_choice_gender[3])
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData most_choice_age[1]:"+ most_choice_age[1])
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData most_choice_age[2]:"+ most_choice_age[2])
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData most_choice_age[3]:"+ most_choice_age[3])
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData most_choice_prefecture[1]:"+ most_choice_prefecture[1])
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData most_choice_prefecture[2]:"+ most_choice_prefecture[2])
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData most_choice_prefecture[3]:"+ most_choice_prefecture[3])
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData first_choice_gender[1]:"+ first_choice_gender[1])
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData first_choice_gender[2]:"+ first_choice_gender[2])
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData first_choice_gender[3]:"+ first_choice_gender[3])
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData first_choice_age[1]:"+ first_choice_age[1])
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData first_choice_age[2]:"+ first_choice_age[2])
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData first_choice_age[3]:"+ first_choice_age[3])
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData first_choice_prefecture[1]:"+ first_choice_prefecture[1])
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData first_choice_prefecture[2]:"+ first_choice_prefecture[2])
-                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData first_choice_prefecture[3]:"+ first_choice_prefecture[3])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData mostChoiceGender[1]:"+ mostChoiceGender[1])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData mostChoiceGender[2]:"+ mostChoiceGender[2])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData mostChoiceGender[3]:"+ mostChoiceGender[3])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData mostChoiceAge[1]:"+ mostChoiceAge[1])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData mostChoiceAge[2]:"+ mostChoiceAge[2])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData mostChoiceAge[3]:"+ mostChoiceAge[3])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData mostChoicePrefecture[1]:"+ mostChoicePrefecture[1])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData mostChoicePrefecture[2]:"+ mostChoicePrefecture[2])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData mostChoicePrefecture[3]:"+ mostChoicePrefecture[3])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData firstChoiceGender[1]:"+ firstChoiceGender[1])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData firstChoiceGender[2]:"+ firstChoiceGender[2])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData firstChoiceGender[3]:"+ firstChoiceGender[3])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData firstChoiceAge[1]:"+ firstChoiceAge[1])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData firstChoiceAge[2]:"+ firstChoiceAge[2])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData firstChoiceAge[3]:"+ firstChoiceAge[3])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData firstChoicePrefecture[1]:"+ firstChoicePrefecture[1])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData firstChoicePrefecture[2]:"+ firstChoicePrefecture[2])
+                            LOGD(TAG, "GameCloudFirestoreHelper.getGameData firstChoicePrefecture[3]:"+ firstChoicePrefecture[3])
                         }
-                        data_existing = true
+                        dataExisting = true
                         LOGD(TAG, "GameCloudFirestoreHelper.getGameData OK")
                     }
                 } else {

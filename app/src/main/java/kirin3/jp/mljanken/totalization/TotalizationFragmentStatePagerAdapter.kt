@@ -10,10 +10,10 @@ import android.os.Bundle
 class TotalizationFragmentStatePagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
     companion object {
-        var sNowPagePosition: Int = 0
+        var nowPagePosition: Int = 0
 
         fun getPositiona(): Int {
-            return sNowPagePosition
+            return nowPagePosition
         }
     }
 
@@ -37,7 +37,7 @@ class TotalizationFragmentStatePagerAdapter(fm: FragmentManager) : FragmentState
 
     override fun getPageTitle(position: Int): CharSequence? {
 
-        sNowPagePosition = position
+        nowPagePosition = position
 
         when (position) {
             0 -> return "性別勝率順位"

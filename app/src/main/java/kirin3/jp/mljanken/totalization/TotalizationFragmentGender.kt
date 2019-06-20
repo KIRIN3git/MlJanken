@@ -15,21 +15,20 @@ import kirin3.jp.mljanken.mng.databaseMng.HandHelper
 import kirin3.jp.mljanken.util.CloudFirestoreHelper
 import kirin3.jp.mljanken.util.LogUtils
 import kirin3.jp.mljanken.util.SettingsUtils
-import kotlinx.android.synthetic.main.fragment_totalization.view.*
 import java.util.*
 
 
 class TotalizationFragmentGender : Fragment() {
     val TAG = LogUtils.makeLogTag(CloudFirestoreHelper::class.java)
 
-    var mContext: Context? = null
-    var mDbHelper: HandHelper? = null
-    var mDb: SQLiteDatabase? = null
-    var mChart: BarChart? = null
+    var appContext: Context? = null
+    var dbHelper: HandHelper? = null
+    var db: SQLiteDatabase? = null
+    private lateinit var chart: BarChart
 
     fun initStaticData(activity: FragmentActivity, view: View) {
-        mContext = activity.applicationContext
-        mChart = view.chart
+        appContext = activity.applicationContext
+        chart = view.findViewById(R.id.chart)
     }
 
     fun drawGraph() {
@@ -38,11 +37,11 @@ class TotalizationFragmentGender : Fragment() {
         var data = ArrayList<Float>();
 
         val gender_probability_sort =
-            TotalizationCloudFirestoreHelper.gender_probability.toList().sortedByDescending { (_, value) -> value }.toMap()
+            TotalizationCloudFirestoreHelper.genderProbability.toList().sortedByDescending { (_, value) -> value }.toMap()
         var i = 0
         for (entry in gender_probability_sort) {
             // ラベルを登録
-            labels[i] = SettingsUtils.gender_items[entry.key]
+            labels[i] = SettingsUtils.genderItems[entry.key]
             // 色を登録
             when (entry.key) {
                 1 -> colors[i] = R.color.lightBlue
@@ -54,12 +53,12 @@ class TotalizationFragmentGender : Fragment() {
             i++
         }
 
-        GraphMng.setInitBar(mChart!!, mContext!!, 0, labels, colors, data)
+        GraphMng.setInitBar(chart, appContext!!, 0, labels, colors, data)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mDbHelper = HandHelper(activity!!.applicationContext)
-        mDb = mDbHelper?.getWritableDatabase()
+        dbHelper = HandHelper(activity!!.applicationContext)
+        db = dbHelper?.getWritableDatabase()
 
         return inflater.inflate(R.layout.fragment_totalization, container, false)
     }

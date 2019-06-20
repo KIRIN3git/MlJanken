@@ -10,7 +10,7 @@ object AnalyticsHelper {
 
     private val TAG = LogUtils.makeLogTag(AnalyticsHelper::class.java)
 
-    private var mFirebaseAnalytics: FirebaseAnalytics? = null
+    private var firebaseAnalytics: FirebaseAnalytics? = null
 
     /****
      * スプラッシュ画面、など起動時のクラスで呼び出す必要あり
@@ -18,7 +18,7 @@ object AnalyticsHelper {
     @Synchronized
     fun initializeAnalytic(context: Context) {
         try {
-            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context)
+            firebaseAnalytics = FirebaseAnalytics.getInstance(context)
         } catch (e: Exception) {
             setAnalyticsEnabled(false)
         }
@@ -32,7 +32,7 @@ object AnalyticsHelper {
             bundle.putString("gender", gender)
             bundle.putString("age", age)
             bundle.putString("prefecture", prefecture)
-            mFirebaseAnalytics!!.logEvent("janken", bundle)
+            firebaseAnalytics!!.logEvent("janken", bundle)
         }
     }
 
@@ -58,7 +58,7 @@ object AnalyticsHelper {
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id)
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name)
         bundle.putString(key, value)
-        mFirebaseAnalytics!!.logEvent("original_event", bundle)
+        firebaseAnalytics!!.logEvent("original_event", bundle)
     }
 
     fun setAnalytics(id: String, name: String, key: String, value: Int?) {
@@ -67,13 +67,13 @@ object AnalyticsHelper {
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id)
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name)
         bundle.putInt(key, value!!)
-        mFirebaseAnalytics!!.logEvent("original_event", bundle)
+        firebaseAnalytics!!.logEvent("original_event", bundle)
     }
 
     private fun setAnalyticsEnabled(enabled: Boolean) {
         LOGD(TAG, "setAnalyticsEnabled: $enabled")
-        if (mFirebaseAnalytics != null) {
-            mFirebaseAnalytics!!.setAnalyticsCollectionEnabled(enabled)
+        if (firebaseAnalytics != null) {
+            firebaseAnalytics!!.setAnalyticsCollectionEnabled(enabled)
         }
     }
 }

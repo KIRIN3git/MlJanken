@@ -18,103 +18,68 @@ import kirin3.jp.mljanken.util.SettingsUtils
 class AwardFragment : Fragment() {
     val TAG = LogUtils.makeLogTag(CloudFirestoreHelper::class.java)
 
-    private var mContext: Context? = null
-    private var mDbHelper: HandHelper? = null
-    private var mDb: SQLiteDatabase? = null
+    private var appContext: Context? = null
+    private var dbHelper: HandHelper? = null
+    private var db: SQLiteDatabase? = null
 
     companion object {
+        private lateinit var textPrefetture: TextView
+        private lateinit var textGender: TextView
+        private lateinit var textAge: TextView
 
-        var sTextPrefetture: TextView? = null
-        var sTextGender: TextView? = null
-        var sTextAge: TextView? = null
+        private lateinit var textWinNum: TextView
+        private lateinit var textProbability: TextView
+        private lateinit var textMaxChainWinNum: TextView
 
-        var sTextWinNum: TextView? = null
-        var sTextProbability: TextView? = null
-        var sTextMaxChainWinNum: TextView? = null
+        private lateinit var textWinNumAll: TextView
+        private lateinit var textProbabilityAll: TextView
+        private lateinit var textMaxChainWinNumAll: TextView
+        private lateinit var textWinNumPrefecture: TextView
+        private lateinit var textProbabilityPrefecture: TextView
+        private lateinit var textMaxChainWinNumPrefecture: TextView
+        private lateinit var textWinNumGender: TextView
+        private lateinit var textProbabilityGender: TextView
+        private lateinit var textMaxChainWinNumGender: TextView
+        private lateinit var textWinNumAge: TextView
+        private lateinit var textProbabilityAge: TextView
+        private lateinit var textMaxChainWinNumAge: TextView
 
-        var sTextWinNumAll: TextView? = null
-        var sTextProbabilityAll: TextView? = null
-        var sTextMaxChainWinNumAll: TextView? = null
-        var sTextWinNumPrefecture: TextView? = null
-        var sTextProbabilityPrefecture: TextView? = null
-        var sTextMaxChainWinNumPrefecture: TextView? = null
-        var sTextWinNumGender: TextView? = null
-        var sTextProbabilityGender: TextView? = null
-        var sTextMaxChainWinNumGender: TextView? = null
-        var sTextWinNumAge: TextView? = null
-        var sTextProbabilityAge: TextView? = null
-        var sTextMaxChainWinNumAge: TextView? = null
-
-        fun initView(view: View) {
-            sTextPrefetture = view.findViewById(R.id.prefecture) as TextView
-            sTextGender = view.findViewById(R.id.gender) as TextView
-            sTextAge = view.findViewById(R.id.age) as TextView
-
-            sTextWinNum = view.findViewById(R.id.win_num) as TextView
-            sTextProbability = view.findViewById(R.id.probability) as TextView
-            sTextMaxChainWinNum = view.findViewById(R.id.win_chain_num) as TextView
-
-            sTextWinNumAll = view.findViewById(R.id.win_num_all) as TextView
-            sTextWinNumPrefecture = view.findViewById(R.id.win_num_prefecture) as TextView
-            sTextWinNumGender = view.findViewById(R.id.win_num_gender) as TextView
-            sTextWinNumAge = view.findViewById(R.id.win_num_age) as TextView
-
-            sTextProbabilityAll = view.findViewById(R.id.probability_all) as TextView
-            sTextProbabilityPrefecture = view.findViewById(R.id.probability_prefecture) as TextView
-            sTextProbabilityGender = view.findViewById(R.id.probability_gender) as TextView
-            sTextProbabilityAge = view.findViewById(R.id.probability_age) as TextView
-
-            sTextMaxChainWinNumAll = view.findViewById(R.id.win_chain_num_all) as TextView
-            sTextMaxChainWinNumPrefecture = view.findViewById(R.id.win_chain_num_prefecture) as TextView
-            sTextMaxChainWinNumGender = view.findViewById(R.id.win_chain_num_gender) as TextView
-            sTextMaxChainWinNumAge = view.findViewById(R.id.win_chain_num_age) as TextView
-        }
-
-        fun setBasicData(context: Context) {
-            sTextWinNum?.text = SettingsUtils.getSettingWinNum(context).toString()
-            sTextProbability?.text = SettingsUtils.getSettingProbability(context).toString()
-            sTextMaxChainWinNum?.text = SettingsUtils.getSettingMaxChainWinNum(context).toString()
-
-            sTextPrefetture?.text = SettingsUtils.prefecture_items[SettingsUtils.getSettingRadioIdPrefecture(context)]
-            sTextGender?.text = SettingsUtils.gender_items[SettingsUtils.getSettingRadioIdGender(context)]
-            sTextAge?.text = SettingsUtils.age_items[SettingsUtils.getSettingRadioIdAge(context)]
-        }
 
         fun setAwardData() {
-            sTextWinNumAll?.text =
+            textWinNumAll?.text =
                 AwardCloudFirestoreHelper.win_num_all_rank_user.toString() + "/" + AwardCloudFirestoreHelper.win_num_all_rank_everyone.toString().toString() + "位"
-            sTextWinNumPrefecture?.text =
+            textWinNumPrefecture?.text =
                 AwardCloudFirestoreHelper.win_num_prefecture_rank_user.toString() + "/" + AwardCloudFirestoreHelper.win_num_prefecture_rank_everyone.toString().toString() + "位"
-            sTextWinNumGender?.text =
+            textWinNumGender?.text =
                 AwardCloudFirestoreHelper.win_num_gender_rank_user.toString() + "/" + AwardCloudFirestoreHelper.win_num_gender_rank_everyone.toString().toString() + "位"
-            sTextWinNumAge?.text =
+            textWinNumAge?.text =
                 AwardCloudFirestoreHelper.win_num_age_rank_user.toString() + "/" + AwardCloudFirestoreHelper.win_num_age_rank_everyone.toString().toString() + "位"
 
-            sTextProbabilityAll?.text =
+            textProbabilityAll?.text =
                 AwardCloudFirestoreHelper.probability_all_rank_user.toString() + "/" + AwardCloudFirestoreHelper.probability_all_rank_everyone.toString().toString() + "位"
-            sTextProbabilityPrefecture?.text =
+            textProbabilityPrefecture?.text =
                 AwardCloudFirestoreHelper.probability_prefecture_rank_user.toString() + "/" + AwardCloudFirestoreHelper.probability_prefecture_rank_everyone.toString().toString() + "位"
-            sTextProbabilityGender?.text =
+            textProbabilityGender?.text =
                 AwardCloudFirestoreHelper.probability_gender_rank_user.toString() + "/" + AwardCloudFirestoreHelper.probability_gender_rank_everyone.toString().toString() + "位"
-            sTextProbabilityAge?.text =
+            textProbabilityAge?.text =
                 AwardCloudFirestoreHelper.probability_age_rank_user.toString() + "/" + AwardCloudFirestoreHelper.probability_age_rank_everyone.toString().toString() + "位"
 
-            sTextMaxChainWinNumAll?.text =
+            textMaxChainWinNumAll?.text =
                 AwardCloudFirestoreHelper.max_chain_win_num_all_rank_user.toString() + "/" + AwardCloudFirestoreHelper.max_chain_win_num_all_rank_everyone.toString().toString() + "位"
-            sTextMaxChainWinNumPrefecture?.text =
+            textMaxChainWinNumPrefecture?.text =
                 AwardCloudFirestoreHelper.max_chain_win_num_prefecture_rank_user.toString() + "/" + AwardCloudFirestoreHelper.max_chain_win_num_prefecture_rank_everyone.toString().toString() + "位"
-            sTextMaxChainWinNumGender?.text =
+            textMaxChainWinNumGender?.text =
                 AwardCloudFirestoreHelper.max_chain_win_num_gender_rank_user.toString() + "/" + AwardCloudFirestoreHelper.max_chain_win_num_gender_rank_everyone.toString().toString() + "位"
-            sTextMaxChainWinNumAge?.text =
+            textMaxChainWinNumAge?.text =
                 AwardCloudFirestoreHelper.max_chain_win_num_age_rank_user.toString() + "/" + AwardCloudFirestoreHelper.max_chain_win_num_age_rank_everyone.toString().toString() + "位"
         }
     }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mContext = activity?.applicationContext
-        mDbHelper = HandHelper(activity!!.applicationContext)
-        mDb = mDbHelper?.getWritableDatabase()
+        appContext = activity?.applicationContext
+        dbHelper = HandHelper(activity!!.applicationContext)
+        db = dbHelper?.getWritableDatabase()
 
         return inflater.inflate(R.layout.fragment_award, container, false)
     }
@@ -124,16 +89,51 @@ class AwardFragment : Fragment() {
 
         initView(view)
 
-        setBasicData(mContext!!)
+        setBasicData(appContext!!)
 
         var db = CloudFirestoreHelper.getInitDb(activity!!.applicationContext)
-        AwardCloudFirestoreHelper.getAwardData(db, "users", mContext!!)
+        AwardCloudFirestoreHelper.getAwardData(db, "users", appContext!!)
 
         /*
-        if ( !(SettingsUtils.getSettingRadioIdGender(mContext!!) == 0
-            || SettingsUtils.getSettingRadioIdAge(mContext!!) == 0
-            || SettingsUtils.getSettingRadioIdPrefecture(mContext!!) == 0) ) {
+        if ( !(SettingsUtils.getSettingRadioIdGender(appContext!!) == 0
+            || SettingsUtils.getSettingRadioIdAge(appContext!!) == 0
+            || SettingsUtils.getSettingRadioIdPrefecture(appContext!!) == 0) ) {
         }
         */
+    }
+
+    fun initView(view: View) {
+        textPrefetture = view.findViewById(R.id.prefecture) as TextView
+        textGender = view.findViewById(R.id.gender) as TextView
+        textAge = view.findViewById(R.id.age) as TextView
+
+        textWinNum = view.findViewById(R.id.win_num) as TextView
+        textProbability = view.findViewById(R.id.probability) as TextView
+        textMaxChainWinNum = view.findViewById(R.id.win_chain_num) as TextView
+
+        textWinNumAll = view.findViewById(R.id.win_num_all) as TextView
+        textWinNumPrefecture = view.findViewById(R.id.win_num_prefecture) as TextView
+        textWinNumGender = view.findViewById(R.id.win_num_gender) as TextView
+        textWinNumAge = view.findViewById(R.id.win_num_age) as TextView
+
+        textProbabilityAll = view.findViewById(R.id.probability_all) as TextView
+        textProbabilityPrefecture = view.findViewById(R.id.probability_prefecture) as TextView
+        textProbabilityGender = view.findViewById(R.id.probability_gender) as TextView
+        textProbabilityAge = view.findViewById(R.id.probability_age) as TextView
+
+        textMaxChainWinNumAll = view.findViewById(R.id.win_chain_num_all) as TextView
+        textMaxChainWinNumPrefecture = view.findViewById(R.id.win_chain_num_prefecture) as TextView
+        textMaxChainWinNumGender = view.findViewById(R.id.win_chain_num_gender) as TextView
+        textMaxChainWinNumAge = view.findViewById(R.id.win_chain_num_age) as TextView
+    }
+
+    fun setBasicData(context: Context) {
+        textWinNum?.text = SettingsUtils.getSettingWinNum(context).toString()
+        textProbability?.text = SettingsUtils.getSettingProbability(context).toString()
+        textMaxChainWinNum?.text = SettingsUtils.getSettingMaxChainWinNum(context).toString()
+
+        textPrefetture?.text = SettingsUtils.prefectureItems[SettingsUtils.getSettingRadioIdPrefecture(context)]
+        textGender?.text = SettingsUtils.genderItems[SettingsUtils.getSettingRadioIdGender(context)]
+        textAge?.text = SettingsUtils.ageItems[SettingsUtils.getSettingRadioIdAge(context)]
     }
 }

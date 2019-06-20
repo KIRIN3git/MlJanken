@@ -17,13 +17,13 @@ import kirin3.jp.mljanken.webview.WebViewActivity
 
 class TopFragment : Fragment() {
 
-    private var mActivity: Activity? = null
+    private var activity: Activity? = null
 
     companion object {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mActivity = getActivity();
+        activity = getActivity();
         return inflater.inflate(R.layout.fragment_top, container, false)
     }
 
@@ -39,21 +39,21 @@ class TopFragment : Fragment() {
 
         view_game.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                val intent = Intent(mActivity, GameActivity::class.java)
+                val intent = Intent(activity, GameActivity::class.java)
                 startActivity(intent)
             }
         })
 
         view_award.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                val intent = Intent(mActivity, AwardActivity::class.java)
+                val intent = Intent(activity, AwardActivity::class.java)
                 startActivity(intent)
             }
         })
 
         view_totalization.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                val intent = Intent(mActivity, TotalizationActivity::class.java)
+                val intent = Intent(activity, TotalizationActivity::class.java)
                 startActivity(intent)
             }
         })
@@ -61,11 +61,11 @@ class TopFragment : Fragment() {
         view_information.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 // インテントのインスタンス生成
-                val intent = Intent(mActivity, WebViewActivity::class.java)
+                val intent = Intent(activity, WebViewActivity::class.java)
 
                 intent.putExtra(
                     WebViewActivity.INTENT_INPUT_URL,
-                    mActivity?.applicationContext?.getString(R.string.information_url)
+                    activity?.applicationContext?.getString(R.string.information_url)
                 )
 
                 // プライバシーポリシーの起動
@@ -76,11 +76,11 @@ class TopFragment : Fragment() {
         text_policy.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 // インテントのインスタンス生成
-                val intent = Intent(mActivity, WebViewActivity::class.java)
+                val intent = Intent(activity, WebViewActivity::class.java)
 
                 intent.putExtra(
                     WebViewActivity.INTENT_INPUT_URL,
-                    mActivity?.applicationContext?.getString(R.string.privacy_poricy_url)
+                    activity?.applicationContext?.getString(R.string.privacy_poricy_url)
                 )
 
                 // プライバシーポリシーの起動

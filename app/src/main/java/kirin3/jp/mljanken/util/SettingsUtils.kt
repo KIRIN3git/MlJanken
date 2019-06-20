@@ -27,14 +27,14 @@ object SettingsUtils {
         EIGHTY
     }
 
-    val gender_items = arrayOf("", "男性", "女性")
+    val genderItems = arrayOf("", "男性", "女性")
 
-    val age_items = arrayOf(
+    val ageItems = arrayOf(
         "", "０～１歳", "１０代", "２０代", "３０代",
         "４０代", "５０代", "６０代", "７０代", "８０歳～"
     )
 
-    val prefecture_items = arrayOf(
+    val prefectureItems = arrayOf(
         "", "北海道", "青森", "岩手", "宮城", "秋田", "山形",
         "福島", "茨城", "栃木", "群馬", "埼玉", "千葉", "東京",
         "神奈川", "新潟", "富山", "石川", "福井", "山梨", "長野",

@@ -8,8 +8,6 @@ import java.nio.charset.Charset
 
 object GameUtils {
 
-
-
     /*
      * 手を入力して、それに勝つものを返却する
      */

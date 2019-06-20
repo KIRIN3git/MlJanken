@@ -15,31 +15,30 @@ import kirin3.jp.mljanken.mng.databaseMng.HandHelper
 import kirin3.jp.mljanken.util.CloudFirestoreHelper
 import kirin3.jp.mljanken.util.LogUtils
 import kirin3.jp.mljanken.util.SettingsUtils
-import kotlinx.android.synthetic.main.fragment_totalization.view.*
 import java.util.*
 
 class TotalizationFragmentPrefecture() : Fragment() {
     val TAG = LogUtils.makeLogTag(CloudFirestoreHelper::class.java)
 
-    var mContext: Context? = null
-    var mDbHelper: HandHelper? = null
-    var mDb: SQLiteDatabase? = null
-    var mChart: BarChart? = null
-    var mPosition: Int = 0 // 2～6 ViewPagerのポジション
-    var mRankPg: Int = 0 // 1～5 1:1～10位,2:11:～20位,3:21:～30位,4:31:～40位,5:41:～47位
+    var appContext: Context? = null
+    var dbHelper: HandHelper? = null
+    var db: SQLiteDatabase? = null
+    var chart: BarChart? = null
+    var position: Int = 0 // 2～6 ViewPagerのポジション
+    var rankPg: Int = 0 // 1～5 1:1～10位,2:11:～20位,3:21:～30位,4:31:～40位,5:41:～47位
 
     companion object {
         var VIEW_POSITION: String = "VIEW_POSITION"
     }
 
     fun initStaticData(activity: FragmentActivity, view: View) {
-        mContext = activity.applicationContext
-        mChart = view.chart
+        appContext = activity.applicationContext
+        chart = view.findViewById(R.id.chart)
     }
 
     fun drawGraph() {
         var dataNum = 0
-        when (mRankPg) {
+        when (rankPg) {
             1, 2, 3, 4 -> dataNum = 10
             else -> dataNum = 7
         }
@@ -49,7 +48,7 @@ class TotalizationFragmentPrefecture() : Fragment() {
         var data = ArrayList<Float>();
 
         val prefecture_probability_sort =
-            TotalizationCloudFirestoreHelper.prefecture_probability.toList().sortedByDescending { (_, value) -> value }
+            TotalizationCloudFirestoreHelper.prefectureProbability.toList().sortedByDescending { (_, value) -> value }
                 .toMap()
 
         var i = -1
@@ -57,7 +56,7 @@ class TotalizationFragmentPrefecture() : Fragment() {
         loop@ for (entry in prefecture_probability_sort) {
             i++
 
-            when (mRankPg) {
+            when (rankPg) {
                 1 -> if (!(0 <= i && i <= 9)) continue@loop
                 2 -> if (!(10 <= i && i <= 19)) continue@loop
                 3 -> if (!(20 <= i && i <= 29)) continue@loop
@@ -66,7 +65,7 @@ class TotalizationFragmentPrefecture() : Fragment() {
             }
 
             // ラベルを登録
-            labels[data_i] = SettingsUtils.prefecture_items[entry.key]
+            labels[data_i] = SettingsUtils.prefectureItems[entry.key]
 
             // 色を登録
             when (entry.key) {
@@ -87,23 +86,23 @@ class TotalizationFragmentPrefecture() : Fragment() {
             data_i++
         }
 
-        GraphMng.setInitBar(mChart!!, mContext!!, 0, labels, colors, data)
+        GraphMng.setInitBar(chart!!, appContext!!, 0, labels, colors, data)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mDbHelper = HandHelper(activity!!.applicationContext)
-        mDb = mDbHelper?.getWritableDatabase()
+        dbHelper = HandHelper(activity!!.applicationContext)
+        db = dbHelper?.getWritableDatabase()
 
         // ViewPagerの位置からRankPgを選択
         val args = arguments
         if (args != null) {
-            mPosition = args.getInt(VIEW_POSITION)
-            when (mPosition) {
-                2 -> mRankPg = 1
-                3 -> mRankPg = 2
-                4 -> mRankPg = 3
-                5 -> mRankPg = 4
-                6 -> mRankPg = 5
+            position = args.getInt(VIEW_POSITION)
+            when (position) {
+                2 -> rankPg = 1
+                3 -> rankPg = 2
+                4 -> rankPg = 3
+                5 -> rankPg = 4
+                6 -> rankPg = 5
             }
         }
 

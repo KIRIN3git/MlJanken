@@ -27,7 +27,6 @@ import kirin3.jp.mljanken.game.GameData.WIN
 import kirin3.jp.mljanken.mng.SoundMng
 import kirin3.jp.mljanken.util.*
 import kirin3.jp.mljanken.util.LogUtils.LOGD
-import kotlinx.android.synthetic.main.fragment_award.view.*
 import java.util.*
 import kirin3.jp.mljanken.game.GameData.GUU as GUU1
 
@@ -35,43 +34,43 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
 
     val TAG = LogUtils.makeLogTag(CloudFirestoreHelper::class.java)
 
-    var sImgManGu: ImageView? = null
-    var sImgManChoki: ImageView? = null
-    var sImgManPa: ImageView? = null
-    var sImgJankenpon: ImageView? = null
-    var sImgRobArm: ImageView? = null
-    var sImgResult: ImageView? = null
-    var sLottieRetry: LottieAnimationView? = null
-    var sLottieWinStar: LottieAnimationView? = null
-    var sLottieFireWork: LottieAnimationView? = null
+    private lateinit var imgManGu: ImageView
+    private lateinit var imgManChoki: ImageView
+    private lateinit var imgManPa: ImageView
+    private lateinit var imgJankenpon: ImageView
+    private lateinit var imgRobArm: ImageView
+    private lateinit var imgResult: ImageView
+    private lateinit var lottieRetry: LottieAnimationView
+    private lateinit var lottieWinStar: LottieAnimationView
+    private lateinit var lottieFireWork: LottieAnimationView
 
-    var mHandler: Handler? = null
-    var mRunnable: Runnable? = null
+    private lateinit var handler: Handler
+    private lateinit var runnable: Runnable
 
-    var sManChoice = NOTHING
-    var sRoboChoice = NOTHING
+    var manChoice = NOTHING
+    var roboChoice = NOTHING
 
     // 画像のタッチ判定可能フラグ
-    var sImgTouchOkFlg = false
+    var imgTouchOkFlg = false
 
-    var sMode = 0
+    var mode = 0
 
-    private var mContext: Context? = null
-    private var mDbHelper: HandHelper? = null
-    private var mDb: SQLiteDatabase? = null
+    private var appContext: Context? = null
+    private var dbHelper: HandHelper? = null
+    private var db: SQLiteDatabase? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mContext = activity?.applicationContext
-        mDbHelper = HandHelper(activity!!.applicationContext)
-        mDb = mDbHelper?.getWritableDatabase()
+        appContext = activity?.applicationContext
+        dbHelper = HandHelper(activity!!.applicationContext)
+        db = dbHelper?.getWritableDatabase()
 
-        mHandler = Handler()
-        SoundMng.soundInit(mContext!!)
+        handler = Handler()
+        SoundMng.soundInit(appContext!!)
 
-        if( GameCloudFirestoreHelper.data_existing == false ){
+        if( GameCloudFirestoreHelper.dataExisting == false ){
             // CloudFirestoreのデータを事前取得
-            var db = CloudFirestoreHelper.getInitDb(mContext!!)
-            GameCloudFirestoreHelper.getGameData(db,"users",mContext!!)
+            var db = CloudFirestoreHelper.getInitDb(appContext!!)
+            GameCloudFirestoreHelper.getGameData(db,"users",appContext!!)
         }
 
         return inflater.inflate(R.layout.fragment_game, container, false)
@@ -81,23 +80,23 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sImgManGu = view.findViewById(R.id.imgManGu) as ImageView
-        sImgManChoki = view.findViewById(R.id.imgManChoki) as ImageView
-        sImgManPa = view.findViewById(R.id.imgManPa) as ImageView
-        sImgJankenpon = view.findViewById(R.id.jankenpon) as ImageView
-        sImgRobArm = view.findViewById(R.id.robo_arm) as ImageView
-        sImgResult = view.findViewById(R.id.totalization) as ImageView
-        sLottieRetry = view.findViewById(R.id.retry) as LottieAnimationView
+        imgManGu = view.findViewById(R.id.imgManGu) as ImageView
+        imgManChoki = view.findViewById(R.id.imgManChoki) as ImageView
+        imgManPa = view.findViewById(R.id.imgManPa) as ImageView
+        imgJankenpon = view.findViewById(R.id.jankenpon) as ImageView
+        imgRobArm = view.findViewById(R.id.robo_arm) as ImageView
+        imgResult = view.findViewById(R.id.totalization) as ImageView
+        lottieRetry = view.findViewById(R.id.retry) as LottieAnimationView
 
-        sLottieRetry?.setOnClickListener {
-            LOGD(TAG, "sLottieRetry CLICK")
+        lottieRetry.setOnClickListener {
+            LOGD(TAG, "lottieRetry CLICK")
             playGame(view)
         }
 
         // タッチ処理
-        sImgManGu?.setOnTouchListener(imageViewEvent())
-        sImgManChoki?.setOnTouchListener(imageViewEvent())
-        sImgManPa?.setOnTouchListener(imageViewEvent())
+        imgManGu.setOnTouchListener(imageViewEvent())
+        imgManChoki.setOnTouchListener(imageViewEvent())
+        imgManPa.setOnTouchListener(imageViewEvent())
     }
 
     fun playGame(view: View) {
@@ -119,7 +118,7 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         LOGD(TAG, "onPause")
 
         super.onPause()
-        mHandler?.removeCallbacks(mRunnable)
+        handler?.removeCallbacks(runnable)
     }
 
     override fun onDestroy() {
@@ -129,104 +128,104 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
 
         SoundMng.soundEnd()
 
-        var db = CloudFirestoreHelper.getInitDb(mContext!!)
+        var db = CloudFirestoreHelper.getInitDb(appContext!!)
 
         // アクティビティ破棄時にプリファランスとデータベースに設定
         // (注)Float型は誤差が出てしまうので注意
         val user = CloudFirestoreHelper.UserItem(
-            SettingsUtils.getSettingRadioIdGender(mContext!!),
-            SettingsUtils.getSettingRadioIdAge(mContext!!),
-            SettingsUtils.getSettingRadioIdPrefecture(mContext!!),
-            SettingsUtils.getSettingBattleNum(mContext!!),
-            SettingsUtils.getSettingWinNum(mContext!!),
-            SettingsUtils.getSettingDrowNum(mContext!!),
-            SettingsUtils.getSettingLoseNum(mContext!!),
-            SettingsUtils.getSettingProbability(mContext!!),
-            SettingsUtils.getSettingMaxChainWinNum(mContext!!),
-            SettingsUtils.getSettingMaxChainLoseNum(mContext!!),
-            mDbHelper?.getMostChoice(mDb)!!,
-            mDbHelper?.getFirstChoice(mDb)!!,
-            mDbHelper?.getMostChainChoice(mDb)!!,
-            mDbHelper?.getExcellenceMode(mDb)!!,
-            mDbHelper?.getModeProbability(mDb, 1)!!,
-            mDbHelper?.getModeProbability(mDb, 2)!!,
-            mDbHelper?.getModeProbability(mDb, 3)!!,
-            mDbHelper?.getModeProbability(mDb, 4)!!,
-            mDbHelper?.getModeProbability(mDb, 5)!!,
-            mDbHelper?.getModeProbability(mDb, 6)!!,
-            mDbHelper?.getModeProbability(mDb, 7)!!,
-            mDbHelper?.getModeProbability(mDb, 8)!!,
-            mDbHelper?.getModeProbability(mDb, 9)!!,
+            SettingsUtils.getSettingRadioIdGender(appContext!!),
+            SettingsUtils.getSettingRadioIdAge(appContext!!),
+            SettingsUtils.getSettingRadioIdPrefecture(appContext!!),
+            SettingsUtils.getSettingBattleNum(appContext!!),
+            SettingsUtils.getSettingWinNum(appContext!!),
+            SettingsUtils.getSettingDrowNum(appContext!!),
+            SettingsUtils.getSettingLoseNum(appContext!!),
+            SettingsUtils.getSettingProbability(appContext!!),
+            SettingsUtils.getSettingMaxChainWinNum(appContext!!),
+            SettingsUtils.getSettingMaxChainLoseNum(appContext!!),
+            dbHelper?.getMostChoice(this.db)!!,
+            dbHelper?.getFirstChoice(this.db)!!,
+            dbHelper?.getMostChainChoice(this.db)!!,
+            dbHelper?.getExcellenceMode(this.db)!!,
+            dbHelper?.getModeProbability(this.db, 1)!!,
+            dbHelper?.getModeProbability(this.db, 2)!!,
+            dbHelper?.getModeProbability(this.db, 3)!!,
+            dbHelper?.getModeProbability(this.db, 4)!!,
+            dbHelper?.getModeProbability(this.db, 5)!!,
+            dbHelper?.getModeProbability(this.db, 6)!!,
+            dbHelper?.getModeProbability(this.db, 7)!!,
+            dbHelper?.getModeProbability(this.db, 8)!!,
+            dbHelper?.getModeProbability(this.db, 9)!!,
             Config.IS_DOGFOOD_BUILD
         )
 
-        CloudFirestoreHelper.addUserData(db, user, "users", SettingsUtils.getSettingUuid(mContext!!))
+        CloudFirestoreHelper.addUserData(db, user, "users", SettingsUtils.getSettingUuid(appContext!!))
     }
 
     fun thinkRobo() {
-        sRoboChoice = NOTHING
+        roboChoice = NOTHING
 
         val r = Random()
         // 初戦なら特別にCloudFirestoreのデータからモード選択
-        if (SettingsUtils.getSettingBattleNum(mContext!!) == 0){
+        if (SettingsUtils.getSettingBattleNum(appContext!!) == 0){
             LOGD(TAG, "thinkRobo FIRST BATTLE")
-            sMode = r.nextInt(5) + 4
+            mode = r.nextInt(5) + 4
         }
         // 1/3で 最強モード or ランダムでモード選択
         else {
             var judge = r.nextInt(3) + 1
             if (judge == 1) { // 最強のモードを採用
                 LOGD(TAG, "thinkRobo CHOICE VEST")
-                sMode = mDbHelper?.getExcellenceMode(mDb)!!
+                mode = dbHelper?.getExcellenceMode(db)!!
             } else { // その他のモードを採用
                 LOGD(TAG, "thinkRobo CHOICE ATHER")
-                sMode = r.nextInt(GameData.MODE_NUM) + 1
+                mode = r.nextInt(GameData.MODE_NUM) + 1
             }
         }
 
-        LOGD(TAG, "thinkRobo mode:" + sMode)
+        LOGD(TAG, "thinkRobo mode:" + mode)
         // ・内部DBの情報から判断
         // 最もユーザーに勝利している手に勝つ手
-        if (sMode == GameData.MOST_WIN_MODE) sRoboChoice = mDbHelper?.getMostChoice(mDb)!!
+        if (mode == GameData.MOST_WIN_MODE) roboChoice = dbHelper?.getMostChoice(db)!!
         // 最も連勝中のユーザーに勝利している手に勝つ手
-        else if (sMode == GameData.MOST_CHAIN_WIN_MODE) sRoboChoice = mDbHelper?.getMostChainChoice(mDb)!!
+        else if (mode == GameData.MOST_CHAIN_WIN_MODE) roboChoice = dbHelper?.getMostChainChoice(db)!!
         // ・CloudFirestoreの情報から判断
         // CloudFirestoreからデータ取得済みなら
-        if (GameCloudFirestoreHelper.data_existing == true) {
+        if (GameCloudFirestoreHelper.dataExisting == true) {
             // 最もユーザーの性別の人が出している手に勝つ手
-            if (sMode == GameData.MOST_GENDER_CHOICE_MODE){
-                sRoboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.most_choice_gender.toList().sortedByDescending { (_, value) -> value }.toMap()))
+            if (mode == GameData.MOST_GENDER_CHOICE_MODE){
+                roboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.mostChoiceGender.toList().sortedByDescending { (_, value) -> value }.toMap()))
             }
             // 最もユーザーの年代の人が出している手に勝つ手
-            if (sMode == GameData.MOST_AGE_CHOICE_MODE){
-                sRoboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.most_choice_age.toList().sortedByDescending { (_, value) -> value }.toMap()))
+            if (mode == GameData.MOST_AGE_CHOICE_MODE){
+                roboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.mostChoiceAge.toList().sortedByDescending { (_, value) -> value }.toMap()))
             }
             // 最もユーザーの地域の人が出している手に勝つ手
-            if (sMode == GameData.MOST_PREFECTURE_CHOICE_MODE){
-                sRoboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.most_choice_prefecture.toList().sortedByDescending { (_, value) -> value }.toMap()))
+            if (mode == GameData.MOST_PREFECTURE_CHOICE_MODE){
+                roboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.mostChoicePrefecture.toList().sortedByDescending { (_, value) -> value }.toMap()))
             }
 
             // 最もユーザーの性別の人が最初に出している手に勝つ手
-            if (sMode == GameData.MOST_GENDER_FIRST_CHOICE_MODE){
-                sRoboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.first_choice_gender.toList().sortedByDescending { (_, value) -> value }.toMap()))
+            if (mode == GameData.MOST_GENDER_FIRST_CHOICE_MODE){
+                roboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.firstChoiceGender.toList().sortedByDescending { (_, value) -> value }.toMap()))
             }
             // 最もユーザーの年代の人が最初に出している手に勝つ手
-            if (sMode == GameData.MOST_AGE_FIRST_CHOICE_MODE){
-                sRoboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.first_choice_age.toList().sortedByDescending { (_, value) -> value }.toMap()))
+            if (mode == GameData.MOST_AGE_FIRST_CHOICE_MODE){
+                roboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.firstChoiceAge.toList().sortedByDescending { (_, value) -> value }.toMap()))
             }
             // 最もユーザーの地域の人が最初に出している手に勝つ手
-            if (sMode == GameData.MOST_PREFECTURE_FIRST_CHOICE_MODE){
-                sRoboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.first_choice_prefecture.toList().sortedByDescending { (_, value) -> value }.toMap()))
+            if (mode == GameData.MOST_PREFECTURE_FIRST_CHOICE_MODE){
+                roboChoice = GameUtils.choiceWinHand(getMapTopKey(GameCloudFirestoreHelper.firstChoicePrefecture.toList().sortedByDescending { (_, value) -> value }.toMap()))
             }
         }
 
-        if(sRoboChoice == 0){
+        if(roboChoice == 0){
             LOGD(TAG, "thinkRobo RANDOM_MODE")
-            sMode = GameData.RANDOM_MODE
+            mode = GameData.RANDOM_MODE
             // ランダムで手を選択
-            sRoboChoice = r.nextInt(3) + 1
+            roboChoice = r.nextInt(3) + 1
         }
-        LOGD(TAG, "thinkRobo sRoboChoice:" + sRoboChoice)
+        LOGD(TAG, "thinkRobo roboChoice:" + roboChoice)
     }
 
     fun getMapTopKey(map:Map<Int,Int> ):Int{
@@ -242,17 +241,17 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
 
     fun judgeJanken(): Int {
         var judge: Int
-        if (sManChoice == GUU1) {
-            if (sRoboChoice == GUU1) judge = DROW
-            else if (sRoboChoice == CHOKI) judge = WIN
+        if (manChoice == GUU1) {
+            if (roboChoice == GUU1) judge = DROW
+            else if (roboChoice == CHOKI) judge = WIN
             else judge = LOSE
-        } else if (sManChoice == CHOKI) {
-            if (sRoboChoice == GUU1) judge = LOSE
-            else if (sRoboChoice == CHOKI) judge = DROW
+        } else if (manChoice == CHOKI) {
+            if (roboChoice == GUU1) judge = LOSE
+            else if (roboChoice == CHOKI) judge = DROW
             else judge = WIN
         } else { // PAA
-            if (sRoboChoice == GUU1) judge = WIN
-            else if (sRoboChoice == CHOKI) judge = LOSE
+            if (roboChoice == GUU1) judge = WIN
+            else if (roboChoice == CHOKI) judge = LOSE
             else judge = DROW
         }
 
@@ -260,7 +259,7 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
     }
 
     fun displayWinStar() {
-        val num = SettingsUtils.getSettingNowChainWinNum(mContext!!)
+        val num = SettingsUtils.getSettingNowChainWinNum(appContext!!)
 
         LOGD(TAG, "displayWinStar:" + num);
 
@@ -279,14 +278,14 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                 else -> id = R.id.wstar1
             }
 
-            sLottieWinStar = view?.findViewById(id) as LottieAnimationView
-            sLottieWinStar?.visibility = View.VISIBLE
-            sLottieWinStar?.playAnimation()
+            lottieWinStar = view?.findViewById(id) as LottieAnimationView
+            lottieWinStar?.visibility = View.VISIBLE
+            lottieWinStar?.playAnimation()
         }
     }
 
     fun hiddenWinStar() {
-        val num = SettingsUtils.getSettingMaxChainWinNum(mContext!!)
+        val num = SettingsUtils.getSettingMaxChainWinNum(appContext!!)
         for (i in 0 until num) {
             // 最大7個
             if (i > 6) break
@@ -302,13 +301,13 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                 else -> id = R.id.wstar1
             }
 
-            sLottieWinStar = view?.findViewById(id) as LottieAnimationView
-            sLottieWinStar?.visibility = View.GONE
+            lottieWinStar = view?.findViewById(id) as LottieAnimationView
+            lottieWinStar?.visibility = View.GONE
         }
     }
 
     fun addWinStar() {
-        val num = SettingsUtils.getSettingNowChainWinNum(mContext!!)
+        val num = SettingsUtils.getSettingNowChainWinNum(appContext!!)
 
         var id = 0
         when (num) {
@@ -321,19 +320,19 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
             else -> id = R.id.wstar1
         }
 
-        sLottieWinStar = view?.findViewById(id) as LottieAnimationView
-        sLottieWinStar?.visibility = View.VISIBLE
-        sLottieWinStar?.playAnimation()
+        lottieWinStar = view?.findViewById(id) as LottieAnimationView
+        lottieWinStar?.visibility = View.VISIBLE
+        lottieWinStar?.playAnimation()
     }
 
 
     fun displayFireWork() {
-        val num = SettingsUtils.getSettingNowChainWinNum(mContext!!)
+        val num = SettingsUtils.getSettingNowChainWinNum(appContext!!)
 
         LOGD(TAG, "displayFireWork getSettingNowChainWinNum:" + num);
 
         // 音を再生
-        val now_chain_win_num = SettingsUtils.getSettingNowChainWinNum(mContext!!)
+        val now_chain_win_num = SettingsUtils.getSettingNowChainWinNum(appContext!!)
         if (now_chain_win_num > 0) SoundMng.playSoundFirework1()
         if (now_chain_win_num > 2) SoundMng.playSoundFirework2()
         if (now_chain_win_num > 4) SoundMng.playSoundFirework3()
@@ -354,9 +353,9 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                 else -> id = R.id.fireworks1
             }
 
-            sLottieFireWork = view?.findViewById(id) as LottieAnimationView
-            sLottieFireWork?.visibility = View.VISIBLE
-            sLottieFireWork?.playAnimation()
+            lottieFireWork = view?.findViewById(id) as LottieAnimationView
+            lottieFireWork?.visibility = View.VISIBLE
+            lottieFireWork?.playAnimation()
         }
     }
 
@@ -377,8 +376,8 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                 else -> id = R.id.fireworks1
             }
 
-            sLottieFireWork = view?.findViewById(id) as LottieAnimationView
-            sLottieFireWork?.visibility = View.GONE
+            lottieFireWork = view?.findViewById(id) as LottieAnimationView
+            lottieFireWork?.visibility = View.GONE
         }
     }
 
@@ -389,66 +388,66 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
         // あいこ状態
         var drow_flg = false
 
-        sImgJankenpon?.visibility = View.GONE
-        sImgRobArm?.visibility = View.GONE
-        sImgResult?.visibility = View.GONE
-        sLottieRetry?.visibility = View.GONE
+        imgJankenpon?.visibility = View.GONE
+        imgRobArm?.visibility = View.GONE
+        imgResult?.visibility = View.GONE
+        lottieRetry?.visibility = View.GONE
         hiddenFireWork()
         displayWinStar()
 
 
-        mRunnable = Runnable {
+        runnable = Runnable {
 
             // じゃん or あい
             if (situation == 0) {
                 clearJankenImg()
-                sImgTouchOkFlg = true
+                imgTouchOkFlg = true
                 if (drow_flg == false) {
-                    sImgJankenpon?.setImageResource(R.drawable.jan)
+                    imgJankenpon.setImageResource(R.drawable.jan)
                     SoundMng.playSoundJankenpon()
                 } else {
-                    sImgJankenpon?.setImageResource(R.drawable.ai)
+                    imgJankenpon.setImageResource(R.drawable.ai)
                     SoundMng.playSoundAikodesho()
                 }
-                sImgJankenpon?.visibility = View.VISIBLE
+                imgJankenpon.visibility = View.VISIBLE
 
                 situation++
                 // 0.8秒静止
-                mHandler?.postDelayed(mRunnable, 800)
+                handler.postDelayed(runnable, 800)
             }
             // じゃんけん or あいこで
             else if (situation == 1) {
 
-                if (drow_flg == false) sImgJankenpon?.setImageResource(R.drawable.janken)
-                else sImgJankenpon?.setImageResource(R.drawable.aikode)
+                if (drow_flg == false) imgJankenpon.setImageResource(R.drawable.janken)
+                else imgJankenpon.setImageResource(R.drawable.aikode)
                 situation++
                 // 1秒静止
-                mHandler?.postDelayed(mRunnable, 500)
+                handler.postDelayed(runnable, 500)
             }
             // じゃんけんぽん or あいこでしょ
             else if (situation == 2) {
                 // ロボの手を考える
                 thinkRobo()
 
-                if (drow_flg == false) sImgJankenpon?.setImageResource(R.drawable.jankenpon)
-                else sImgJankenpon?.setImageResource(R.drawable.aikodesho)
+                if (drow_flg == false) imgJankenpon.setImageResource(R.drawable.jankenpon)
+                else imgJankenpon.setImageResource(R.drawable.aikodesho)
                 situation++
                 // 1秒静止
-                mHandler?.postDelayed(mRunnable, 1000)
+                handler.postDelayed(runnable, 1000)
             }
             // 人とロボが選択済みなら、ロボの手を出す。
-            else if (situation == 3 && sManChoice != NOTHING && sRoboChoice != NOTHING) {
-                sImgTouchOkFlg = false
-                sImgJankenpon?.visibility = View.GONE
-                sImgRobArm?.visibility = View.VISIBLE
-                if (sRoboChoice == GUU1) {
-                    sImgRobArm?.setImageResource(R.drawable.robo_gu)
+            else if (situation == 3 && manChoice != NOTHING && roboChoice != NOTHING) {
+                imgTouchOkFlg = false
+                imgJankenpon.visibility = View.GONE
+                imgRobArm.visibility = View.VISIBLE
+                if (roboChoice == GUU1) {
+                    imgRobArm.setImageResource(R.drawable.robo_gu)
                     SoundMng.playSoundGoo()
-                } else if (sRoboChoice == CHOKI) {
-                    sImgRobArm?.setImageResource(R.drawable.robo_choki)
+                } else if (roboChoice == CHOKI) {
+                    imgRobArm.setImageResource(R.drawable.robo_choki)
                     SoundMng.playSoundChoki()
-                } else if (sRoboChoice == PAA) {
-                    sImgRobArm?.setImageResource(R.drawable.robo_pa)
+                } else if (roboChoice == PAA) {
+                    imgRobArm.setImageResource(R.drawable.robo_pa)
                     SoundMng.playSoundPaa()
                 }
 
@@ -456,12 +455,12 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                 val vhX = PropertyValuesHolder.ofFloat("translationX", 0.0f, 0.0f)
                 // PropertyValuesHolderを使ってＹ軸方向移動範囲のpropertyを保持
 
-                val vhY = PropertyValuesHolder.ofFloat("translationY", 0.0f, ViewUtils.dpToPx(250f,mContext!!.getResources()))
+                val vhY = PropertyValuesHolder.ofFloat("translationY", 0.0f, ViewUtils.dpToPx(250f,appContext!!.getResources()))
                 // PropertyValuesHolderを使って回転範囲のpropertyを保持
                 val vhRotaion = PropertyValuesHolder.ofFloat("rotation", 0.0f, 0.0f)
 
                 // ObjectAnimatorにセットする
-                var objectAnimator = ObjectAnimator.ofPropertyValuesHolder(sImgRobArm, vhX, vhY, vhRotaion)
+                var objectAnimator = ObjectAnimator.ofPropertyValuesHolder(imgRobArm, vhX, vhY, vhRotaion)
 
                 // アニメーション再生時間を設定 1000msec=1sec
                 objectAnimator.setDuration(300)
@@ -475,7 +474,7 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                 situation++
 
                 // 1秒静止
-                mHandler?.postDelayed(mRunnable, 1000)
+                handler.postDelayed(runnable, 1000)
             }
             // 判定
             else if (situation == 4) {
@@ -488,23 +487,23 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
 
                     // 正解音
                     SoundMng.playSoundCorrect()
-                    sImgResult?.setImageResource(R.drawable.mark_maru)
-                    sImgResult?.visibility = View.VISIBLE
-                    sLottieRetry?.visibility = View.VISIBLE
-                    sLottieRetry?.playAnimation()
+                    imgResult.setImageResource(R.drawable.mark_maru)
+                    imgResult.visibility = View.VISIBLE
+                    lottieRetry.visibility = View.VISIBLE
+                    lottieRetry.playAnimation()
                     // 総合勝ち数を+1
-                    SettingsUtils.setSettingWinNum(mContext!!, SettingsUtils.getSettingWinNum(mContext!!) + 1)
+                    SettingsUtils.setSettingWinNum(appContext!!, SettingsUtils.getSettingWinNum(appContext!!) + 1)
                     // 現在連勝数を+1
                     SettingsUtils.setSettingNowChainWinNum(
-                        mContext!!,
-                        SettingsUtils.getSettingNowChainWinNum(mContext!!) + 1
+                        appContext!!,
+                        SettingsUtils.getSettingNowChainWinNum(appContext!!) + 1
                     )
                     // 現在連勝数が最大連勝数を超えたら、最大連勝数を更新
-                    if (SettingsUtils.getSettingNowChainWinNum(mContext!!) > SettingsUtils.getSettingMaxChainWinNum(mContext!!)){
-                        SettingsUtils.setSettingMaxChainWinNum(mContext!!,SettingsUtils.getSettingNowChainWinNum(mContext!!))
+                    if (SettingsUtils.getSettingNowChainWinNum(appContext!!) > SettingsUtils.getSettingMaxChainWinNum(appContext!!)){
+                        SettingsUtils.setSettingMaxChainWinNum(appContext!!,SettingsUtils.getSettingNowChainWinNum(appContext!!))
                     }
                     // 現在連敗数を0
-                    SettingsUtils.setSettingNowChainLoseNum(mContext!!, 0)
+                    SettingsUtils.setSettingNowChainLoseNum(appContext!!, 0)
 
                     addWinStar()
                     displayFireWork()
@@ -513,20 +512,20 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
 
                     // 不正解音音
                     SoundMng.playSoundMistake()
-                    sImgResult?.setImageResource(R.drawable.mark_batsu)
-                    sImgResult?.visibility = View.VISIBLE
-                    sLottieRetry?.visibility = View.VISIBLE
-                    sLottieRetry?.playAnimation()
+                    imgResult.setImageResource(R.drawable.mark_batsu)
+                    imgResult.visibility = View.VISIBLE
+                    lottieRetry.visibility = View.VISIBLE
+                    lottieRetry.playAnimation()
                     // 総合負け数を+1
-                    SettingsUtils.setSettingLoseNum(mContext!!, SettingsUtils.getSettingLoseNum(mContext!!) + 1)
+                    SettingsUtils.setSettingLoseNum(appContext!!, SettingsUtils.getSettingLoseNum(appContext!!) + 1)
                     // 現在連負数を+1
-                    SettingsUtils.setSettingNowChainLoseNum(mContext!!,SettingsUtils.getSettingNowChainLoseNum(mContext!!) + 1)
+                    SettingsUtils.setSettingNowChainLoseNum(appContext!!,SettingsUtils.getSettingNowChainLoseNum(appContext!!) + 1)
                     // 現在連負数が最大連負数を超えたら、最大連負数を更新
-                    if (SettingsUtils.getSettingNowChainLoseNum(mContext!!) > SettingsUtils.getSettingMaxChainLoseNum(mContext!!)){
-                        SettingsUtils.setSettingMaxChainLoseNum(mContext!!,SettingsUtils.getSettingNowChainLoseNum(mContext!!))
+                    if (SettingsUtils.getSettingNowChainLoseNum(appContext!!) > SettingsUtils.getSettingMaxChainLoseNum(appContext!!)){
+                        SettingsUtils.setSettingMaxChainLoseNum(appContext!!,SettingsUtils.getSettingNowChainLoseNum(appContext!!))
                     }
                     // 現在連勝数を0
-                    SettingsUtils.setSettingNowChainWinNum(mContext!!, 0)
+                    SettingsUtils.setSettingNowChainWinNum(appContext!!, 0)
 
                     hiddenWinStar()
 
@@ -534,45 +533,45 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
                     result = "DROW"
 
                     drow_flg = true
-                    sImgRobArm?.visibility = View.GONE
+                    imgRobArm.visibility = View.GONE
                     // 総合あいこ数を+1
-                    SettingsUtils.setSettingDrowNum(mContext!!, SettingsUtils.getSettingDrowNum(mContext!!) + 1)
+                    SettingsUtils.setSettingDrowNum(appContext!!, SettingsUtils.getSettingDrowNum(appContext!!) + 1)
 
                     situation = 0
-                    mHandler?.postDelayed(mRunnable, 500)
+                    handler.postDelayed(runnable, 500)
                 }
 
                 // 勝負数を+1
-                SettingsUtils.setSettingBattleNum(mContext!!, SettingsUtils.getSettingBattleNum(mContext!!) + 1)
+                SettingsUtils.setSettingBattleNum(appContext!!, SettingsUtils.getSettingBattleNum(appContext!!) + 1)
 
                 // DBに結果を保存
-                mDbHelper?.saveData(
-                    mDb!!,
+                dbHelper?.saveData(
+                    db!!,
                     activity!!.applicationContext,
-                    sManChoice,
+                    manChoice,
                     judge,
-                    sMode,
-                    SettingsUtils.getSettingWinNum(mContext!!),
-                    SettingsUtils.getSettingDrowNum(mContext!!),
-                    SettingsUtils.getSettingLoseNum(mContext!!),
-                    SettingsUtils.getSettingNowChainWinNum(mContext!!),
-                    SettingsUtils.getSettingNowChainLoseNum(mContext!!)
+                    mode,
+                    SettingsUtils.getSettingWinNum(appContext!!),
+                    SettingsUtils.getSettingDrowNum(appContext!!),
+                    SettingsUtils.getSettingLoseNum(appContext!!),
+                    SettingsUtils.getSettingNowChainWinNum(appContext!!),
+                    SettingsUtils.getSettingNowChainLoseNum(appContext!!)
                 )
 
                 // アナリティクスにデータを送信
-                var gender = SettingsUtils.gender_items[SettingsUtils.getSettingRadioIdGender(mContext!!)]
-                var age = SettingsUtils.age_items[SettingsUtils.getSettingRadioIdAge(mContext!!)]
-                var prefecture = SettingsUtils.prefecture_items[SettingsUtils.getSettingRadioIdPrefecture(mContext!!)]
+                var gender = SettingsUtils.genderItems[SettingsUtils.getSettingRadioIdGender(appContext!!)]
+                var age = SettingsUtils.ageItems[SettingsUtils.getSettingRadioIdAge(appContext!!)]
+                var prefecture = SettingsUtils.prefectureItems[SettingsUtils.getSettingRadioIdPrefecture(appContext!!)]
 
 
 
                 AnalyticsHelper.setAnalyticsJanken(result,gender,age,prefecture)
             }
             // 1秒ごとに再判定
-            else mHandler?.postDelayed(mRunnable, 1000)
+            else handler.postDelayed(runnable, 1000)
         }
         // 画面が出て最初の1秒表示
-        mHandler?.postDelayed(mRunnable, 1)
+        handler?.postDelayed(runnable, 1)
     }
 
     /**
@@ -581,42 +580,42 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
     inner class imageViewEvent : View.OnTouchListener {
         override fun onTouch(v: View, event: MotionEvent): Boolean {
             // デバックモードでないとチート禁止
-            if( sImgTouchOkFlg == false && Config.IS_DOGFOOD_BUILD == false ) return true
+            if( imgTouchOkFlg == false && Config.IS_DOGFOOD_BUILD == false ) return true
 
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    if (v == sImgManGu) {
+                    if (v == imgManGu) {
                         (v as ImageView).setImageResource(R.drawable.man_gu2)
-                        sImgManChoki?.setImageResource(R.drawable.man_choki1)
-                        sImgManPa?.setImageResource(R.drawable.man_pa1)
-                        sManChoice = GUU1
-                    } else if (v == sImgManChoki) {
+                        imgManChoki.setImageResource(R.drawable.man_choki1)
+                        imgManPa.setImageResource(R.drawable.man_pa1)
+                        manChoice = GUU1
+                    } else if (v == imgManChoki) {
                         (v as ImageView).setImageResource(R.drawable.man_choki2)
-                        sImgManGu?.setImageResource(R.drawable.man_gu1)
-                        sImgManPa?.setImageResource(R.drawable.man_pa1)
-                        sManChoice = CHOKI
+                        imgManGu.setImageResource(R.drawable.man_gu1)
+                        imgManPa.setImageResource(R.drawable.man_pa1)
+                        manChoice = CHOKI
                     } else {
                         (v as ImageView).setImageResource(R.drawable.man_pa2)
-                        sImgManGu?.setImageResource(R.drawable.man_gu1)
-                        sImgManChoki?.setImageResource(R.drawable.man_choki1)
-                        sManChoice = PAA
+                        imgManGu.setImageResource(R.drawable.man_gu1)
+                        imgManChoki.setImageResource(R.drawable.man_choki1)
+                        manChoice = PAA
                     }
                     return true;
                 }
                 MotionEvent.ACTION_UP -> {
                     v.performClick()
-                    if (v == sImgManGu) {
+                    if (v == imgManGu) {
                         (v as ImageView).setImageResource(R.drawable.man_gu3)
-                        sImgManChoki?.setImageResource(R.drawable.man_choki1)
-                        sImgManPa?.setImageResource(R.drawable.man_pa1)
-                    } else if (v == sImgManChoki) {
+                        imgManChoki.setImageResource(R.drawable.man_choki1)
+                        imgManPa.setImageResource(R.drawable.man_pa1)
+                    } else if (v == imgManChoki) {
                         (v as ImageView).setImageResource(R.drawable.man_choki3)
-                        sImgManGu?.setImageResource(R.drawable.man_gu1)
-                        sImgManPa?.setImageResource(R.drawable.man_pa1)
+                        imgManGu.setImageResource(R.drawable.man_gu1)
+                        imgManPa.setImageResource(R.drawable.man_pa1)
                     } else {
                         (v as ImageView).setImageResource(R.drawable.man_pa3)
-                        sImgManGu?.setImageResource(R.drawable.man_gu1)
-                        sImgManChoki?.setImageResource(R.drawable.man_choki1)
+                        imgManGu.setImageResource(R.drawable.man_gu1)
+                        imgManChoki.setImageResource(R.drawable.man_choki1)
                     }
                 }
                 MotionEvent.ACTION_CANCEL -> {
@@ -631,10 +630,10 @@ class GameFragment : Fragment(), Animator.AnimatorListener {
     }
 
     fun clearJankenImg(){
-        sManChoice = NOTHING
-        sImgManGu?.setImageResource(R.drawable.man_gu1)
-        sImgManChoki?.setImageResource(R.drawable.man_choki1)
-        sImgManPa?.setImageResource(R.drawable.man_pa1)
+        manChoice = NOTHING
+        imgManGu.setImageResource(R.drawable.man_gu1)
+        imgManChoki.setImageResource(R.drawable.man_choki1)
+        imgManPa.setImageResource(R.drawable.man_pa1)
     }
 
     // アニメーション開始で呼ばれる

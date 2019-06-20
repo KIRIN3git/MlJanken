@@ -20,7 +20,7 @@ class TopActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var mContext = applicationContext
+        var appContext = applicationContext
 
         setContentView(R.layout.activity_top)
 
@@ -174,7 +174,7 @@ class TopActivity : AppCompatActivity() {
             .setItems(items) { dialog, which ->
                 SettingsUtils.setSettingRadioIdPrefecture(this, which + 1)
 
-                if (GameCloudFirestoreHelper.data_existing == false) {
+                if (GameCloudFirestoreHelper.dataExisting == false) {
                     // CloudFirestoreのデータを事前取得
                     var db = CloudFirestoreHelper.getInitDb(this)
                     GameCloudFirestoreHelper.getGameData(db, "users", this)

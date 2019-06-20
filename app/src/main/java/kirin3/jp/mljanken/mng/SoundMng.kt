@@ -7,25 +7,25 @@ import kirin3.jp.mljanken.R
 
 object SoundMng {
 
-    private var sSoundPool1:SoundPool ?= null
-    private var sSoundPool2:SoundPool ?= null
-    private var sSoundPool3:SoundPool ?= null
-    private var sSoundPool4:SoundPool ?= null
-    private var sSoundPool5:SoundPool ?= null
-    private var sSoundSteram1:Int = 0
-    private var sSoundSteram2:Int = 0
-    private var sSoundSteram3:Int = 0
-    private var sSoundSteram4:Int = 0
-    private var sSoundSteram5:Int = 0
-    private var sSoundJankenpon:Int = 0
-    private var sSoundAikodesho:Int = 0
-    private var sSoundGuu:Int = 0
-    private var sSoundChoki:Int = 0
-    private var sSoundPaa:Int = 0
-    private var sSoundFirework1:Int = 0
-    private var sSoundFirework2:Int = 0
-    private var sSoundFirework3:Int = 0
-    private var sSoundStar:Int = 0
+    private lateinit var soundPool1:SoundPool
+    private lateinit var soundPool2:SoundPool
+    private lateinit var soundPool3:SoundPool
+    private lateinit var soundPool4:SoundPool
+    private lateinit var soundPool5:SoundPool
+    private var soundSteram1:Int = 0
+    private var soundSteram2:Int = 0
+    private var soundSteram3:Int = 0
+    private var soundSteram4:Int = 0
+    private var soundSteram5:Int = 0
+    private var soundJankenpon:Int = 0
+    private var soundAikodesho:Int = 0
+    private var soundGuu:Int = 0
+    private var soundChoki:Int = 0
+    private var soundPaa:Int = 0
+    private var soundFirework1:Int = 0
+    private var soundFirework2:Int = 0
+    private var soundFirework3:Int = 0
+    private var soundStar:Int = 0
 
     private var sCorrect:Int = 0
     private var sMistake:Int = 0
@@ -35,22 +35,22 @@ object SoundMng {
      * 初期化
      */
     fun soundInit(context: Context) {
-        sSoundPool1 = SoundPool(1, AudioManager.STREAM_MUSIC, 0)
-        sSoundPool2 = SoundPool(1, AudioManager.STREAM_MUSIC, 0)
-        sSoundPool3 = SoundPool(1, AudioManager.STREAM_MUSIC, 0)
-        sSoundPool4 = SoundPool(1, AudioManager.STREAM_MUSIC, 0)
-        sSoundPool5 = SoundPool(1, AudioManager.STREAM_MUSIC, 0)
-        sSoundJankenpon = sSoundPool1!!.load(context, R.raw.sound_jankenpon, 0)
-        sSoundAikodesho = sSoundPool1!!.load(context, R.raw.sound_aikodesho, 0)
-        sSoundGuu = sSoundPool1!!.load(context, R.raw.sound_guu, 0)
-        sSoundChoki = sSoundPool1!!.load(context, R.raw.sound_choki, 0)
-        sSoundPaa = sSoundPool1!!.load(context, R.raw.sound_paa, 0)
-        sSoundFirework1 = sSoundPool2!!.load(context, R.raw.sound_firework1, 0)
-        sSoundFirework2 = sSoundPool3!!.load(context, R.raw.sound_firework2, 0)
-        sSoundFirework3 = sSoundPool4!!.load(context, R.raw.sound_firework3, 0)
-        sSoundStar = sSoundPool5!!.load(context, R.raw.sound_star, 0)
-        sCorrect = sSoundPool1!!.load(context, R.raw.correct, 0)
-        sMistake = sSoundPool1!!.load(context, R.raw.mistake, 0)
+        soundPool1 = SoundPool(1, AudioManager.STREAM_MUSIC, 0)
+        soundPool2 = SoundPool(1, AudioManager.STREAM_MUSIC, 0)
+        soundPool3 = SoundPool(1, AudioManager.STREAM_MUSIC, 0)
+        soundPool4 = SoundPool(1, AudioManager.STREAM_MUSIC, 0)
+        soundPool5 = SoundPool(1, AudioManager.STREAM_MUSIC, 0)
+        soundJankenpon = soundPool1.load(context, R.raw.sound_jankenpon, 0)
+        soundAikodesho = soundPool1.load(context, R.raw.sound_aikodesho, 0)
+        soundGuu = soundPool1.load(context, R.raw.sound_guu, 0)
+        soundChoki = soundPool1.load(context, R.raw.sound_choki, 0)
+        soundPaa = soundPool1.load(context, R.raw.sound_paa, 0)
+        soundFirework1 = soundPool2.load(context, R.raw.sound_firework1, 0)
+        soundFirework2 = soundPool3.load(context, R.raw.sound_firework2, 0)
+        soundFirework3 = soundPool4.load(context, R.raw.sound_firework3, 0)
+        soundStar = soundPool5.load(context, R.raw.sound_star, 0)
+        sCorrect = soundPool1.load(context, R.raw.correct, 0)
+        sMistake = soundPool1.load(context, R.raw.mistake, 0)
     }
 
     /**
@@ -67,71 +67,71 @@ object SoundMng {
      * 解放
      */
     fun soundEnd() {
-        sSoundPool1!!.release()
-        sSoundPool2!!.release()
-        sSoundPool3!!.release()
-        sSoundPool4!!.release()
-        sSoundPool5!!.release()
+        soundPool1.release()
+        soundPool2.release()
+        soundPool3.release()
+        soundPool4.release()
+        soundPool5.release()
     }
 
     fun playSoundJankenpon() {
-        sSoundPool1!!.play(sSoundJankenpon, 1.0f, 1.0f, 0, 0, 1.0f)
+        soundPool1.play(soundJankenpon, 1.0f, 1.0f, 0, 0, 1.0f)
     }
 
     fun playSoundAikodesho() {
-        sSoundPool1!!.play(sSoundAikodesho, 1.0f, 1.0f, 0, 0, 1.0f)
+        soundPool1.play(soundAikodesho, 1.0f, 1.0f, 0, 0, 1.0f)
     }
 
     fun playSoundGoo() {
-        sSoundPool1!!.play(sSoundGuu, 1.0f, 1.0f, 0, 0, 1.0f)
+        soundPool1.play(soundGuu, 1.0f, 1.0f, 0, 0, 1.0f)
     }
 
     fun playSoundChoki() {
-        sSoundPool1!!.play(sSoundChoki, 1.0f, 1.0f, 0, 0, 1.0f)
+        soundPool1.play(soundChoki, 1.0f, 1.0f, 0, 0, 1.0f)
     }
 
     fun playSoundPaa() {
-        sSoundPool1!!.play(sSoundPaa, 1.0f, 1.0f, 0, 0, 1.0f)
+        soundPool1.play(soundPaa, 1.0f, 1.0f, 0, 0, 1.0f)
     }
 
     fun playSoundFirework1() {
-        sSoundSteram2 = sSoundPool2!!.play(sSoundFirework1, 1.0f, 1.0f, 0, 1, 1.0f)
+        soundSteram2 = soundPool2.play(soundFirework1, 1.0f, 1.0f, 0, 1, 1.0f)
     }
 
     fun playSoundFirework2() {
-        sSoundSteram3 = sSoundPool3!!.play(sSoundFirework2, 1.0f, 0.2f, 0, 1, 1.0f)
+        soundSteram3 = soundPool3.play(soundFirework2, 1.0f, 0.2f, 0, 1, 1.0f)
     }
 
     fun playSoundFirework3() {
-        sSoundSteram4 = sSoundPool4!!.play(sSoundFirework3, 0.2f, 1.0f, 0, 1, 1.0f)
+        soundSteram4 = soundPool4.play(soundFirework3, 0.2f, 1.0f, 0, 1, 1.0f)
     }
 
     fun playSoundFirework4() {
-        sSoundSteram5 = sSoundPool5!!.play(sSoundStar, 1.0f, 1.0f, 0, 1, 1.0f)
+        soundSteram5 = soundPool5.play(soundStar, 1.0f, 1.0f, 0, 1, 1.0f)
     }
 
     fun playSoundCorrect() {
-        sSoundPool1!!.play(sCorrect, 1.0f, 1.0f, 0, 0, 1.0f)
+        soundPool1.play(sCorrect, 1.0f, 1.0f, 0, 0, 1.0f)
     }
 
     fun playSoundMistake() {
-        sSoundPool1!!.play(sMistake, 1.0f, 1.0f, 0, 0, 1.0f)
+        soundPool1.play(sMistake, 1.0f, 1.0f, 0, 0, 1.0f)
     }
 
 
     fun stopSoundFirework1() {
-        sSoundPool2!!.stop(sSoundSteram2)
+        soundPool2.stop(soundSteram2)
     }
 
     fun stopSoundFirework2() {
-        sSoundPool3!!.stop(sSoundSteram3)
+        soundPool3.stop(soundSteram3)
     }
 
     fun stopSoundFirework3() {
-        sSoundPool4!!.stop(sSoundSteram4)
+        soundPool4.stop(soundSteram4)
     }
 
     fun stopSoundFirework4() {
-        sSoundPool5!!.stop(sSoundSteram5)
+        soundPool5.stop(soundSteram5)
     }
 }

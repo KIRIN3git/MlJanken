@@ -11,7 +11,7 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
-        var mContext = applicationContext
+        var appContext = applicationContext
 
         // AdMob設定
         AdmobHelper.loadBanner(findViewById(R.id.adView))

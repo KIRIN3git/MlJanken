@@ -14,30 +14,30 @@ object TotalizationCloudFirestoreHelper {
 
     private val TAG = LogUtils.makeLogTag(TotalizationCloudFirestoreHelper::class.java)
 
-    var gender_win_num = mutableMapOf(1 to 0, 2 to 0)
-    var gender_lose_num = mutableMapOf(1 to 0, 2 to 0)
-    var gender_probability = mutableMapOf(1 to 0.0f, 2 to 0.0f)
+    var genderWinNum = mutableMapOf(1 to 0, 2 to 0)
+    var genderLoseNum = mutableMapOf(1 to 0, 2 to 0)
+    var genderProbability = mutableMapOf(1 to 0.0f, 2 to 0.0f)
 
-    var age_win_num = mutableMapOf(1 to 0, 2 to 0, 3 to 0, 4 to 0, 5 to 0, 6 to 0, 7 to 0, 8 to 0, 9 to 0)
-    var age_lose_num = mutableMapOf(1 to 0, 2 to 0, 3 to 0, 4 to 0, 5 to 0, 6 to 0, 7 to 0, 8 to 0, 9 to 0)
-    var age_probability =
+    var ageWinNum = mutableMapOf(1 to 0, 2 to 0, 3 to 0, 4 to 0, 5 to 0, 6 to 0, 7 to 0, 8 to 0, 9 to 0)
+    var ageLoseNum = mutableMapOf(1 to 0, 2 to 0, 3 to 0, 4 to 0, 5 to 0, 6 to 0, 7 to 0, 8 to 0, 9 to 0)
+    var ageProbability =
         mutableMapOf(1 to 0.0f, 2 to 0.0f, 3 to 0.0f, 4 to 0.0f, 5 to 0.0f, 6 to 0.0f, 7 to 0.0f, 8 to 0.0f, 9 to 0.0f)
 
-    var prefecture_win_num = mutableMapOf(
+    var prefectureWinNum = mutableMapOf(
         1 to 0, 2 to 0, 3 to 0, 4 to 0, 5 to 0, 6 to 0, 7 to 0, 8 to 0, 9 to 0, 10 to 0,
         11 to 0, 12 to 0, 13 to 0, 14 to 0, 15 to 0, 16 to 0, 17 to 0, 18 to 0, 19 to 0, 20 to 0,
         21 to 0, 22 to 0, 23 to 0, 24 to 0, 25 to 0, 26 to 0, 27 to 0, 28 to 0, 29 to 0, 30 to 0,
         31 to 0, 32 to 0, 33 to 0, 34 to 0, 35 to 0, 36 to 0, 37 to 0, 38 to 0, 39 to 0, 40 to 0,
         41 to 0, 42 to 0, 43 to 0, 44 to 0, 45 to 0, 46 to 0, 47 to 0
     )
-    var prefecture_lose_num = mutableMapOf(
+    var prefectureLoseNum = mutableMapOf(
         1 to 0, 2 to 0, 3 to 0, 4 to 0, 5 to 0, 6 to 0, 7 to 0, 8 to 0, 9 to 0, 10 to 0,
         11 to 0, 12 to 0, 13 to 0, 14 to 0, 15 to 0, 16 to 0, 17 to 0, 18 to 0, 19 to 0, 20 to 0,
         21 to 0, 22 to 0, 23 to 0, 24 to 0, 25 to 0, 26 to 0, 27 to 0, 28 to 0, 29 to 0, 30 to 0,
         31 to 0, 32 to 0, 33 to 0, 34 to 0, 35 to 0, 36 to 0, 37 to 0, 38 to 0, 39 to 0, 40 to 0,
         41 to 0, 42 to 0, 43 to 0, 44 to 0, 45 to 0, 46 to 0, 47 to 0
     )
-    var prefecture_probability = mutableMapOf(
+    var prefectureProbability = mutableMapOf(
         1 to 0.0f,
         2 to 0.0f,
         3 to 0.0f,
@@ -88,30 +88,30 @@ object TotalizationCloudFirestoreHelper {
     )
 
     fun initTotalizationData(){
-        gender_win_num = mutableMapOf(1 to 0, 2 to 0)
-        gender_lose_num = mutableMapOf(1 to 0, 2 to 0)
-        gender_probability = mutableMapOf(1 to 0.0f, 2 to 0.0f)
+        genderWinNum = mutableMapOf(1 to 0, 2 to 0)
+        genderLoseNum = mutableMapOf(1 to 0, 2 to 0)
+        genderProbability = mutableMapOf(1 to 0.0f, 2 to 0.0f)
 
-        age_win_num = mutableMapOf(1 to 0, 2 to 0, 3 to 0, 4 to 0, 5 to 0, 6 to 0, 7 to 0, 8 to 0, 9 to 0)
-        age_lose_num = mutableMapOf(1 to 0, 2 to 0, 3 to 0, 4 to 0, 5 to 0, 6 to 0, 7 to 0, 8 to 0, 9 to 0)
-        age_probability =
+        ageWinNum = mutableMapOf(1 to 0, 2 to 0, 3 to 0, 4 to 0, 5 to 0, 6 to 0, 7 to 0, 8 to 0, 9 to 0)
+        ageLoseNum = mutableMapOf(1 to 0, 2 to 0, 3 to 0, 4 to 0, 5 to 0, 6 to 0, 7 to 0, 8 to 0, 9 to 0)
+        ageProbability =
             mutableMapOf(1 to 0.0f, 2 to 0.0f, 3 to 0.0f, 4 to 0.0f, 5 to 0.0f, 6 to 0.0f, 7 to 0.0f, 8 to 0.0f, 9 to 0.0f)
 
-        prefecture_win_num = mutableMapOf(
+        prefectureWinNum = mutableMapOf(
             1 to 0, 2 to 0, 3 to 0, 4 to 0, 5 to 0, 6 to 0, 7 to 0, 8 to 0, 9 to 0, 10 to 0,
             11 to 0, 12 to 0, 13 to 0, 14 to 0, 15 to 0, 16 to 0, 17 to 0, 18 to 0, 19 to 0, 20 to 0,
             21 to 0, 22 to 0, 23 to 0, 24 to 0, 25 to 0, 26 to 0, 27 to 0, 28 to 0, 29 to 0, 30 to 0,
             31 to 0, 32 to 0, 33 to 0, 34 to 0, 35 to 0, 36 to 0, 37 to 0, 38 to 0, 39 to 0, 40 to 0,
             41 to 0, 42 to 0, 43 to 0, 44 to 0, 45 to 0, 46 to 0, 47 to 0
         )
-        prefecture_lose_num = mutableMapOf(
+        prefectureLoseNum = mutableMapOf(
             1 to 0, 2 to 0, 3 to 0, 4 to 0, 5 to 0, 6 to 0, 7 to 0, 8 to 0, 9 to 0, 10 to 0,
             11 to 0, 12 to 0, 13 to 0, 14 to 0, 15 to 0, 16 to 0, 17 to 0, 18 to 0, 19 to 0, 20 to 0,
             21 to 0, 22 to 0, 23 to 0, 24 to 0, 25 to 0, 26 to 0, 27 to 0, 28 to 0, 29 to 0, 30 to 0,
             31 to 0, 32 to 0, 33 to 0, 34 to 0, 35 to 0, 36 to 0, 37 to 0, 38 to 0, 39 to 0, 40 to 0,
             41 to 0, 42 to 0, 43 to 0, 44 to 0, 45 to 0, 46 to 0, 47 to 0
         )
-        prefecture_probability = mutableMapOf(
+        prefectureProbability = mutableMapOf(
             1 to 0.0f,
             2 to 0.0f,
             3 to 0.0f,
@@ -192,56 +192,56 @@ object TotalizationCloudFirestoreHelper {
                             // 本番モードの場合、デバックモードのデータは非表示
                             if(Config.IS_DOGFOOD_BUILD == false && userList.get(i).y1_debug_flg == true) continue
 
-                            gender_win_num.put(
+                            genderWinNum.put(
                                 userList.get(i).a1_gender,
-                                gender_win_num[userList.get(i).a1_gender]!! + userList.get(i).b2_win_num
+                                genderWinNum[userList.get(i).a1_gender]!! + userList.get(i).b2_win_num
                             )
-                            gender_lose_num.put(
+                            genderLoseNum.put(
                                 userList.get(i).a1_gender,
-                                gender_lose_num[userList.get(i).a1_gender]!! + userList.get(i).b4_lose_num
+                                genderLoseNum[userList.get(i).a1_gender]!! + userList.get(i).b4_lose_num
                             )
-                            Log.w( "DEBUG_DATA", "xxx gender_win_num[userList.get(i).a1_gender]: " + gender_win_num[userList.get(i).a1_gender] );
-                            Log.w( "DEBUG_DATA","xxx gender_lose_num[userList.get(i).a1_gender]: " + gender_lose_num[userList.get(i).a1_gender] );
-                            Log.w( "DEBUG_DATA","xxx CalculationUtils.getProbability(gender_win_num[userList.get(i).a1_gender]!!,gender_lose_num[userList.get(i).a1_gender]!!): " + CalculationUtils.getProbability(gender_win_num[userList.get(i).a1_gender]!!,gender_lose_num[userList.get(i).a1_gender]!!) );
-                            Log.w( "DEBUG_DATA","xxx CalculationUtils.getProbability2(gender_win_num[userList.get(i).a1_gender]!!,gender_lose_num[userList.get(i).a1_gender]!!): " + CalculationUtils.getProbability2(gender_win_num[userList.get(i).a1_gender]!!,gender_lose_num[userList.get(i).a1_gender]!!) );
+                            Log.w( "DEBUG_DATA", "xxx genderWinNum[userList.get(i).a1_gender]: " + genderWinNum[userList.get(i).a1_gender] );
+                            Log.w( "DEBUG_DATA","xxx genderLoseNum[userList.get(i).a1_gender]: " + genderLoseNum[userList.get(i).a1_gender] );
+                            Log.w( "DEBUG_DATA","xxx CalculationUtils.getProbability(genderWinNum[userList.get(i).a1_gender]!!,genderLoseNum[userList.get(i).a1_gender]!!): " + CalculationUtils.getProbability(genderWinNum[userList.get(i).a1_gender]!!,genderLoseNum[userList.get(i).a1_gender]!!) );
+                            Log.w( "DEBUG_DATA","xxx CalculationUtils.getProbability2(genderWinNum[userList.get(i).a1_gender]!!,genderLoseNum[userList.get(i).a1_gender]!!): " + CalculationUtils.getProbability2(genderWinNum[userList.get(i).a1_gender]!!,genderLoseNum[userList.get(i).a1_gender]!!) );
 
-                            gender_probability.put(
+                            genderProbability.put(
                                 userList.get(i).a1_gender,
                                 CalculationUtils.getProbability(
-                                    gender_win_num[userList.get(i).a1_gender]!!,
-                                    gender_lose_num[userList.get(i).a1_gender]!!
+                                    genderWinNum[userList.get(i).a1_gender]!!,
+                                    genderLoseNum[userList.get(i).a1_gender]!!
                                 )
                             )
 
-                            age_win_num.put(
+                            ageWinNum.put(
                                 userList.get(i).a2_age,
-                                age_win_num[userList.get(i).a2_age]!! + userList.get(i).b2_win_num
+                                ageWinNum[userList.get(i).a2_age]!! + userList.get(i).b2_win_num
                             )
-                            age_lose_num.put(
+                            ageLoseNum.put(
                                 userList.get(i).a2_age,
-                                age_lose_num[userList.get(i).a2_age]!! + userList.get(i).b4_lose_num
+                                ageLoseNum[userList.get(i).a2_age]!! + userList.get(i).b4_lose_num
                             )
-                            age_probability.put(
+                            ageProbability.put(
                                 userList.get(i).a2_age,
                                 CalculationUtils.getProbability(
-                                    age_win_num[userList.get(i).a2_age]!!,
-                                    age_lose_num[userList.get(i).a2_age]!!
+                                    ageWinNum[userList.get(i).a2_age]!!,
+                                    ageLoseNum[userList.get(i).a2_age]!!
                                 )
                             )
 
-                            prefecture_win_num.put(
+                            prefectureWinNum.put(
                                 userList.get(i).a3_prefecture,
-                                prefecture_win_num[userList.get(i).a3_prefecture]!! + userList.get(i).b2_win_num
+                                prefectureWinNum[userList.get(i).a3_prefecture]!! + userList.get(i).b2_win_num
                             )
-                            prefecture_lose_num.put(
+                            prefectureLoseNum.put(
                                 userList.get(i).a3_prefecture,
-                                prefecture_lose_num[userList.get(i).a3_prefecture]!! + userList.get(i).b4_lose_num
+                                prefectureLoseNum[userList.get(i).a3_prefecture]!! + userList.get(i).b4_lose_num
                             )
-                            prefecture_probability.put(
+                            prefectureProbability.put(
                                 userList.get(i).a3_prefecture,
                                 CalculationUtils.getProbability(
-                                    prefecture_win_num[userList.get(i).a3_prefecture]!!,
-                                    prefecture_lose_num[userList.get(i).a3_prefecture]!!
+                                    prefectureWinNum[userList.get(i).a3_prefecture]!!,
+                                    prefectureLoseNum[userList.get(i).a3_prefecture]!!
                                 )
                             )
                         }
