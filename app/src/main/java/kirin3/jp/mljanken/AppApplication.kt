@@ -1,7 +1,7 @@
 package kirin3.jp.mljanken
 
 import android.app.Application
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 import kirin3.jp.mljanken.util.AdmobHelper
 import kirin3.jp.mljanken.util.AnalyticsHelper
 import kirin3.jp.mljanken.util.CrashlyticsHelper

@@ -3,7 +3,7 @@ package kirin3.jp.mljanken.splash
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import kirin3.jp.mljanken.R
 import kirin3.jp.mljanken.top.TopActivity
 

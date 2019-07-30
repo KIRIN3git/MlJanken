@@ -1,13 +1,13 @@
 package kirin3.jp.mljanken.totalization
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 import android.os.Bundle
 
 
 
-class TotalizationFragmentStatePagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+class TotalizationFragmentStatePagerAdapter(fm: androidx.fragment.app.FragmentManager) : androidx.fragment.app.FragmentStatePagerAdapter(fm) {
 
     companion object {
         var nowPagePosition: Int = 0
@@ -17,7 +17,7 @@ class TotalizationFragmentStatePagerAdapter(fm: FragmentManager) : FragmentState
         }
     }
 
-    override fun getItem(i: Int): Fragment {
+    override fun getItem(i: Int): androidx.fragment.app.Fragment {
         when (i) {
             0 -> return TotalizationFragmentGender()
             1 -> return TotalizationFragmentAge()

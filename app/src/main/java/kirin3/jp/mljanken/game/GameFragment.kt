@@ -8,7 +8,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -30,7 +30,7 @@ import kirin3.jp.mljanken.util.LogUtils.LOGD
 import java.util.*
 import kirin3.jp.mljanken.game.GameData.GUU as GUU1
 
-class GameFragment : Fragment(), Animator.AnimatorListener {
+class GameFragment : androidx.fragment.app.Fragment(), Animator.AnimatorListener {
 
     val TAG = LogUtils.makeLogTag(CloudFirestoreHelper::class.java)
 

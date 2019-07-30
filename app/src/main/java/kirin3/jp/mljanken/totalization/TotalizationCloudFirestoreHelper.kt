@@ -1,7 +1,7 @@
 package kirin3.jp.mljanken.totalization
 
 import android.content.Context
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.FragmentManager
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import kirin3.jp.mljanken.Config
@@ -171,7 +171,7 @@ object TotalizationCloudFirestoreHelper {
         db: FirebaseFirestore,
         collection: String,
         context: Context,
-        supportFragmentManager: FragmentManager
+        supportFragmentManager: androidx.fragment.app.FragmentManager
     ): Int {
         initTotalizationData()
 

@@ -2,9 +2,9 @@ package kirin3.jp.mljanken.totalization
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.FragmentManager
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.app.AppCompatActivity
 import kirin3.jp.mljanken.R
 import kirin3.jp.mljanken.util.AdmobHelper
 import kirin3.jp.mljanken.util.CloudFirestoreHelper
@@ -13,12 +13,12 @@ class TotalizationActivity : AppCompatActivity() {
 
     companion object {
 
-        var viewPager: ViewPager? = null
+        var viewPager: androidx.viewpager.widget.ViewPager? = null
 
         // Firebaseのデータ取得後にViewPager作成
-        fun setViewPager(supportFragmentManager:FragmentManager){
+        fun setViewPager(supportFragmentManager: androidx.fragment.app.FragmentManager){
             viewPager?.setAdapter(TotalizationFragmentStatePagerAdapter(supportFragmentManager))
-            viewPager?.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+            viewPager?.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener() {
                 override fun onPageSelected(position: Int) {
                 }
             })

@@ -3,8 +3,8 @@ package kirin3.jp.mljanken.totalization
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +18,7 @@ import kirin3.jp.mljanken.util.SettingsUtils
 import java.util.*
 
 
-class TotalizationFragmentAge : Fragment() {
+class TotalizationFragmentAge : androidx.fragment.app.Fragment() {
     val TAG = LogUtils.makeLogTag(CloudFirestoreHelper::class.java)
 
     var appContext: Context? = null
@@ -29,7 +29,7 @@ class TotalizationFragmentAge : Fragment() {
     companion object {
     }
 
-    fun initStaticData(activity: FragmentActivity, view: View) {
+    fun initStaticData(activity: androidx.fragment.app.FragmentActivity, view: View) {
         appContext = activity.applicationContext
         chart = view.findViewById(R.id.chart)
     }

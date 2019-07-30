@@ -3,7 +3,7 @@ package kirin3.jp.mljanken.top
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,7 @@ import kirin3.jp.mljanken.game.GameActivity
 import kirin3.jp.mljanken.totalization.TotalizationActivity
 import kirin3.jp.mljanken.webview.WebViewActivity
 
-class TopFragment : Fragment() {
+class TopFragment : androidx.fragment.app.Fragment() {
 
     private var activity: Activity? = null
 

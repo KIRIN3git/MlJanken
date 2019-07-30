@@ -3,7 +3,7 @@ package kirin3.jp.mljanken.award
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,7 @@ import kirin3.jp.mljanken.util.LogUtils
 import kirin3.jp.mljanken.util.SettingsUtils
 
 
-class AwardFragment : Fragment() {
+class AwardFragment : androidx.fragment.app.Fragment() {
     val TAG = LogUtils.makeLogTag(CloudFirestoreHelper::class.java)
 
     private var appContext: Context? = null
