@@ -39,37 +39,6 @@ object AwardCloudFirestoreHelper {
     var max_chain_win_num_gender_rank_everyone = 0
     var max_chain_win_num_age_rank_everyone = 0
 
-    fun initAwardData(){
-        win_num_all_rank_everyone = 0
-        win_num_prefecture_rank_everyone = 0
-        win_num_gender_rank_everyone = 0
-        win_num_age_rank_everyone = 0
-
-        probability_all_rank_everyone = 0
-        probability_prefecture_rank_everyone = 0
-        probability_gender_rank_everyone = 0
-        probability_age_rank_everyone = 0
-
-        max_chain_win_num_all_rank_everyone = 0
-        max_chain_win_num_prefecture_rank_everyone = 0
-        max_chain_win_num_gender_rank_everyone = 0
-        max_chain_win_num_age_rank_everyone = 0
-
-        win_num_all_rank_user = 0
-        win_num_prefecture_rank_user = 0
-        win_num_gender_rank_user = 0
-        win_num_age_rank_user = 0
-
-        probability_all_rank_user = 0
-        probability_prefecture_rank_user = 0
-        probability_gender_rank_user = 0
-        probability_age_rank_user = 0
-
-        max_chain_win_num_all_rank_user = 0
-        max_chain_win_num_prefecture_rank_user = 0
-        max_chain_win_num_gender_rank_user = 0
-        max_chain_win_num_age_rank_user = 0
-    }
 
     /**
      * CroudFirestoreから全データを取得し、Awardに必要なデータを取得する。
@@ -77,7 +46,6 @@ object AwardCloudFirestoreHelper {
      */
     fun getAwardData(db: FirebaseFirestore, collection: String, context: Context): Int {
 
-        initAwardData()
         LOGD(TAG, "getAwardData getAwardData")
         db.collection(collection)
             .orderBy(CloudFirestoreHelper.UserItem::b2_win_num.name)
@@ -284,6 +252,7 @@ object AwardCloudFirestoreHelper {
                         )
 
                         AwardFragment.setAwardData()
+
                     }
                 } else {
                     LOGD(TAG, "getAwardData No such document")

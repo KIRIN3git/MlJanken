@@ -29,7 +29,6 @@ class TopActivity : AppCompatActivity() {
 
         // UUIDをプリファランスに登録
         // ☆☆
-
         if (SettingsUtils.getSettingUuid(this).isEmpty()) {
             SettingsUtils.setSettingUuid(
                 this,

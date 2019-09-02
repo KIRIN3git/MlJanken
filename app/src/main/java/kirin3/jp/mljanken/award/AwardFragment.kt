@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProviders
 import kirin3.jp.mljanken.R
 import kirin3.jp.mljanken.mng.databaseMng.HandHelper
 import kirin3.jp.mljanken.util.CloudFirestoreHelper
@@ -21,6 +22,10 @@ class AwardFragment : androidx.fragment.app.Fragment() {
     private var appContext: Context? = null
     private var dbHelper: HandHelper? = null
     private var db: SQLiteDatabase? = null
+
+
+    // ViewModelのインスタンスを作成
+    private var viewModel: AwardViewModel? = null
 
     companion object {
         private lateinit var textPrefetture: TextView
@@ -80,6 +85,7 @@ class AwardFragment : androidx.fragment.app.Fragment() {
         appContext = activity?.applicationContext
         dbHelper = HandHelper(activity!!.applicationContext)
         db = dbHelper?.getWritableDatabase()
+        viewModel = ViewModelProviders.of(this).get(AwardViewModel::class.java)
 
         return inflater.inflate(R.layout.fragment_award, container, false)
     }
